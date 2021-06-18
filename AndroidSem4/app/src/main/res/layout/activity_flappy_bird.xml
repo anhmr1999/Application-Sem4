@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/flappy_bird_backgroup">
+
+    <com.project.game.gamecontroll.FlappyBird
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/txtFlappyBirdScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="0"
+        android:textSize="30dp"
+        android:layout_marginTop="20dp"
+        android:textColor="#A50000"/>
+
+    <RelativeLayout
+        android:id="@+id/flappybirdEndGame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="50dp"
+        android:background="@drawable/flappy_bird_backgroup"
+        android:visibility="invisible"
+        >
+
+        <ImageView
+            android:id="@+id/imgOverGame"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:src="@drawable/game_over"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Your Score"
+            android:textColor="#A50000"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/imgOverGame"/>
+
+        <TextView
+            android:id="@+id/flappybirdOverScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40dp"
+            android:text="0"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/imgOverGame"
+            android:layout_marginTop="40dp"
+            android:textColor="#A50000"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:text="Tab to content!"
+            android:layout_centerInParent="true"
+            android:textColor="#FF0000"/>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".KnowledgeActivity"
+    android:background="@drawable/knowledge_background">
+
+    <RelativeLayout
+        android:id="@+id/headTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <LinearLayout
+            android:id="@+id/headGame"
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:src="@drawable/knowledge_logo"/>
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:gravity="center"
+                    android:textColor="#fff"
+                    android:textSize="35dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="1dp"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/help5050"/>
+
+                    <ImageView
+                        android:layout_width="1dp"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/reload"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_below="@id/headGame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@drawable/question_bg"
+                android:text="Question"
+                android:layout_marginTop="20dp"
+                android:textColor="#30FF00"
+                android:gravity="center"
+                android:padding="15dp"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:background="@drawable/bg_number_question"
+                android:text="0"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                android:textSize="30dp"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/headTop"
+        android:layout_marginBottom="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <GridView
+            android:id="@+id/answer"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

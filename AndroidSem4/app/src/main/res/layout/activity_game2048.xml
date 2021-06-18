@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Game2048Activity"
+    android:background="@drawable/background_2048">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="30dp"
+        android:layout_height="match_parent">
+
+        <RelativeLayout android:id="@+id/head2048"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/logo2048"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/logo2048"/>
+
+            <LinearLayout
+                android:layout_below="@id/logo2048"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingRight="10dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="High Score"
+                        android:gravity="center"
+                        android:textSize="25dp"
+                        android:textColor="#000"/>
+
+                    <TextView
+                        android:id="@+id/txt_2048HighScore"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="#FF0000"
+                        android:textSize="25dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Score"
+                        android:textColor="#000"
+                        android:gravity="center"
+                        android:textSize="25dp"/>
+
+                    <TextView
+                        android:id="@+id/txt2048Score"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="#FF0000"
+                        android:textSize="25dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/head2048"
+            android:layout_alignParentBottom="true">
+
+            <GridView
+                android:id="@+id/gridView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:numColumns="4"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/Game2048Over"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@drawable/background_2048"
+        android:visibility="invisible"
+        android:paddingTop="50dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/game_over"/>
+
+        <TextView
+            android:id="@+id/game2048EndScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_centerInParent="true"
+            android:textSize="50dp"
+            android:textColor="#A50000"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tab to continue!"
+            android:textSize="25dp"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/game2048EndScore"
+            android:textColor="#A50000"/>
+    </RelativeLayout>
+
+</RelativeLayout>
