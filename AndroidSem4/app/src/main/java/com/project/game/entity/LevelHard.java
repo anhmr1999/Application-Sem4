@@ -6,6 +6,17 @@ public class LevelHard extends Entity{
     private Integer gameId;
     private Game game;
 
+    public LevelHard(Integer id) {
+        super(id);
+    }
+
+    public LevelHard(Integer id, String name, String description, Integer gameId) {
+        super(id);
+        this.name = name;
+        this.description = description;
+        this.gameId = gameId;
+    }
+
     public String getName() {
         return name;
     }

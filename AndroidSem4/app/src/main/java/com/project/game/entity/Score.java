@@ -9,6 +9,12 @@ public class Score{
     private Game game;
     private User user;
 
+    public Score(Integer gameId, Integer userId, int score) {
+        this.gameId = gameId;
+        this.userId = userId;
+        this.score = score;
+    }
+
     public Integer getLevelHardId() {
         return levelHardId;
     }

@@ -6,6 +6,11 @@ public class Game extends Entity{
     private String name;
     private List<LevelHard> levelHards;
 
+    public Game(Integer id, String name) {
+        super(id);
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

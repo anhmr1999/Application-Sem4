@@ -3,19 +3,24 @@ package com.project.game;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project.game.adapter.AnswerAdapter;
+import com.project.game.entity.Answer;
 import com.project.game.entity.Question;
 import com.project.game.gamecontroll.Knowledge;
 
 public class KnowledgeActivity extends AppCompatActivity {
-    public TextView txt_Question;
-    public ListView lst_answer;
+    public static TextView txt_Question, txt_Score, txt_EndCore;
+    public static ListView lst_answer;
+    public static RelativeLayout GameKnowLedgeOver;
+    private AdapterView.OnItemClickListener itemClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,20 +32,61 @@ public class KnowledgeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_knowledge);
         Knowledge.getDataGame().init(KnowledgeActivity.this);
         txt_Question = findViewById(R.id.txt_question);
+        txt_Score = findViewById(R.id.txt_Score);
+        txt_EndCore = findViewById(R.id.KnowLedgeEndScore);
         lst_answer = findViewById(R.id.lst_answer);
-        lst_answer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        GameKnowLedgeOver = findViewById(R.id.GameKnowLedgeOver);
+        Knowledge.getDataGame().changeQuestion();
+        itemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(KnowledgeActivity.this, "Fix", Toast.LENGTH_SHORT);
+                lst_answer.getChildAt(position).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_choose);
+
+                new CountDownTimer(2000,100){
+
+                    @Override
+                    public void onTick(long millisUntilFinished) {}
+
+                    @Override
+                    public void onFinish() {
+                        if(((Answer)lst_answer.getItemAtPosition(position)).isCorrect()){
+                            lst_answer.getChildAt(position).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_true);
+                            new CountDownTimer(2000, 100) {
+                                @Override
+                                public void onTick(long l) {}
+
+                                @Override
+                                public void onFinish() {
+                                    Knowledge.getDataGame().CorrectAnswer();
+                                    Knowledge.getDataGame().changeQuestion();
+                                }
+                            }.start();
+                        } else {
+                            lst_answer.getChildAt(position).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_danger);
+                            for (int i = 0; i< KnowledgeActivity.lst_answer.getChildCount(); i++){
+                                if(((Answer)lst_answer.getItemAtPosition(i)).isCorrect()){
+                                    lst_answer.getChildAt(i).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_true);
+                                }
+                            }
+                            new CountDownTimer(2000, 100) {
+                                @Override
+                                public void onTick(long l) {}
+
+                                @Override
+                                public void onFinish() {
+                                    Knowledge.getDataGame().EndGame();
+                                }
+                            }.start();
+                        }
+                    }
+                }.start();
             }
-        });
-        changeQuestion();
+        };
+        KnowledgeActivity.lst_answer.setOnItemClickListener(itemClickListener);
     }
 
-    private void changeQuestion(){
-        Question question = Knowledge.getDataGame().changeQuestion();
-        txt_Question.setText(question.getContent());
-        lst_answer.setAdapter(new AnswerAdapter(question.getAnswers()));
+    public void ContinueGame(View view){
+        setContentView(R.layout.activity_knowledge_home);
     }
 
     public void help5050(View view){

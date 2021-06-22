@@ -6,6 +6,17 @@ public class Answer extends Entity{
     private int questionId;
     private Question question;
 
+    public Answer() {
+        super(0);
+    }
+
+    public Answer(Integer id, String content, boolean correct, int questionId) {
+        super(id);
+        this.content = content;
+        this.correct = correct;
+        this.questionId = questionId;
+    }
+
     public String getContent() {
         return content;
     }

@@ -93,6 +93,7 @@
                 android:textSize="20dp"/>
 
             <TextView
+                android:id="@+id/txt_Score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="20dp"
@@ -117,6 +118,40 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/GameKnowLedgeOver"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@drawable/knowledge_background"
+        android:visibility="invisible"
+        android:onClick="ContinueGame"
+        android:paddingTop="50dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/game_over"/>
+
+        <TextView
+            android:id="@+id/KnowLedgeEndScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_centerInParent="true"
+            android:textSize="50dp"
+            android:textColor="#FFFFFF"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tab to continue!"
+            android:textSize="25dp"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/KnowLedgeEndScore"
+            android:textColor="#FFFFFF"/>
     </RelativeLayout>
 
 </RelativeLayout>

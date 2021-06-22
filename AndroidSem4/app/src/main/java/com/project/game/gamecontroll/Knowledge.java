@@ -1,6 +1,7 @@
 package com.project.game.gamecontroll;
 
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -28,12 +29,30 @@ public class Knowledge {
 
     public void init(Context context){
         random = new Random();
+        score = 0;
         getQuestion();
     }
 
-    public Question changeQuestion(){
-        Question question = questionList.get(random.nextInt(questionList.size() - 1));
-        return question;
+    public void changeQuestion(){
+        Question question;
+        if(questionList.size() > 1){
+            question = questionList.get(random.nextInt(questionList.size() - 1));
+            questionList.remove(question);
+        } else {
+            question = questionList.get(0);
+        }
+        KnowledgeActivity.txt_Question.setText(question.getContent());
+        KnowledgeActivity.lst_answer.setAdapter(new AnswerAdapter(question.getAnswers()));
+    }
+
+    public void CorrectAnswer(){
+        score += 5;
+        KnowledgeActivity.txt_Score.setText(""+score);
+    }
+
+    public void EndGame() {
+        KnowledgeActivity.txt_EndCore.setText(""+score);
+        KnowledgeActivity.GameKnowLedgeOver.setVisibility(View.VISIBLE);
     }
 
     private void getQuestion(){
@@ -129,5 +148,12 @@ public class Knowledge {
         answers.add(answer);
         question.setAnswers(answers);
         questionList.add(question);
+
+        for(int i=0; i<questionList.size(); i++){
+            questionList.get(i).setId(i);
+            for(int j = 0; j < questionList.get(i).getAnswers().size(); j++){
+                questionList.get(i).getAnswers().get(j).setId(j);
+            }
+        }
     }
 }

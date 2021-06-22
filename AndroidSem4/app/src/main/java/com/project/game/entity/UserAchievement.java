@@ -4,6 +4,11 @@ public class UserAchievement{
     private Integer userId;
     private Integer achievementId;
 
+    public UserAchievement(Integer userId, Integer achievementId) {
+        this.userId = userId;
+        this.achievementId = achievementId;
+    }
+
     public Integer getUserId() {
         return userId;
     }

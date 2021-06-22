@@ -6,8 +6,19 @@ public class Question extends Entity{
     private String content;
     private String subject;
     private Integer userId;
-    private User User;
+    private User user;
     private List<Answer> answers;
+
+    public Question() {
+        super(0);
+    }
+
+    public Question(Integer id, String content, String subject, Integer userId) {
+        super(id);
+        this.content = content;
+        this.subject = subject;
+        this.userId = userId;
+    }
 
     public String getContent() {
         return content;
@@ -31,5 +42,21 @@ public class Question extends Entity{
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -4,6 +4,12 @@ public class Achievement extends Entity{
     private String name;
     private String tutorial;
 
+    public Achievement(Integer id, String name, String tutorial) {
+        super(id);
+        this.name = name;
+        this.tutorial = tutorial;
+    }
+
     public String getName() {
         return name;
     }
