@@ -48,4 +48,9 @@ public class LevelHard extends Entity{
     public void setGame(Game game) {
         this.game = game;
     }
+
+    @Override
+    public String toString() {
+        return "("+name+","+description+","+gameId+")";
+    }
 }

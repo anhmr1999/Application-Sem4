@@ -3,6 +3,7 @@ package com.project.game.entity;
 public class UserAchievement{
     private Integer userId;
     private Integer achievementId;
+    private Achievement achievement;
 
     public UserAchievement(Integer userId, Integer achievementId) {
         this.userId = userId;
@@ -23,5 +24,18 @@ public class UserAchievement{
 
     public void setAchievementId(Integer achievementId) {
         this.achievementId = achievementId;
+    }
+
+    public Achievement getAchievement() {
+        return achievement;
+    }
+
+    public void setAchievement(Achievement achievement) {
+        this.achievement = achievement;
+    }
+
+    @Override
+    public String toString() {
+        return "("+userId+","+achievementId+")";
     }
 }

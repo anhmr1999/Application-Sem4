@@ -59,4 +59,9 @@ public class Question extends Entity{
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "("+content+","+subject+","+userId+")";
+    }
 }

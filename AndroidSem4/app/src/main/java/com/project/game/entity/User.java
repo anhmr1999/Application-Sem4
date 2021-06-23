@@ -29,4 +29,9 @@ public class User extends Entity{
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
+
+    @Override
+    public String toString() {
+        return "("+name+","+accessToken+")";
+    }
 }

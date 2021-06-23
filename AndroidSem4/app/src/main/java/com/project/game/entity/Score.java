@@ -9,10 +9,14 @@ public class Score{
     private Game game;
     private User user;
 
-    public Score(Integer gameId, Integer userId, int score) {
+    public Score() {
+    }
+
+    public Score(Integer gameId, Integer userId, Integer levelHardId, int score) {
         this.gameId = gameId;
         this.userId = userId;
         this.score = score;
+        this.levelHardId = levelHardId;
     }
 
     public Integer getLevelHardId() {
@@ -69,5 +73,10 @@ public class Score{
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "("+gameId+","+userId+","+levelHardId+","+score+")";
     }
 }

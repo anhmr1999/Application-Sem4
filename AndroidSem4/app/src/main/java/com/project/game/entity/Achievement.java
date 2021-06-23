@@ -25,4 +25,9 @@ public class Achievement extends Entity{
     public void setTutorial(String tutorial) {
         this.tutorial = tutorial;
     }
+
+    @Override
+    public String toString() {
+        return "("+name+","+tutorial+")";
+    }
 }
