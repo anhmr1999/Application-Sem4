@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/GameOfflineApi/GameOfflineApi/obj/Debug
+/GameOfflineApi/GameOfflineApi/obj/Release
+/GameOfflineApi/GameOfflineApi/bin
+/GameOfflineApi/.vs
+/GameOfflineApi/GameOfflineApi/obj
