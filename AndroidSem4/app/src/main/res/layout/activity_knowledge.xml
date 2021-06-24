@@ -45,6 +45,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
+                        android:id="@+id/knowSkip"
                         android:layout_width="1dp"
                         android:layout_height="50dp"
                         android:layout_weight="1"
@@ -53,6 +54,7 @@
                         android:onClick="helpSkip"/>
 
                     <ImageView
+                        android:id="@+id/know5050"
                         android:layout_width="1dp"
                         android:layout_weight="1"
                         android:padding="10dp"
@@ -61,6 +63,7 @@
                         android:onClick="help5050"/>
 
                     <ImageView
+                        android:id="@+id/knowChange"
                         android:layout_width="1dp"
                         android:layout_weight="1"
                         android:padding="10dp"

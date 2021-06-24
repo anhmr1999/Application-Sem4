@@ -90,14 +90,17 @@ public class KnowledgeActivity extends AppCompatActivity {
     }
 
     public void help5050(View view){
-        Toast.makeText(KnowledgeActivity.this, "Help 50/50", Toast.LENGTH_SHORT);
+        findViewById(R.id.know5050).setVisibility(View.INVISIBLE);
+        Knowledge.getDataGame().use5050();
     }
 
     public void helpChange(View view){
-        Toast.makeText(KnowledgeActivity.this, "Help Change", Toast.LENGTH_SHORT);
+        findViewById(R.id.knowChange).setVisibility(View.INVISIBLE);
+        Knowledge.getDataGame().useChangeQuestion();
     }
 
     public void helpSkip(View view){
-        Toast.makeText(KnowledgeActivity.this, "Help Skip", Toast.LENGTH_SHORT);
+        findViewById(R.id.knowSkip).setVisibility(View.INVISIBLE);
+        Knowledge.getDataGame().useSkipQuestion();
     }
 }
