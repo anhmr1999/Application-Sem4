@@ -34,8 +34,4 @@ public class UserAchievement{
         this.achievement = achievement;
     }
 
-    @Override
-    public String toString() {
-        return "("+userId+","+achievementId+")";
-    }
 }

@@ -27,8 +27,4 @@ public class Game extends Entity{
         this.levelHards = levelHards;
     }
 
-    @Override
-    public String toString() {
-        return "("+name+")";
-    }
 }

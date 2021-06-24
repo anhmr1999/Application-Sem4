@@ -60,8 +60,4 @@ public class Question extends Entity{
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "("+content+","+subject+","+userId+")";
-    }
 }

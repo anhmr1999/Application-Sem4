@@ -26,8 +26,4 @@ public class Achievement extends Entity{
         this.tutorial = tutorial;
     }
 
-    @Override
-    public String toString() {
-        return "("+name+","+tutorial+")";
-    }
 }

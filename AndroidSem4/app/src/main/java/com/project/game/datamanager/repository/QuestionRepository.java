@@ -28,7 +28,7 @@ public class QuestionRepository implements CommonRepository<Question> {
 
     public List<Question> get(int skip, int take){
         List<Question> questions = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT id,content,subject,userId FROM question LIMIT ? OFFSET ?", new String[]{skip+"",take+""});
+        Cursor cursor = database.rawQuery("SELECT id,content,subject,userId FROM question", null);
         if(cursor.getCount() > 0){
             while (cursor.moveToNext()){
                 int id = cursor.getInt(0);

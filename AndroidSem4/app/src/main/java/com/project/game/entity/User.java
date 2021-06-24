@@ -30,8 +30,4 @@ public class User extends Entity{
         this.accessToken = accessToken;
     }
 
-    @Override
-    public String toString() {
-        return "("+name+","+accessToken+")";
-    }
 }

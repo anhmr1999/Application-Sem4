@@ -49,8 +49,4 @@ public class Answer extends Entity{
         this.question = question;
     }
 
-    @Override
-    public String toString() {
-        return "("+content+","+(correct?1:0)+","+questionId+")";
-    }
 }

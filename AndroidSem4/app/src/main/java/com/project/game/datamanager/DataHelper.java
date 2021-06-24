@@ -1,5 +1,6 @@
 package com.project.game.datamanager;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -28,54 +29,71 @@ public class DataHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(InitTable.Achievement);
-        String insertAchievement = "INSERT INTO achievement(name,tutorial) VALUES\n";
         for (int i = 0; i < InitData.Achievement().size(); i++){
-            insertAchievement += InitData.Achievement().get(i).toString() + "\n";
+            ContentValues content = new ContentValues();
+            content.put("id",0);
+            content.put("name",InitData.Achievement().get(i).getName());
+            content.put("tutorial",InitData.Achievement().get(i).getTutorial());
+            db.insert("achievement", null, content);
         }
-        db.execSQL(insertAchievement);
 
         db.execSQL(InitTable.Game);
-        String insertGame = "INSERT INTO game(name) VALUES\n";
         for (int i = 0; i < InitData.Game().size(); i++){
-            insertGame += InitData.Game().get(i).toString() + "\n";
+            ContentValues content = new ContentValues();
+            content.put("id",0);
+            content.put("name",InitData.Game().get(i).getName());
+            db.insert("game", null, content);
         }
-        db.execSQL(insertGame);
 
         db.execSQL(InitTable.LevelHard);
-        String insertLevelHard = "INSERT INTO levelHard(name,description,gameId) VALUES\n";
         for (int i = 0; i < InitData.LevelHard().size(); i++){
-            insertLevelHard += InitData.LevelHard().get(i).toString() + "\n";
+            ContentValues content = new ContentValues();
+            content.put("id",0);
+            content.put("name",InitData.LevelHard().get(i).getName());
+            content.put("description",InitData.LevelHard().get(i).getDescription());
+            content.put("gameId",InitData.LevelHard().get(i).getGameId());
+            db.insert("levelHard", null, content);
         }
-        db.execSQL(insertLevelHard);
 
         db.execSQL(InitTable.User);
-        String insertUser = "INSERT INTO user(name,accessToken) VALUES\n";
         for (int i = 0; i < InitData.User().size(); i++){
-            insertUser += InitData.User().get(i).toString() + "\n";
+            ContentValues content = new ContentValues();
+            content.put("id",0);
+            content.put("name",InitData.User().get(i).getName());
+            content.put("accessToken",InitData.User().get(i).getAccessToken());
+            db.insert("user", null, content);
         }
-        db.execSQL(insertUser);
 
         db.execSQL(InitTable.Question);
-        String insertQuestion = "INSERT INTO question(content,subject,userId) VALUES\n";
         for (int i = 0; i < InitData.Question().size(); i++){
-            insertQuestion += InitData.Question().get(i).toString() + "\n";
+            ContentValues content = new ContentValues();
+            content.put("id",0);
+            content.put("content",InitData.Question().get(i).getContent());
+            content.put("subject",InitData.Question().get(i).getSubject());
+            content.put("userId",InitData.Question().get(i).getUserId());
+            db.insert("question", null, content);
         }
-        db.execSQL(insertQuestion);
 
         db.execSQL(InitTable.Answer);
-        String insertAnswer = "INSERT INTO answer(content,correct,questionId) VALUES\n";
         for (int i = 0; i < InitData.Answer().size(); i++){
-            insertAnswer += InitData.Answer().get(i).toString() + "\n";
+            ContentValues content = new ContentValues();
+            content.put("id",0);
+            content.put("content",InitData.Answer().get(i).getContent());
+            content.put("correct",InitData.Answer().get(i).isCorrect());
+            content.put("questionId",InitData.Answer().get(i).getQuestionId());
+            db.insert("answer", null, content);
         }
-        db.execSQL(insertAnswer);
 
         db.execSQL(InitTable.UserAchievement);
         db.execSQL(InitTable.Score);
-        String insertScore = "INSERT INTO score(gameId,userId,levelId,score) VALUES\n";
         for (int i = 0; i < InitData.Score().size(); i++){
-            insertScore += InitData.Score().get(i).toString() + "\n";
+            ContentValues content = new ContentValues();
+            content.put("gameId",InitData.Score().get(i).getGameId());
+            content.put("userId",InitData.Score().get(i).getUserId());
+            content.put("levelId",InitData.Score().get(i).getLevelHardId());
+            content.put("score",InitData.Score().get(i).getScore());
+            db.insert("score", null, content);
         }
-        db.execSQL(insertScore);
     }
 
     @Override

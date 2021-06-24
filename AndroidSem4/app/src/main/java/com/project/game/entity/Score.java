@@ -75,8 +75,4 @@ public class Score{
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "("+gameId+","+userId+","+levelHardId+","+score+")";
-    }
 }
