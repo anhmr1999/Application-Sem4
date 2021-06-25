@@ -2,6 +2,8 @@ package com.project.game;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -9,23 +11,36 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.project.game.adapter.AnswerAdapter;
+import com.project.game.adapter.LevelAdapter;
+import com.project.game.datamanager.repository.LevelHardRepository;
 import com.project.game.entity.Answer;
-import com.project.game.entity.Question;
 import com.project.game.gamecontroll.Knowledge;
 
 public class KnowledgeActivity extends AppCompatActivity {
     public static TextView txt_Question, txt_Score, txt_EndCore;
     public static ListView lst_answer;
     public static RelativeLayout GameKnowLedgeOver;
+    private LevelHardRepository levelHardRepository;
     private AdapterView.OnItemClickListener itemClickListener;
+    private SharedPreferences sp;
+    private int levelId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_knowledge_home);
+        levelHardRepository = new LevelHardRepository(KnowledgeActivity.this);
+        sp = KnowledgeActivity.this.getSharedPreferences("knowLedgeSetting", Context.MODE_PRIVATE);
+        if(sp!=null){
+            levelId = sp.getInt("levelId",0);
+        } else {
+            levelId = levelHardRepository.getLevelGame(2).get(0).getId();
+            sp = KnowledgeActivity.this.getSharedPreferences("knowLedgeSetting", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putInt("levelId",levelHardRepository.getLevelGame(1).get(0).getId());
+            editor.apply();
+        }
     }
 
     public void PlayKnowledge(View view){
@@ -102,5 +117,21 @@ public class KnowledgeActivity extends AppCompatActivity {
     public void helpSkip(View view){
         findViewById(R.id.knowSkip).setVisibility(View.INVISIBLE);
         Knowledge.getDataGame().useSkipQuestion();
+    }
+
+    public void ChangeLevel(View view){
+        setContentView(R.layout.activity_level);
+        findViewById(R.id.levelLayout).setBackgroundResource(R.drawable.knowledge_background);
+        ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(2), levelId));
+        ((ListView)findViewById(R.id.Lst_Level)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                levelId = (int) ((ListView) findViewById(R.id.Lst_Level)).getAdapter().getItemId(position);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putInt("levelId",levelId);
+                editor.apply();
+                setContentView(R.layout.activity_knowledge_home);
+            }
+        });
     }
 }

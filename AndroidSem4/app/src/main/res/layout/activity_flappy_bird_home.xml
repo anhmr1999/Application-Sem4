@@ -32,7 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Level"
-            android:textSize="25dp"/>
+            android:textSize="25dp"
+            android:onClick="ChangeLevel"/>
 
         <Button
             android:layout_width="match_parent"

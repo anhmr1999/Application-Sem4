@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar">
-        <activity android:name=".KnowledgeActivity"></activity>
+        <activity android:name=".KnowledgeActivity" />
         <activity android:name=".Game2048Activity" />
         <activity android:name=".FlappyBirdActivity" />
         <activity android:name=".MainActivity">

@@ -85,6 +85,5 @@ public class Knowledge {
 
     private void getQuestion(){
         questionList = repository.get(0, 20);
-        Log.e("ErrorQuestion",""+questionList.size());
     }
 }

@@ -2,22 +2,30 @@ package com.project.game;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.project.game.adapter.BoxAdapter;
+import com.project.game.adapter.LevelAdapter;
+import com.project.game.datamanager.repository.LevelHardRepository;
 import com.project.game.gamecontroll.Game2048;
 
 public class Game2048Activity extends AppCompatActivity {
     private GridView gridView;
     private BoxAdapter boxAdapter;
     private View.OnTouchListener listener;
+    private LevelHardRepository levelHardRepository;
     private float x, y;
+    private SharedPreferences sp;
+    private int levelId;
     public static TextView txtScore, txtendScore;
     private RelativeLayout overGame2048;
 
@@ -25,6 +33,17 @@ public class Game2048Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game2048_home);
+        levelHardRepository = new LevelHardRepository(Game2048Activity.this);
+        sp = Game2048Activity.this.getSharedPreferences("game2048Setting", Context.MODE_PRIVATE);
+        if(sp!=null){
+            levelId = sp.getInt("levelId",0);
+        } else {
+            levelId = levelHardRepository.getLevelGame(2).get(0).getId();
+            sp = Game2048Activity.this.getSharedPreferences("game2048Setting", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putInt("levelId",levelHardRepository.getLevelGame(1).get(0).getId());
+            editor.apply();
+        }
     }
 
     public void Play2048(View view){
@@ -84,5 +103,21 @@ public class Game2048Activity extends AppCompatActivity {
 
         gridView.setAdapter(boxAdapter);
         gridView.setOnTouchListener(listener);
+    }
+
+    public void ChangeLevel(View view){
+        setContentView(R.layout.activity_level);
+        findViewById(R.id.levelLayout).setBackgroundResource(R.drawable.background_2048);
+        ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(2), levelId));
+        ((ListView)findViewById(R.id.Lst_Level)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                levelId = (int) ((ListView) findViewById(R.id.Lst_Level)).getAdapter().getItemId(position);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putInt("levelId",levelId);
+                editor.apply();
+                setContentView(R.layout.activity_game2048_home);
+            }
+        });
     }
 }
