@@ -40,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="High Score"
+            android:onClick="viewScore"
             android:textSize="25dp"/>
 
         <Button

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,14 +16,23 @@ import android.widget.TextView;
 
 import com.project.game.adapter.BoxAdapter;
 import com.project.game.adapter.LevelAdapter;
+import com.project.game.adapter.ScoreAdapter;
+import com.project.game.adapter.ScoreModel;
 import com.project.game.datamanager.repository.LevelHardRepository;
+import com.project.game.datamanager.repository.ScoreRepository;
+import com.project.game.entity.LevelHard;
+import com.project.game.entity.Score;
 import com.project.game.gamecontroll.Game2048;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game2048Activity extends AppCompatActivity {
     private GridView gridView;
     private BoxAdapter boxAdapter;
     private View.OnTouchListener listener;
     private LevelHardRepository levelHardRepository;
+    private ScoreRepository scoreRepository;
     private float x, y;
     private SharedPreferences sp;
     private int levelId;
@@ -34,6 +44,7 @@ public class Game2048Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game2048_home);
         levelHardRepository = new LevelHardRepository(Game2048Activity.this);
+        scoreRepository = new ScoreRepository(Game2048Activity.this);
         sp = Game2048Activity.this.getSharedPreferences("game2048Setting", Context.MODE_PRIVATE);
         if(sp!=null){
             levelId = sp.getInt("levelId",0);
@@ -119,5 +130,26 @@ public class Game2048Activity extends AppCompatActivity {
                 setContentView(R.layout.activity_game2048_home);
             }
         });
+    }
+
+    public void viewScore(View view){
+        List<ScoreModel> scoreModels = new ArrayList<>();
+        for (Score score : scoreRepository.GetScore(2)) {
+            ScoreModel scoreModel = new ScoreModel(score.getUserId(), score.getUser().getName(),0,0,0);
+            if (!scoreModels.contains(scoreModel)){
+                scoreModels.add(scoreModel);
+            }
+            if(score.getLevelHard().getName() == "easy"){
+                scoreModels.get(scoreModels.indexOf(scoreModel)).setEasyScore(score.getScore());
+            }
+            if(score.getLevelHard().getName() == "normal"){
+                scoreModels.get(scoreModels.indexOf(scoreModel)).setNormalScore(score.getScore());
+            }
+            if(score.getLevelHard().getName() == "difficult"){
+                scoreModels.get(scoreModels.indexOf(scoreModel)).setDifficultScore(score.getScore());
+            }
+        }
+        Log.e("CHECK",""+scoreModels.size());
+        ((ListView) findViewById(R.id.Lst_HighScore)).setAdapter(new ScoreAdapter(scoreModels));
     }
 }

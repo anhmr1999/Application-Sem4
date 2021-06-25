@@ -33,4 +33,18 @@ public class LevelHardRepository {
         }
         return levelHards;
     }
+
+    public LevelHard getLevel(int levelId){
+        LevelHard level = null;
+        Cursor cursor = database.rawQuery("SELECT id,name,description,gameId FROM levelHard WHERE id = ?", new String[]{levelId+""});
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            int id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String description = cursor.getString(2);
+            int gameId = cursor.getInt(3);
+            level = new LevelHard(id,name,description,gameId);
+        }
+        return level;
+    }
 }

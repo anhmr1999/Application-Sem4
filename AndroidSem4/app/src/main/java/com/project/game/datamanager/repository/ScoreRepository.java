@@ -17,12 +17,14 @@ public class ScoreRepository implements CommonRepository<Score> {
     private Context context;
     private SQLiteDatabase database;
     private UserRepository userRepository;
+    private LevelHardRepository levelHardRepository;
 
     public ScoreRepository(Context context) {
         this.context = context;
         DataHelper databaseHelper = new DataHelper(context);
         database = databaseHelper.getWritableDatabase();
         userRepository = new UserRepository(context);
+        levelHardRepository = new LevelHardRepository(context);
     }
 
     public List<Score> GetScore(int gameId){
@@ -35,6 +37,7 @@ public class ScoreRepository implements CommonRepository<Score> {
                 int scoreNumber = cursor.getInt(3);
                 Score score = new Score(gameId,userId,levelId,scoreNumber);
                 score.setUser(userRepository.getUser(userId));
+                score.setLevelHard(levelHardRepository.getLevel(levelId));
                 scores.add(score);
             }
         }

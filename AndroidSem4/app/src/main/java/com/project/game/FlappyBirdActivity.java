@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.project.game.adapter.LevelAdapter;
 import com.project.game.datamanager.repository.LevelHardRepository;
+import com.project.game.datamanager.repository.ScoreRepository;
 
 public class FlappyBirdActivity extends AppCompatActivity {
     public static TextView txtScore, endScore;
@@ -22,12 +23,14 @@ public class FlappyBirdActivity extends AppCompatActivity {
     private LevelHardRepository levelHardRepository;
     private SharedPreferences sp;
     private int levelId;
+    private ScoreRepository scoreRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flappy_bird_home);
         levelHardRepository = new LevelHardRepository(FlappyBirdActivity.this);
+        scoreRepository = new ScoreRepository(FlappyBirdActivity.this);
         sp = FlappyBirdActivity.this.getSharedPreferences("flappyBirdSetting", Context.MODE_PRIVATE);
         if(sp!=null){
             levelId = sp.getInt("levelId",0);
@@ -68,5 +71,9 @@ public class FlappyBirdActivity extends AppCompatActivity {
                 setContentView(R.layout.activity_flappy_bird_home);
             }
         });
+    }
+
+    public void viewScore(View view){
+
     }
 }

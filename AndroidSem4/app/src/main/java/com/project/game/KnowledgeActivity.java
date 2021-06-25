@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.project.game.adapter.LevelAdapter;
 import com.project.game.datamanager.repository.LevelHardRepository;
+import com.project.game.datamanager.repository.ScoreRepository;
 import com.project.game.entity.Answer;
 import com.project.game.gamecontroll.Knowledge;
 
@@ -25,12 +26,14 @@ public class KnowledgeActivity extends AppCompatActivity {
     private AdapterView.OnItemClickListener itemClickListener;
     private SharedPreferences sp;
     private int levelId;
+    private ScoreRepository scoreRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_knowledge_home);
         levelHardRepository = new LevelHardRepository(KnowledgeActivity.this);
+        scoreRepository = new ScoreRepository(KnowledgeActivity.this);
         sp = KnowledgeActivity.this.getSharedPreferences("knowLedgeSetting", Context.MODE_PRIVATE);
         if(sp!=null){
             levelId = sp.getInt("levelId",0);
@@ -133,5 +136,9 @@ public class KnowledgeActivity extends AppCompatActivity {
                 setContentView(R.layout.activity_knowledge_home);
             }
         });
+    }
+
+    public void viewScore(View view){
+
     }
 }
