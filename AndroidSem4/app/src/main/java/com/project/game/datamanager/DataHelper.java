@@ -218,10 +218,9 @@ class InitData{
         Questions.add(new Question(5, "Vì sao bầu trời lại có màu xanh?","",0));
         Questions.add(new Question(6, "Vì sao lại có sương mù?","",0));
         Questions.add(new Question(7, "Tại sao tai biết tiếng động từ đâu dội tới?","",0));
-        Questions.add(new Question(8, "Mây được hình thành như thế nào?","",0));
-        Questions.add(new Question(9, "Tại sao khi chóng mặt lại có cảm giác mọi thứ xoay tròn?","",0));
-        Questions.add(new Question(10, "Cầu vồng là gì?","",0));
-        Questions.add(new Question(11, "Vì sao lá cây có màu xanh lục mà khi về già lại có màu vàng hoặc đỏ?","",0));
+        Questions.add(new Question(8, "Tại sao khi chóng mặt lại có cảm giác mọi thứ xoay tròn?","",0));
+        Questions.add(new Question(9, "Cầu vồng là gì?","",0));
+        Questions.add(new Question(10, "Vì sao lá cây có màu xanh lục mà khi về già lại có màu vàng hoặc đỏ?","",0));
         return Questions;
     }
 
@@ -272,10 +271,10 @@ class InitData{
         Answers.add(new Answer(35, "Là con đường do các người lùn tạo ra để đi tới nhà của nhau",false,9));
         Answers.add(new Answer(36, "Là chiếc cầu nhiều màu sắc được mây mưa mang đến",false,9));
 
-        Answers.add(new Answer(37, "Do lá cây có diệp lục, diệp lục khi già sẽ biến thành màu đỏ, vàng",false,9));
-        Answers.add(new Answer(38, "Do lúc già, lá cây chỉ có thể phản xạ màu vàng và đỏ",false,9));
-        Answers.add(new Answer(39, "Lá cây giống như tóc, khi già sẽ chuyển sang màu khác mà ở đây là vàng và đỏ",false,9));
-        Answers.add(new Answer(40, "Do lá cây vốn dĩ có nhiều sắc tố màu sắc khác nhau, khi lá già đi, diệp lục trong lá không còn đủ nhiều để lấn áp đi các màu sắc khác nên ta thấy lá cây có màu vàng và đỏ",true,9));
+        Answers.add(new Answer(37, "Do lá cây có diệp lục, diệp lục khi già sẽ biến thành màu đỏ, vàng",false,10));
+        Answers.add(new Answer(38, "Do lúc già, lá cây chỉ có thể phản xạ màu vàng và đỏ",false,10));
+        Answers.add(new Answer(39, "Lá cây giống như tóc, khi già sẽ chuyển sang màu khác mà ở đây là vàng và đỏ",false,10));
+        Answers.add(new Answer(40, "Do lá cây vốn dĩ có nhiều sắc tố màu sắc khác nhau, khi lá già đi, diệp lục trong lá không còn đủ nhiều để lấn áp đi các màu sắc khác nên ta thấy lá cây có màu vàng và đỏ",true,10));
 
         return Answers;
     }

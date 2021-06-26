@@ -47,8 +47,9 @@ public class LevelAdapter extends BaseAdapter {
         LevelHard level = getItem(position);
         ((TextView) (levelView.findViewById(R.id.txt_level))).setText(level.getName());
         if(getItemId(position) == currentLevel){
-            Log.e("Level","current - " + currentLevel + " - " + getItemId(position));
             levelView.findViewById(R.id.txt_level).setBackgroundResource(R.drawable.level_bg_choose);
+        } else {
+            levelView.findViewById(R.id.txt_level).setBackgroundResource(R.drawable.level_bg);
         }
         return levelView;
     }

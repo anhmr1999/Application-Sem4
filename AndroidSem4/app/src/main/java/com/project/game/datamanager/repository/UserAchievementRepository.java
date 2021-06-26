@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.project.game.datamanager.DataHelper;
+import com.project.game.entity.Achievement;
 import com.project.game.entity.UserAchievement;
 
 import java.util.ArrayList;
@@ -23,14 +24,13 @@ public class UserAchievementRepository {
         achievementRepository = new AchievementRepository(context);
     }
 
-    public List<UserAchievement> get(int userId){
-        List<UserAchievement> achievements = new ArrayList<>();
+    public List<Achievement> get(int userId){
+        List<Achievement> achievements = new ArrayList<>();
         Cursor cursor = database.rawQuery("SELECT achievementId FROM userachievement WHERE userId = ?",new String[]{userId+""});
         if(cursor.getCount() > 0 ){
             while (cursor.moveToNext()){
-                UserAchievement userAchievement = new UserAchievement(userId, cursor.getInt(0));
-                userAchievement.setAchievement(achievementRepository.findAchievement(userId));
-                achievements.add(userAchievement);
+                Achievement achievement = achievementRepository.findAchievement(cursor.getInt(0));
+                achievements.add(achievement);
             }
         }
         return achievements;

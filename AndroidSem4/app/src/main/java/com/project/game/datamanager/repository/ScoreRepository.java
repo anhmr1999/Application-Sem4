@@ -46,16 +46,18 @@ public class ScoreRepository implements CommonRepository<Score> {
         return scores;
     }
 
-    public Score getScoreForUser(int gameId, int userId, int levelId){
-        Score score = null;
-        Cursor cursor = database.rawQuery("SELECT score FROM score WHERE gameId = ? AND levelId = ? AND userId = ?"
-                , new String[]{gameId+"", levelId+"", userId+""});
+    public List<Score> getScoreForUser(int gameId, int userId){
+        List<Score> scores = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT score, levelId FROM score WHERE gameId = ? AND userId = ?"
+                , new String[]{gameId+"", userId+""});
         if(cursor.getCount() > 0){
-            cursor.moveToFirst();
-            score = new Score(gameId,userId,levelId,cursor.getInt(0));
+            while (cursor.moveToNext()){
+                Score score = new Score(gameId,userId,cursor.getInt(1),cursor.getInt(0));
+                scores.add(score);
+            }
         }
         cursor.close();
-        return score;
+        return scores;
     }
 
     public boolean add(Score score){

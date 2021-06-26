@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -18,6 +19,7 @@ import com.project.game.adapter.BoxAdapter;
 import com.project.game.adapter.LevelAdapter;
 import com.project.game.adapter.ScoreAdapter;
 import com.project.game.adapter.ScoreModel;
+import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.LevelHardRepository;
 import com.project.game.datamanager.repository.ScoreRepository;
 import com.project.game.entity.LevelHard;
@@ -42,17 +44,19 @@ public class Game2048Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game2048_home);
         levelHardRepository = new LevelHardRepository(Game2048Activity.this);
         scoreRepository = new ScoreRepository(Game2048Activity.this);
         sp = Game2048Activity.this.getSharedPreferences("game2048Setting", Context.MODE_PRIVATE);
         if(sp!=null){
             levelId = sp.getInt("levelId",0);
-        } else {
+        }
+        if(levelId == 0){
             levelId = levelHardRepository.getLevelGame(2).get(0).getId();
             sp = Game2048Activity.this.getSharedPreferences("game2048Setting", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
-            editor.putInt("levelId",levelHardRepository.getLevelGame(1).get(0).getId());
+            editor.putInt("levelId",levelId);
             editor.apply();
         }
     }
@@ -135,21 +139,49 @@ public class Game2048Activity extends AppCompatActivity {
     public void viewScore(View view){
         List<ScoreModel> scoreModels = new ArrayList<>();
         for (Score score : scoreRepository.GetScore(2)) {
-            ScoreModel scoreModel = new ScoreModel(score.getUserId(), score.getUser().getName(),0,0,0);
-            if (!scoreModels.contains(scoreModel)){
-                scoreModels.add(scoreModel);
+            boolean checkHas = false;
+            for (ScoreModel scoremodel : scoreModels){
+                if(scoremodel.getId() == score.getUserId()){
+                    checkHas = true;
+                    if(score.getLevelHard().getName().toLowerCase().equals("easy")){
+                        scoremodel.setEasyScore(score.getScore());
+                    } else if(score.getLevelHard().getName().toLowerCase().equals("normal")){
+                        scoremodel.setNormalScore(score.getScore());
+                    } else {
+                        scoremodel.setDifficultScore(score.getScore());
+                    }
+                    continue;
+                }
             }
-            if(score.getLevelHard().getName() == "easy"){
-                scoreModels.get(scoreModels.indexOf(scoreModel)).setEasyScore(score.getScore());
-            }
-            if(score.getLevelHard().getName() == "normal"){
-                scoreModels.get(scoreModels.indexOf(scoreModel)).setNormalScore(score.getScore());
-            }
-            if(score.getLevelHard().getName() == "difficult"){
-                scoreModels.get(scoreModels.indexOf(scoreModel)).setDifficultScore(score.getScore());
+            if(!checkHas){
+                ScoreModel model = new ScoreModel(score.getUserId(), score.getUser().getName(),0,0,0);
+                if(score.getLevelHard().getName().equals("easy")){
+                    model.setEasyScore(score.getScore());
+                } else if(score.getLevelHard().getName().equals("normal")){
+                    model.setNormalScore(score.getScore());
+                } else {
+                    model.setDifficultScore(score.getScore());
+                }
+                scoreModels.add(model);
             }
         }
-        Log.e("CHECK",""+scoreModels.size());
+        setContentView(R.layout.activity_highscore);
+        if(Contants.user != null){
+            for ( Score score:scoreRepository.getScoreForUser(2,Contants.user.getId())) {
+                if(score.getLevelHard().getName().toLowerCase().equals("easy")){
+                    ((TextView) findViewById(R.id.yourEasyScore)).setText(""+score.getScore());
+                } else if(score.getLevelHard().getName().toLowerCase().equals("normal")){
+                    ((TextView) findViewById(R.id.yourNormalScore)).setText(""+score.getScore());
+                } else {
+                    ((TextView) findViewById(R.id.yourDifficultScore)).setText(""+score.getScore());
+                }
+            }
+        }
+        findViewById(R.id.highScoreLayout).setBackgroundResource(R.drawable.background_2048);
         ((ListView) findViewById(R.id.Lst_HighScore)).setAdapter(new ScoreAdapter(scoreModels));
+    }
+
+    public void BackToHome(View view){
+        setContentView(R.layout.activity_game2048_home);
     }
 }

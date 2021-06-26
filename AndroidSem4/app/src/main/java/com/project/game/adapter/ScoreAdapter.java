@@ -40,11 +40,10 @@ public class ScoreAdapter  extends BaseAdapter {
         } else {
             scoreView = convertView;
         }
-        Log.e("CheckView"," View is null");
         ((TextView)scoreView.findViewById(R.id.highScoreName)).setText(list.get(position).getName());
-        ((TextView)scoreView.findViewById(R.id.easyScore)).setText(list.get(position).getEasyScore());
-        ((TextView)scoreView.findViewById(R.id.normalScore)).setText(list.get(position).getNormalScore());
-        ((TextView)scoreView.findViewById(R.id.difficultScore)).setText(list.get(position).getDifficultScore());
+        ((TextView)scoreView.findViewById(R.id.easyScore)).setText(list.get(position).getEasyScore()+"");
+        ((TextView)scoreView.findViewById(R.id.normalScore)).setText(list.get(position).getNormalScore()+"");
+        ((TextView)scoreView.findViewById(R.id.difficultScore)).setText(list.get(position).getDifficultScore()+"");
         return scoreView;
     }
 }

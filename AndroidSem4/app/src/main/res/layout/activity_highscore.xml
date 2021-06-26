@@ -13,7 +13,8 @@
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/back"/>
+            android:src="@drawable/back"
+            android:onClick="BackToHome"/>
     </RelativeLayout>
     <LinearLayout
         android:id="@+id/lstScoreHead"
@@ -22,50 +23,162 @@
         android:layout_below="@id/back_block"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/highScoreName"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="center"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:textColor="#000"
+            android:textStyle="bold"
             android:text="Name"/>
 
         <TextView
-            android:id="@+id/easyScore"
             android:layout_width="1dp"
             android:gravity="center"
             android:text="Easy"
-            android:textSize="20dp"
+            android:textSize="15dp"
+            android:textStyle="bold"
             android:textColor="#000"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
 
         <TextView
-            android:id="@+id/normalScore"
             android:layout_width="1dp"
             android:gravity="center"
             android:text="Normal"
-            android:textSize="20dp"
+            android:textSize="15dp"
+            android:textStyle="bold"
             android:textColor="#000"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
 
         <TextView
-            android:id="@+id/difficultScore"
             android:layout_width="1dp"
             android:gravity="center"
             android:text="Difficult"
-            android:textSize="20dp"
+            android:textSize="15dp"
+            android:textStyle="bold"
             android:textColor="#000"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
     </LinearLayout>
-    <ListView
-        android:id="@+id/Lst_HighScore"
-        android:paddingBottom="25dp"
+    <View
+        android:id="@+id/borderHead"
         android:layout_below="@id/lstScoreHead"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="2dp"
+        android:background="#A50000"/>
+    <RelativeLayout
+        android:id="@+id/currentScore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_marginBottom="25dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/yourName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:textColor="#000"
+            android:text="Your Score"/>
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="2dp"
+            android:layout_below="@id/yourName"
+            android:background="#A50000"
+            android:layout_centerHorizontal="true"/>
+
+        <LinearLayout
+            android:id="@+id/headerYourScore"
+            android:layout_below="@id/yourName"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="1dp"
+                android:gravity="center"
+                android:text="Easy"
+                android:textSize="18dp"
+                android:textColor="#000"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="1dp"
+                android:gravity="center"
+                android:text="Normal"
+                android:textSize="18dp"
+                android:textColor="#000"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="1dp"
+                android:gravity="center"
+                android:text="Difficult"
+                android:textSize="18dp"
+                android:textColor="#000"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_below="@id/headerYourScore"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/yourEasyScore"
+                android:layout_width="1dp"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/yourNormalScore"
+                android:layout_width="1dp"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/yourDifficultScore"
+                android:layout_width="1dp"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/borderHead"
+        android:layout_above="@id/currentScore"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/Lst_HighScore"
+            android:paddingBottom="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
 </RelativeLayout>

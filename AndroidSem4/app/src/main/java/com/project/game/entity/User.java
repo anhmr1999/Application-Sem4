@@ -1,8 +1,12 @@
 package com.project.game.entity;
 
+import java.util.List;
+
 public class User extends Entity{
     private String name;
     private String accessToken;
+    private List<Achievement> achievements;
+    private List<Score> scores;
 
     public User() {
         super(0);
@@ -30,4 +34,19 @@ public class User extends Entity{
         this.accessToken = accessToken;
     }
 
+    public List<Achievement> getAchievements() {
+        return achievements;
+    }
+
+    public void setAchievements(List<Achievement> achievements) {
+        this.achievements = achievements;
+    }
+
+    public List<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
+    }
 }

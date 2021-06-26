@@ -47,6 +47,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:text="Question Manager"
+            android:onClick="showQuestionManager"
+            android:textSize="25dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="manual"
             android:textSize="25dp"/>
 

@@ -6,17 +6,26 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.project.game.adapter.LevelAdapter;
+import com.project.game.adapter.ScoreAdapter;
+import com.project.game.adapter.ScoreModel;
+import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.LevelHardRepository;
 import com.project.game.datamanager.repository.ScoreRepository;
 import com.project.game.entity.Answer;
+import com.project.game.entity.Score;
 import com.project.game.gamecontroll.Knowledge;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class KnowledgeActivity extends AppCompatActivity {
     public static TextView txt_Question, txt_Score, txt_EndCore;
@@ -31,17 +40,19 @@ public class KnowledgeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_knowledge_home);
         levelHardRepository = new LevelHardRepository(KnowledgeActivity.this);
         scoreRepository = new ScoreRepository(KnowledgeActivity.this);
         sp = KnowledgeActivity.this.getSharedPreferences("knowLedgeSetting", Context.MODE_PRIVATE);
         if(sp!=null){
             levelId = sp.getInt("levelId",0);
-        } else {
-            levelId = levelHardRepository.getLevelGame(2).get(0).getId();
+        }
+        if(levelId == 0) {
+            levelId = levelHardRepository.getLevelGame(3).get(0).getId();
             sp = KnowledgeActivity.this.getSharedPreferences("knowLedgeSetting", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
-            editor.putInt("levelId",levelHardRepository.getLevelGame(1).get(0).getId());
+            editor.putInt("levelId",levelId);
             editor.apply();
         }
     }
@@ -125,7 +136,7 @@ public class KnowledgeActivity extends AppCompatActivity {
     public void ChangeLevel(View view){
         setContentView(R.layout.activity_level);
         findViewById(R.id.levelLayout).setBackgroundResource(R.drawable.knowledge_background);
-        ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(2), levelId));
+        ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(3), levelId));
         ((ListView)findViewById(R.id.Lst_Level)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -139,6 +150,55 @@ public class KnowledgeActivity extends AppCompatActivity {
     }
 
     public void viewScore(View view){
+        List<ScoreModel> scoreModels = new ArrayList<>();
+        for (Score score : scoreRepository.GetScore(3)) {
+            boolean checkHas = false;
+            for (ScoreModel scoremodel : scoreModels){
+                if(scoremodel.getId() == score.getUserId()){
+                    checkHas = true;
+                    if(score.getLevelHard().getName().toLowerCase().equals("easy")){
+                        scoremodel.setEasyScore(score.getScore());
+                    } else if(score.getLevelHard().getName().toLowerCase().equals("normal")){
+                        scoremodel.setNormalScore(score.getScore());
+                    } else {
+                        scoremodel.setDifficultScore(score.getScore());
+                    }
+                    continue;
+                }
+            }
+            if(!checkHas){
+                ScoreModel model = new ScoreModel(score.getUserId(), score.getUser().getName(),0,0,0);
+                if(score.getLevelHard().getName().equals("easy")){
+                    model.setEasyScore(score.getScore());
+                } else if(score.getLevelHard().getName().equals("normal")){
+                    model.setNormalScore(score.getScore());
+                } else {
+                    model.setDifficultScore(score.getScore());
+                }
+                scoreModels.add(model);
+            }
+        }
+        setContentView(R.layout.activity_highscore);
+        if(Contants.user != null){
+            for ( Score score:scoreRepository.getScoreForUser(3,Contants.user.getId())) {
+                if(score.getLevelHard().getName().toLowerCase().equals("easy")){
+                    ((TextView) findViewById(R.id.yourEasyScore)).setText(""+score.getScore());
+                } else if(score.getLevelHard().getName().toLowerCase().equals("normal")){
+                    ((TextView) findViewById(R.id.yourNormalScore)).setText(""+score.getScore());
+                } else {
+                    ((TextView) findViewById(R.id.yourDifficultScore)).setText(""+score.getScore());
+                }
+            }
+        }
+        findViewById(R.id.highScoreLayout).setBackgroundResource(R.drawable.knowledge_background);
+        ((ListView) findViewById(R.id.Lst_HighScore)).setAdapter(new ScoreAdapter(scoreModels));
+    }
 
+    public void BackToHome(View view){
+        setContentView(R.layout.activity_knowledge_home);
+    }
+
+    public void showQuestionManager(View view){
+        setContentView(R.layout.activity_question_manager);
     }
 }
