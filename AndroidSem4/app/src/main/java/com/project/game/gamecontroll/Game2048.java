@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 
 import com.project.game.R;
+import com.project.game.common.Contants;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -71,7 +72,13 @@ public class Game2048 {
         while (numberCreated != 0){
             int i = random.nextInt(4), j = random.nextInt(4);
             if(arrNumber[i][j] == 0){
-                arrNumber[i][j] =2;
+                if(Contants._2048Level.getName().toLowerCase().equals("easy")){
+                    arrNumber[i][j] = 2;
+                } else if(Contants._2048Level.getName().toLowerCase().equals("normal")){
+                    arrNumber[i][j] = (int) Math.pow(2, random.nextInt(2) + 1);
+                } else {
+                    arrNumber[i][j] = (int) Math.pow(2, random.nextInt(3) + 1);
+                }
                 numberCreated--;
             }
         }

@@ -55,6 +55,7 @@ public class KnowledgeActivity extends AppCompatActivity {
             editor.putInt("levelId",levelId);
             editor.apply();
         }
+        Contants.knowLevel = levelHardRepository.getLevel(levelId);
     }
 
     public void PlayKnowledge(View view){
@@ -144,6 +145,7 @@ public class KnowledgeActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putInt("levelId",levelId);
                 editor.apply();
+                Contants.knowLevel = levelHardRepository.getLevel(levelId);
                 setContentView(R.layout.activity_knowledge_home);
             }
         });

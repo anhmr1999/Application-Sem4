@@ -11,6 +11,7 @@ import android.media.SoundPool;
 import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -19,6 +20,7 @@ import androidx.annotation.Nullable;
 import com.project.game.FlappyBirdActivity;
 import com.project.game.R;
 import com.project.game.common.Contants;
+import com.project.game.entity.LevelHard;
 import com.project.game.gameobj.Bird;
 import com.project.game.gameobj.Pipe;
 
@@ -38,7 +40,6 @@ public class FlappyBird extends View {
 
     public FlappyBird(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-
         this.context = context;
         SharedPreferences sp = context.getSharedPreferences("gameSetting",Context.MODE_PRIVATE);
         if(sp!=null){
@@ -86,7 +87,13 @@ public class FlappyBird extends View {
 
     private void initPipe(){
         sumpipe = 4;
-        distance = 400*Contants.Screen_Height/1920;
+        if(Contants.flappyBirdLevel.getName().toLowerCase().equals("easy")){
+            distance = 450*Contants.Screen_Height/1920;
+        } else if(Contants.flappyBirdLevel.getName().toLowerCase().equals("normal")) {
+            distance = 400*Contants.Screen_Height/1920;
+        } else {
+            distance = 350*Contants.Screen_Height/1920;
+        }
         arrPipes = new ArrayList<>();
         for (int i = 0; i< sumpipe; i++){
             if (i < sumpipe /2 ){

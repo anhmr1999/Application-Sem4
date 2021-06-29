@@ -52,6 +52,7 @@ public class FlappyBirdActivity extends AppCompatActivity {
             editor.putInt("levelId",levelId);
             editor.apply();
         }
+        Contants.flappyBirdLevel = levelHardRepository.getLevel(levelId);
     }
 
     public void PlayFlappyBird(View view){
@@ -79,6 +80,7 @@ public class FlappyBirdActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putInt("levelId",levelId);
                 editor.apply();
+                Contants.flappyBirdLevel = levelHardRepository.getLevel(levelId);
                 setContentView(R.layout.activity_flappy_bird_home);
             }
         });

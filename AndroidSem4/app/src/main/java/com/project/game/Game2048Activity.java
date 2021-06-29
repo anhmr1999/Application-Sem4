@@ -59,6 +59,7 @@ public class Game2048Activity extends AppCompatActivity {
             editor.putInt("levelId",levelId);
             editor.apply();
         }
+        Contants._2048Level = levelHardRepository.getLevel(levelId);
     }
 
     public void Play2048(View view){
@@ -131,6 +132,7 @@ public class Game2048Activity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putInt("levelId",levelId);
                 editor.apply();
+                Contants._2048Level = levelHardRepository.getLevel(levelId);
                 setContentView(R.layout.activity_game2048_home);
             }
         });
