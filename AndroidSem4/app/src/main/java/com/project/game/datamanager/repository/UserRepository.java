@@ -32,6 +32,17 @@ public class UserRepository implements CommonRepository<User> {
         return null;
     }
 
+    public User getUser(String accessToken){
+        Cursor cursor = database.rawQuery("SELECT id,name FROM user where accessToken = ?",new String[]{accessToken});
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            User user = new User(cursor.getInt(0), cursor.getString(1), accessToken);
+            user.setAchievements(achievementRepository.get(user.getId()));
+            return user;
+        }
+        return null;
+    }
+
     public boolean add(User user){
         try {
             ContentValues contentValues = convertToValue(user);

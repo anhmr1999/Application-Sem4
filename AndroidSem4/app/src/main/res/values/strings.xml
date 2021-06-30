@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Android-Sem4</string>
-    <string name="fb_login_protocol_scheme">fb[APP_ID]</string>
+    <string name="facebook_app_id">406767427220496</string>
+    <string name="fb_login_protocol_scheme">fb406767427220496</string>
 </resources>

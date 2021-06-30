@@ -8,7 +8,7 @@ public class Contants {
     public static LevelHard flappyBirdLevel;
     public static LevelHard _2048Level;
     public static LevelHard knowLevel;
-    public static User user;
+    public static User User;
     public static int Screen_Width;
     public static int Screen_Height;
 }

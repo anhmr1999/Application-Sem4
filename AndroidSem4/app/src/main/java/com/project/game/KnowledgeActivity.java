@@ -181,8 +181,8 @@ public class KnowledgeActivity extends AppCompatActivity {
             }
         }
         setContentView(R.layout.activity_highscore);
-        if(Contants.user != null){
-            for ( Score score:scoreRepository.getScoreForUser(3,Contants.user.getId())) {
+        if(Contants.User != null){
+            for ( Score score:scoreRepository.getScoreForUser(3,Contants.User.getId())) {
                 if(score.getLevelHard().getName().toLowerCase().equals("easy")){
                     ((TextView) findViewById(R.id.yourEasyScore)).setText(""+score.getScore());
                 } else if(score.getLevelHard().getName().toLowerCase().equals("normal")){

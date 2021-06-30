@@ -9,35 +9,72 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.UserRepository;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
 public class MainActivity extends AppCompatActivity {
     private UserRepository userRepository;
-    private int userId;
+    private CallbackManager callbackManager;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userRepository = new UserRepository(MainActivity.this);
-        SharedPreferences sp = MainActivity.this.getSharedPreferences("currentUser", Context.MODE_PRIVATE);
-        if(sp != null){
-            userId = sp.getInt("userId",0);
-            if(userId != 0){
-                Contants.user = userRepository.getUser(userId);
-            } else {
-                Contants.user = null;
-            }
-        }
-
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        sp = MainActivity.this.getSharedPreferences("knowLedgeSetting", Context.MODE_PRIVATE);
+        Contants.Music = sp.getBoolean("Music",true);
 
         DisplayMetrics dm = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(dm);
         Contants.Screen_Height = dm.heightPixels;
         Contants.Screen_Width = dm.widthPixels;
         setContentView(R.layout.activity_main);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+        callbackManager = CallbackManager.Factory.create();
+        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions("email");
+
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Contants.User = userRepository.getUser(loginResult.getAccessToken().getToken());
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken != null && !accessToken.isExpired()){
+            Contants.User = userRepository.getUser(accessToken.getToken());
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void ToFlappyBird(View view){
@@ -53,5 +90,14 @@ public class MainActivity extends AppCompatActivity {
     public void ToKnowledge(View view){
         Intent intent = new Intent(MainActivity.this, KnowledgeActivity.class);
         startActivity(intent);
+    }
+
+    public void changeMute(View view){
+        if (Contants.Music){
+            ((ImageView) findViewById(R.id.music)).setImageResource(R.drawable.mute);
+        } else {
+            ((ImageView) findViewById(R.id.music)).setImageResource(R.drawable.un_mute);
+        }
+        Contants.Music = !Contants.Music;
     }
 }
