@@ -247,13 +247,13 @@ class InitData{
         Answers.add(new Answer(16, "Tại khi nhìn từ cao xuống tạo cảm giác kích thích mạnh làm bạn mất cân bằng",false,4));
 
         Answers.add(new Answer(17, "Vì da trời vốn dĩ có màu xanh",false,5));
-        Answers.add(new Answer(18, "Ánh sáng đi qua tầng khí quyển bị tán xạ, ánh sáng xanh có bước sóng ngắn, các phân tử không khí phân tán đi xung quanh và nhuộm xanh cả bầu trời",true,5));
+        Answers.add(new Answer(18, "Ánh sáng xanh có bước sóng ngắn, các phân tử không khí phân tán đi xung quanh và nhuộm xanh cả bầu trời",true,5));
         Answers.add(new Answer(19, "Vì ánh sáng mặt trời có màu xanh, khiến bầu trời có màu xanh",false,5));
         Answers.add(new Answer(20, "Tầng ozon chặn các ánh sáng khác và chỉ để cho ánh sáng màu xanh đi qua làm da trời có màu xanh",false,5));
 
         Answers.add(new Answer(21, "Cây cối nhả ra khí trắng là sương mù",false,6));
         Answers.add(new Answer(22, "Những đám bông gòn mỏng và ẩm ước bay ra ngoài tạo ra sương mù",false,6));
-        Answers.add(new Answer(23, "Sương mù là hiện tượng hơi nước trong khí quyển ngưng kết lại thành những hạt nước rất nhỏ lơ lửng trong không khí và làm giảm tầm nhìn của chúng ta",true,6));
+        Answers.add(new Answer(23, "Sương mù là hơi nước trong khí quyển ngưng kết lại thành những hạt nước rất nhỏ lơ lửng trong không khí và làm giảm tầm nhìn của chúng ta",true,6));
         Answers.add(new Answer(24, "Sương mù là mây xuống đất dạo chơi",false,6));
 
         Answers.add(new Answer(25, "Do sự chênh lệch giữa thời gian nghe thấy của 2 bên tai và áp lực không khí vào 2 màng nhĩ của 2 tai",true,7));

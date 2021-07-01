@@ -10,8 +10,7 @@ namespace GameOfflineApi.Models.EntityManagers
     public class DataContext : DbContext
     {
         public DataContext() : base("appConnect")
-        {
-        }
+        {}
 
         public DbSet<User> Users { get; set; }
         public DbSet<Achievement> Achievements { get; set; }

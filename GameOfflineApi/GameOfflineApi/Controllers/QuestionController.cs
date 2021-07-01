@@ -10,18 +10,23 @@ namespace GameOfflineApi.Controllers
 {
     public class QuestionController : Controller
     {
-        private DataContext context;
-
-        public QuestionController()
-        {
-            context = new DataContext();
-        }
+        private DataContext context = new DataContext();
 
         // GET: Question
         public JsonResult Download(int lastId)
         {
-            IQueryable<Question> questions = context.Questions.Where(x => x.Id > lastId).OrderBy(x=> x.Id).Take(20);
-            IEnumerable<Models.ViewModel.Question> result = questions.Select(x => new Models.ViewModel.Question(x));
+            IQueryable<Question> questions = context.Questions.Where(x => x.Id > lastId).OrderBy(x=> x.Id).Take(50);
+            IEnumerable<Models.ViewModel.Question> result = questions.Select(x => new Models.ViewModel.Question() { 
+                id = x.Id,
+                content = x.Content,
+                subject =x.Subject,
+                Answers = x.Answers.Select(a=> new Models.ViewModel.Answer() { 
+                    id = a.Id,
+                    content = a.Content,
+                    correct = a.Correct,
+                    QuestionId = x.Id
+                }).ToList()
+            });
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

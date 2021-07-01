@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Android-Sem4</string>
+    <string name="facebook_app_id">406767427220496</string>
+    <string name="fb_login_protocol_scheme">fb406767427220496</string>
+
+    <string name="play">Bắt đầu</string>
+    <string name="level">Độ khó</string>
+    <string name="hightScore">Điểm cao</string>
+    <string name="questionManager">Câu hỏi</string>
+    <string name="manual">Hướng dẫn</string>
+
+    <string name="easy">Dễ</string>
+    <string name="normal">Trung bình</string>
+    <string name="difficult">Khó</string>
+</resources>

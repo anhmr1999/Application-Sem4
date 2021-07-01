@@ -128,10 +128,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
+    <Compile Include="Controllers\ScoreController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202107010642443_initDb.cs" />
+    <Compile Include="Migrations\202107010642443_initDb.Designer.cs">
+      <DependentUpon>202107010642443_initDb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EntityManagers\DataContext.cs" />
     <Compile Include="Models\EntityManagers\Entities\Achievement.cs" />
     <Compile Include="Models\EntityManagers\Entities\Answer.cs" />
@@ -142,6 +148,7 @@
     <Compile Include="Models\EntityManagers\Entities\Score.cs" />
     <Compile Include="Models\EntityManagers\Entities\User.cs" />
     <Compile Include="Models\EntityManagers\Entities\UserAchievement.cs" />
+    <Compile Include="Models\EntityManagers\InitialData.cs" />
     <Compile Include="Models\ViewModel\Achievement.cs" />
     <Compile Include="Models\ViewModel\BaseEntity.cs" />
     <Compile Include="Models\ViewModel\Question.cs" />
@@ -189,6 +196,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Question\" />
+    <Folder Include="Views\Score\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +211,11 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202107010642443_initDb.resx">
+      <DependentUpon>202107010642443_initDb.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
