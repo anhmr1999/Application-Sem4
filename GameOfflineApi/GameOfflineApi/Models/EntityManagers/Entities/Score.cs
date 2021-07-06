@@ -16,9 +16,9 @@ namespace GameOfflineApi.Models.EntityManagers.Entities
         [Key, Column(Order = 2)]
         public int LevelId { get; set; }
         public int Point { get; set; }
-
         public User User { get; set; }
         public Game Game { get; set; }
+        [ForeignKey("LevelId")]
         public LevelHard LevelHard { get; set; }
     }
 }

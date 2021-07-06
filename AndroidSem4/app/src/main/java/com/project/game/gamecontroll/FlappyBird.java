@@ -20,11 +20,13 @@ import androidx.annotation.Nullable;
 import com.project.game.FlappyBirdActivity;
 import com.project.game.R;
 import com.project.game.common.Contants;
+import com.project.game.entity.Achievement;
 import com.project.game.entity.LevelHard;
 import com.project.game.gameobj.Bird;
 import com.project.game.gameobj.Pipe;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FlappyBird extends View {
     private Bird bird;
@@ -37,6 +39,7 @@ public class FlappyBird extends View {
     private int soundJump;
     private boolean loadSound;
     private SoundPool soundPool;
+    private boolean gameover;
 
     public FlappyBird(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -45,6 +48,7 @@ public class FlappyBird extends View {
         if(sp!=null){
             bestScore = sp.getInt("bestScore",0);
         }
+        gameover = false;
         initBird();
         initPipe();
         score = 0;
@@ -117,6 +121,17 @@ public class FlappyBird extends View {
                 Pipe.speed = 0;
                 FlappyBirdActivity.endgameLayout.setVisibility(VISIBLE);
                 FlappyBirdActivity.endScore.setText(FlappyBirdActivity.txtScore.getText());
+                if(!gameover){
+                    if(score > 4){
+                        List<Achievement> achievements = new ArrayList<>();
+                        achievements.add( new Achievement(1, "Điểm cao 1", ""));
+                        achievements.add( new Achievement(2, "Điểm cao 2", ""));
+                        achievements.add( new Achievement(3, "Điểm cao 3", ""));
+                        FlappyBirdActivity.dialog.setAchievement(achievements);
+                        FlappyBirdActivity.dialog.show();
+                    }
+                    gameover = true;
+                }
             }
 
             if (this.bird.getX() + this.bird.getWidth() > arrPipes.get(i).getX() + arrPipes.get(i).getWidth() / 2
@@ -158,10 +173,11 @@ public class FlappyBird extends View {
         return true;
     }
 
-    public void reset() {
+    /*public void reset() {
         FlappyBirdActivity.txtScore.setText("0");
         score = 0;
+        gameover = false;
         initBird();
         initPipe();
-    }
+    }*/
 }

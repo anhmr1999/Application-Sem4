@@ -9,6 +9,5 @@ namespace GameOfflineApi.Models.EntityManagers.Entities
     {
         public string Name { get; set; }
         public ICollection<Score> Scores { get; set; }
-        public ICollection<LevelHard> LevelHards { get; set; }
     }
 }

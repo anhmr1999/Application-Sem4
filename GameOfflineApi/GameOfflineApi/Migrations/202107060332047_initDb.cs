@@ -63,14 +63,13 @@ namespace GameOfflineApi.Migrations
                         GameId = c.Int(nullable: false),
                         LevelId = c.Int(nullable: false),
                         Point = c.Int(nullable: false),
-                        LevelHard_Id = c.Int(),
                     })
                 .PrimaryKey(t => new { t.UserId, t.GameId, t.LevelId })
-                .ForeignKey("dbo.LevelHards", t => t.LevelHard_Id)
                 .ForeignKey("dbo.Games", t => t.GameId, cascadeDelete: true)
+                .ForeignKey("dbo.LevelHards", t => t.LevelId, cascadeDelete: true)
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.LevelHard_Id)
                 .Index(t => t.GameId)
+                .Index(t => t.LevelId)
                 .Index(t => t.UserId);
             
             CreateTable(
@@ -89,11 +88,8 @@ namespace GameOfflineApi.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Description = c.String(),
-                        GameId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Games", t => t.GameId, cascadeDelete: true)
-                .Index(t => t.GameId);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.UserAchievements",
@@ -122,17 +118,15 @@ namespace GameOfflineApi.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.Scores", "UserId", "dbo.Users");
+            DropForeignKey("dbo.Scores", "LevelId", "dbo.LevelHards");
             DropForeignKey("dbo.Scores", "GameId", "dbo.Games");
-            DropForeignKey("dbo.Scores", "LevelHard_Id", "dbo.LevelHards");
-            DropForeignKey("dbo.LevelHards", "GameId", "dbo.Games");
             DropForeignKey("dbo.Questions", "UserId", "dbo.Users");
             DropForeignKey("dbo.Answers", "QuestionId", "dbo.Questions");
             DropForeignKey("dbo.UserAchievement1", "Achievement_Id", "dbo.Achievements");
             DropForeignKey("dbo.UserAchievement1", "User_Id", "dbo.Users");
             DropIndex("dbo.Scores", new[] { "UserId" });
+            DropIndex("dbo.Scores", new[] { "LevelId" });
             DropIndex("dbo.Scores", new[] { "GameId" });
-            DropIndex("dbo.Scores", new[] { "LevelHard_Id" });
-            DropIndex("dbo.LevelHards", new[] { "GameId" });
             DropIndex("dbo.Questions", new[] { "UserId" });
             DropIndex("dbo.Answers", new[] { "QuestionId" });
             DropIndex("dbo.UserAchievement1", new[] { "Achievement_Id" });

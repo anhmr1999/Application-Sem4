@@ -17,17 +17,9 @@ namespace GameOfflineApi.Models.EntityManagers
 
         public static IEnumerable<LevelHard> LevelHards = new List<LevelHard>()
         {
-            new LevelHard(){Id = 1, Name = "easy", Description = "", GameId = 1},
-            new LevelHard(){Id = 2, Name = "normal", Description = "", GameId = 1},
-            new LevelHard(){Id = 3, Name = "difficult", Description = "", GameId = 1},
-
-            new LevelHard(){Id = 4, Name = "easy", Description = "", GameId = 2},
-            new LevelHard(){Id = 5, Name = "normal", Description = "", GameId = 2},
-            new LevelHard(){Id = 6, Name = "difficult", Description = "", GameId = 2},
-
-            new LevelHard(){Id = 7, Name = "easy", Description = "", GameId = 3},
-            new LevelHard(){Id = 8, Name = "normal", Description = "", GameId = 3},
-            new LevelHard(){Id = 9, Name = "difficult", Description = "", GameId = 3}
+            new LevelHard(){Id = 1, Name = "easy", Description = ""},
+            new LevelHard(){Id = 2, Name = "normal", Description = ""},
+            new LevelHard(){Id = 3, Name = "difficult", Description = ""}
         };
 
         public static IEnumerable<Achievement> Achievements = new List<Achievement>() { 

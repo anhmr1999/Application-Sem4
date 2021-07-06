@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.project.game.adapter.AchievementDialog;
 import com.project.game.adapter.LevelAdapter;
 import com.project.game.adapter.ScoreAdapter;
 import com.project.game.adapter.ScoreModel;
@@ -28,6 +29,7 @@ import java.util.List;
 public class FlappyBirdActivity extends AppCompatActivity {
     public static TextView txtScore, endScore;
     public static RelativeLayout endgameLayout;
+    public static AchievementDialog dialog;
     private MediaPlayer mediaPlayer;
     private LevelHardRepository levelHardRepository;
     private SharedPreferences sp;
@@ -53,6 +55,7 @@ public class FlappyBirdActivity extends AppCompatActivity {
             editor.apply();
         }
         Contants.flappyBirdLevel = levelHardRepository.getLevel(levelId);
+        dialog = new AchievementDialog(FlappyBirdActivity.this,null);
     }
 
     public void PlayFlappyBird(View view){
