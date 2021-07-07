@@ -13,13 +13,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.project.game.adapter.AchievementDialog;
 import com.project.game.adapter.LevelAdapter;
 import com.project.game.adapter.ScoreAdapter;
 import com.project.game.adapter.ScoreModel;
 import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.LevelHardRepository;
 import com.project.game.datamanager.repository.ScoreRepository;
-import com.project.game.datamanager.services.ScoreService;
 import com.project.game.entity.Answer;
 import com.project.game.entity.Score;
 import com.project.game.gamecontroll.Knowledge;
@@ -28,12 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KnowledgeActivity extends AppCompatActivity {
-    public static TextView txt_Question, txt_Score, txt_EndCore;
+    public static TextView txt_Question, txt_Score, txt_EndCore, txtTimer;
     public static ListView lst_answer;
     public static RelativeLayout GameKnowLedgeOver;
     private LevelHardRepository levelHardRepository;
     private AdapterView.OnItemClickListener itemClickListener;
     private SharedPreferences sp;
+    public static AchievementDialog dialog;
     private int levelId;
     private ScoreRepository scoreRepository;
 
@@ -49,7 +50,7 @@ public class KnowledgeActivity extends AppCompatActivity {
             levelId = sp.getInt("levelId",0);
         }
         if(levelId == 0) {
-            levelId = levelHardRepository.getLevelGame(3).get(0).getId();
+            levelId = levelHardRepository.getLevelGame().get(0).getId();
             sp = KnowledgeActivity.this.getSharedPreferences("knowLedgeSetting", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
             editor.putInt("levelId",levelId);
@@ -61,7 +62,9 @@ public class KnowledgeActivity extends AppCompatActivity {
     public void PlayKnowledge(View view){
         setContentView(R.layout.activity_knowledge);
         Knowledge.getDataGame().init(KnowledgeActivity.this);
+        dialog = new AchievementDialog(KnowledgeActivity.this,null);
         txt_Question = findViewById(R.id.txt_question);
+        txtTimer = findViewById(R.id.txtTimer);
         txt_Score = findViewById(R.id.txt_Score);
         txt_EndCore = findViewById(R.id.KnowLedgeEndScore);
         lst_answer = findViewById(R.id.lst_answer);
@@ -71,6 +74,7 @@ public class KnowledgeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 lst_answer.getChildAt(position).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_choose);
+                Knowledge.getDataGame().stopCountDown();
 
                 new CountDownTimer(2000,100){
 
@@ -81,7 +85,7 @@ public class KnowledgeActivity extends AppCompatActivity {
                     public void onFinish() {
                         if(((Answer)lst_answer.getItemAtPosition(position)).isCorrect()){
                             lst_answer.getChildAt(position).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_true);
-                            new CountDownTimer(2000, 100) {
+                            new CountDownTimer(1000, 100) {
                                 @Override
                                 public void onTick(long l) {}
 
@@ -98,7 +102,7 @@ public class KnowledgeActivity extends AppCompatActivity {
                                     lst_answer.getChildAt(i).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_true);
                                 }
                             }
-                            new CountDownTimer(2000, 100) {
+                            new CountDownTimer(1000, 100) {
                                 @Override
                                 public void onTick(long l) {}
 
@@ -148,7 +152,7 @@ public class KnowledgeActivity extends AppCompatActivity {
     public void ChangeLevel(View view){
         setContentView(R.layout.activity_level);
         findViewById(R.id.levelLayout).setBackgroundResource(R.drawable.knowledge_background);
-        ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(3), levelId));
+        ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(), levelId));
         ((ListView)findViewById(R.id.Lst_Level)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -205,8 +209,6 @@ public class KnowledgeActivity extends AppCompatActivity {
         }
         findViewById(R.id.highScoreLayout).setBackgroundResource(R.drawable.knowledge_background);
         ((ListView) findViewById(R.id.Lst_HighScore)).setAdapter(new ScoreAdapter(scoreModels));
-
-        ScoreService.UpdateScore();
     }
 
     public void BackToHome(View view){

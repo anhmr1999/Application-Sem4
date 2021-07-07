@@ -34,6 +34,10 @@ public class DataHelper extends SQLiteOpenHelper {
             content.put("id",InitData.Achievement().get(i).getId());
             content.put("name",InitData.Achievement().get(i).getName());
             content.put("tutorial",InitData.Achievement().get(i).getTutorial());
+            content.put("checkScore",InitData.Achievement().get(i).isCheckScore());
+            content.put("scoreOrNumber",InitData.Achievement().get(i).getScoreOrNumber());
+            content.put("gameId",InitData.Achievement().get(i).getGameId());
+            content.put("level",InitData.Achievement().get(i).getLevelName());
             db.insert("achievement", null, content);
         }
 
@@ -51,7 +55,6 @@ public class DataHelper extends SQLiteOpenHelper {
             content.put("id",InitData.LevelHard().get(i).getId());
             content.put("name",InitData.LevelHard().get(i).getName());
             content.put("description",InitData.LevelHard().get(i).getDescription());
-            content.put("gameId",InitData.LevelHard().get(i).getGameId());
             db.insert("levelHard", null, content);
         }
 
@@ -104,7 +107,7 @@ public class DataHelper extends SQLiteOpenHelper {
 
 class InitTable{
     public static String Question = "CREATE TABLE question (\n" +
-            "\tid INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+            "\tid INTEGER NOT NULL PRIMARY KEY,\n" +
             "\tcontent nvarchar(250) NOT NULL,\n" +
             "\tsubject nvarchar(250),\n" +
             "\tuserId INTEGER," +
@@ -112,7 +115,7 @@ class InitTable{
             ");";
 
     public static String Answer = "CREATE TABLE answer (\n" +
-            "\tid INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+            "\tid INTEGER NOT NULL PRIMARY KEY,\n" +
             "\tcontent nvarchar(250) NOT NULL,\n" +
             "\tcorrect boolean default 0,\n" +
             "\tquestionId INTEGER, " +
@@ -120,20 +123,18 @@ class InitTable{
             ");";
 
     public static String LevelHard = "CREATE TABLE levelHard (\n" +
-            "\tid INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+            "\tid INTEGER NOT NULL PRIMARY KEY,\n" +
             "\tname nvarchar(250) NOT NULL,\n" +
-            "\tdescription nvarchar(500),\n" +
-            "\tgameId INTEGER," +
-            "FOREIGN KEY(gameId) REFERENCES game(id)\n"+
+            "\tdescription nvarchar(500)\n" +
             ");";
 
     public static String Game = "CREATE TABLE game (\n" +
-            "\tid INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+            "\tid INTEGER NOT NULL PRIMARY KEY,\n" +
             "\tname nvarchar(250) NOT NULL\n" +
             ");";
 
     public static String User = "CREATE TABLE user (\n" +
-            "\tid INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+            "\tid INTEGER NOT NULL PRIMARY KEY,\n" +
             "\tname nvarchar(250) NOT NULL,\n" +
             "\taccessToken nvarchar(250)\n" +
             ");";
@@ -150,9 +151,13 @@ class InitTable{
             ");";
 
     public static String Achievement = "CREATE TABLE achievement (\n" +
-            "\tid INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+            "\tid INTEGER NOT NULL PRIMARY KEY,\n" +
             "\tname nvarchar(250) NOT NULL,\n" +
-            "\ttutorial nvarchar(500)\n" +
+            "\ttutorial nvarchar(500),\n" +
+            "\tcheckScore bit,\n" +
+            "\tscoreOrNumber int,\n" +
+            "\tgameId int default 1,\n" +
+            "\tlevel nvarchar(250) default 'easy'\n" +
             ");";
 
     public static String UserAchievement = "CREATE TABLE userachievement (\n" +
@@ -174,17 +179,9 @@ class InitData{
 
     public static List<LevelHard> LevelHard(){
         List<LevelHard> LevelHards = new ArrayList<>();
-        LevelHards.add(new LevelHard(1, "easy","",1));
-        LevelHards.add(new LevelHard(2, "normal","",1));
-        LevelHards.add(new LevelHard(3, "difficult","",1));
-
-        LevelHards.add(new LevelHard(4, "easy","",2));
-        LevelHards.add(new LevelHard(5, "normal","",2));
-        LevelHards.add(new LevelHard(6, "difficult","",2));
-
-        LevelHards.add(new LevelHard(7, "easy","",3));
-        LevelHards.add(new LevelHard(8, "normal","",3));
-        LevelHards.add(new LevelHard(9, "difficult","",3));
+        LevelHards.add(new LevelHard(1, "easy",""));
+        LevelHards.add(new LevelHard(2, "normal",""));
+        LevelHards.add(new LevelHard(3, "difficult",""));
         return LevelHards;
     }
 
@@ -202,10 +199,10 @@ class InitData{
 
     public static List<Achievement> Achievement(){
         List<Achievement> Achievements = new ArrayList<>();
-        Achievements.add(new Achievement(1, "new Player",""));
-        Achievements.add(new Achievement(2, "Obstacle specialist!",""));
-        Achievements.add(new Achievement(3, "Number matching expert!",""));
-        Achievements.add(new Achievement(4, "Smart player!",""));
+        Achievements.add(new Achievement(1, "new Player","", true, 0,"", 0));
+        Achievements.add(new Achievement(2, "Obstacle specialist!","", true, 10,"easy",1));
+        Achievements.add(new Achievement(3, "Perfect number!","", false, 2048,"easy",2));
+        Achievements.add(new Achievement(4, "Smart player!","", true, 10,"easy",3));
         return Achievements;
     }
 

@@ -13,19 +13,34 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
             android:onClick="BackToHome"
             android:src="@drawable/back"/>
 
         <Button
+            android:id="@+id/btnQuestionUpload"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
-            android:text="Download more Question"
+            android:text="Upload Question"
+            android:textColor="#000"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/bg_download"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/btnQuestionDownload"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@id/btnQuestionUpload"
+            android:text="Download More"
             android:textColor="#000"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -36,109 +51,170 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:padding="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="20dp"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/numberQuestionAdd"
+        <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:textColor="#000000"
-            android:text="you added 12 questions!"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_below="@id/numberQuestionAdd"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:layout_height="match_parent">
 
-                <EditText
-                    android:id="@+id/questionInput"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:inputType="text|textMultiLine"
-                    android:gravity="top"
-                    android:hint="Question"
-                    android:textColor="#000"
-                    android:textColorHint="#353535"
-                    android:layout_height="150dp"/>
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/questionInput"
+                        android:layout_width="match_parent"
+                        android:inputType="text|textMultiLine"
+                        android:gravity="top"
+                        android:hint="Question"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:background="@drawable/bg_edittext"
+                        android:textColor="#000"
+                        android:textColorHint="#353535"
+                        android:layout_height="150dp"/>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="Is Correct"
+                        android:layout_alignParentRight="true"
+                        android:textColor="#000"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="Answer No.1"
+                        android:textColor="#000"/>
+
+                    <EditText
+                        android:id="@+id/answerNo1Input"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="20dp"
+                        android:gravity="top"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:background="@drawable/bg_edittext"
+                        android:inputType="text|textMultiLine"
+                        android:textColor="#000" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="Is Correct"
+                        android:layout_alignParentRight="true"
+                        android:textColor="#000"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="Answer No.2"
+                        android:textColor="#000"/>
+
+                    <EditText
+                        android:id="@+id/answerNo2Input"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="20dp"
+                        android:gravity="top"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:background="@drawable/bg_edittext"
+                        android:inputType="text|textMultiLine"
+                        android:textColor="#000"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="Is Correct"
+                        android:layout_alignParentRight="true"
+                        android:textColor="#000"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="Answer No.3"
+                        android:textColor="#000"/>
+
+                    <EditText
+                        android:id="@+id/answerNo3Input"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="20dp"
+                        android:gravity="top"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:background="@drawable/bg_edittext"
+                        android:inputType="text|textMultiLine"
+                        android:textColor="#000" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="Is Correct"
+                        android:layout_alignParentRight="true"
+                        android:textColor="#000"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="Answer No.4"
+                        android:textColor="#000"/>
+
+                    <EditText
+                        android:id="@+id/answerNo4Input"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="20dp"
+                        android:gravity="top"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:background="@drawable/bg_edittext"
+                        android:inputType="text|textMultiLine"
+                        android:textColor="#000"/>
+
+                </RelativeLayout>
 
             </LinearLayout>
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/answerNo1Input"
-                    android:layout_width="match_parent"
-                    android:inputType="text|textMultiLine"
-                    android:gravity="top"
-                    android:hint="Answer No.1"
-                    android:textColorHint="#353535"
-                    android:textColor="#000"
-                    android:layout_height="90dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/answerNo2Input"
-                    android:layout_width="match_parent"
-                    android:inputType="text|textMultiLine"
-                    android:gravity="top"
-                    android:hint="Answer No.2"
-                    android:textColorHint="#353535"
-                    android:textColor="#000"
-                    android:layout_height="90dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/answerNo3Input"
-                    android:layout_width="match_parent"
-                    android:inputType="text|textMultiLine"
-                    android:gravity="top"
-                    android:textColorHint="#353535"
-                    android:hint="Answer No.3"
-                    android:textColor="#000"
-                    android:layout_height="90dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/answerNo4Input"
-                    android:layout_width="match_parent"
-                    android:inputType="text|textMultiLine"
-                    android:gravity="top"
-                    android:hint="Answer No.4"
-                    android:textColorHint="#353535"
-                    android:textColor="#000"
-                    android:layout_height="90dp"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
+        </RadioGroup>
     </RelativeLayout>
 
 </LinearLayout>

@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.project.game.adapter.AchievementDialog;
 import com.project.game.adapter.BoxAdapter;
 import com.project.game.adapter.LevelAdapter;
 import com.project.game.adapter.ScoreAdapter;
@@ -38,6 +39,7 @@ public class Game2048Activity extends AppCompatActivity {
     private ScoreRepository scoreRepository;
     private float x, y;
     private SharedPreferences sp;
+    public static AchievementDialog dialog;
     private int levelId;
     public static TextView txtScore, txtendScore;
     private RelativeLayout overGame2048;
@@ -54,13 +56,14 @@ public class Game2048Activity extends AppCompatActivity {
             levelId = sp.getInt("levelId",0);
         }
         if(levelId == 0){
-            levelId = levelHardRepository.getLevelGame(2).get(0).getId();
+            levelId = levelHardRepository.getLevelGame().get(0).getId();
             sp = Game2048Activity.this.getSharedPreferences("game2048Setting", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
             editor.putInt("levelId",levelId);
             editor.apply();
         }
         Contants._2048Level = levelHardRepository.getLevel(levelId);
+        dialog = new AchievementDialog(Game2048Activity.this,null);
     }
 
     public void Play2048(View view){
@@ -136,7 +139,7 @@ public class Game2048Activity extends AppCompatActivity {
     public void ChangeLevel(View view){
         setContentView(R.layout.activity_level);
         findViewById(R.id.levelLayout).setBackgroundResource(R.drawable.background_2048);
-        ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(2), levelId));
+        ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(), levelId));
         ((ListView)findViewById(R.id.Lst_Level)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

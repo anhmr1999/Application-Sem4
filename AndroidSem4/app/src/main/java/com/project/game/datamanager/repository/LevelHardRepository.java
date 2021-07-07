@@ -20,15 +20,15 @@ public class LevelHardRepository {
         database = databaseHelper.getWritableDatabase();
     }
 
-    public List<LevelHard> getLevelGame(int gameId){
+    public List<LevelHard> getLevelGame(){
         List<LevelHard> levelHards = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT id,name,description,gameId FROM levelHard WHERE gameId = ?", new String[]{gameId+""});
+        Cursor cursor = database.rawQuery("SELECT id,name,description FROM levelHard", null);
         if(cursor.getCount() > 0){
             while (cursor.moveToNext()){
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);
-                String description = cursor.getString(3);
-                levelHards.add(new LevelHard(id,name,description,gameId));
+                String description = cursor.getString(2);
+                levelHards.add(new LevelHard(id,name,description));
             }
         }
         return levelHards;
@@ -36,14 +36,13 @@ public class LevelHardRepository {
 
     public LevelHard getLevel(int levelId){
         LevelHard level = null;
-        Cursor cursor = database.rawQuery("SELECT id,name,description,gameId FROM levelHard WHERE id = ?", new String[]{levelId+""});
+        Cursor cursor = database.rawQuery("SELECT id,name,description FROM levelHard WHERE id = ?", new String[]{levelId+""});
         if(cursor.getCount() > 0){
             cursor.moveToFirst();
             int id = cursor.getInt(0);
             String name = cursor.getString(1);
             String description = cursor.getString(2);
-            int gameId = cursor.getInt(3);
-            level = new LevelHard(id,name,description,gameId);
+            level = new LevelHard(id,name,description);
         }
         return level;
     }

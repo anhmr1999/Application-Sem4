@@ -49,7 +49,7 @@ public class FlappyBirdActivity extends AppCompatActivity {
             levelId = sp.getInt("levelId",0);
         }
         if(levelId == 0){
-            levelId = levelHardRepository.getLevelGame(1).get(0).getId();
+            levelId = levelHardRepository.getLevelGame().get(0).getId();
             sp = FlappyBirdActivity.this.getSharedPreferences("flappyBirdSetting", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
             editor.putInt("levelId",levelId);
@@ -87,7 +87,7 @@ public class FlappyBirdActivity extends AppCompatActivity {
     public void ChangeLevel(View view){
         setContentView(R.layout.activity_level);
         findViewById(R.id.levelLayout).setBackgroundResource(R.drawable.flappy_bird_backgroup);
-        ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(1), levelId));
+        ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(), levelId));
         ((ListView)findViewById(R.id.Lst_Level)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

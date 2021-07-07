@@ -19,9 +19,11 @@ import androidx.annotation.Nullable;
 
 import com.project.game.FlappyBirdActivity;
 import com.project.game.R;
+import com.project.game.adapter.AchievementAdapter;
 import com.project.game.common.Contants;
+import com.project.game.datamanager.repository.AchievementRepository;
+import com.project.game.datamanager.repository.UserAchievementRepository;
 import com.project.game.entity.Achievement;
-import com.project.game.entity.LevelHard;
 import com.project.game.gameobj.Bird;
 import com.project.game.gameobj.Pipe;
 
@@ -40,10 +42,14 @@ public class FlappyBird extends View {
     private boolean loadSound;
     private SoundPool soundPool;
     private boolean gameover;
+    private AchievementRepository achievementRepository;
+    private UserAchievementRepository userAchievementRepository;
 
     public FlappyBird(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        achievementRepository = new AchievementRepository(context);
+        userAchievementRepository = new UserAchievementRepository(context);
         SharedPreferences sp = context.getSharedPreferences("gameSetting",Context.MODE_PRIVATE);
         if(sp!=null){
             bestScore = sp.getInt("bestScore",0);
@@ -122,14 +128,7 @@ public class FlappyBird extends View {
                 FlappyBirdActivity.endgameLayout.setVisibility(VISIBLE);
                 FlappyBirdActivity.endScore.setText(FlappyBirdActivity.txtScore.getText());
                 if(!gameover){
-                    if(score > 4){
-                        List<Achievement> achievements = new ArrayList<>();
-                        achievements.add( new Achievement(1, "Điểm cao 1", ""));
-                        achievements.add( new Achievement(2, "Điểm cao 2", ""));
-                        achievements.add( new Achievement(3, "Điểm cao 3", ""));
-                        FlappyBirdActivity.dialog.setAchievement(achievements);
-                        FlappyBirdActivity.dialog.show();
-                    }
+                    checkAchievement();
                     gameover = true;
                 }
             }
@@ -166,18 +165,23 @@ public class FlappyBird extends View {
     public boolean onTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN){
             bird.setDrop(-15);
-            if(loadSound){
-                int streamId = this.soundPool.play(this.soundJump, (float)0.5, (float)0.5,1,0,1f);
+            if(loadSound && Contants.Music){
+                int streamId = this.soundPool.play(this.soundJump, (float)0.5, (float)0.5,1,0,1);
             }
         }
         return true;
     }
 
-    /*public void reset() {
-        FlappyBirdActivity.txtScore.setText("0");
-        score = 0;
-        gameover = false;
-        initBird();
-        initPipe();
-    }*/
+    private void checkAchievement(){
+        List<Achievement> achievements = new ArrayList<>();
+        for (Achievement achievement: achievementRepository.getAchievement(1)) {
+            if(achievement.getScoreOrNumber() <= score && achievement.getLevelName().equals(Contants.flappyBirdLevel.getName())){
+                achievements.add(achievement);
+            }
+        }
+        if(achievements.size() > 0){
+            FlappyBirdActivity.dialog.setAchievement(achievements);
+            FlappyBirdActivity.dialog.show();
+        }
+    }
 }

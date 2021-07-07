@@ -36,6 +36,14 @@ public class UserAchievementRepository {
         return achievements;
     }
 
+    public boolean find(int userId, int achievementId){
+        Cursor cursor = database.rawQuery("SELECT achievementId FROM userachievement WHERE userId = ? AND achievementId = ?",new String[]{userId+"", achievementId+""});
+        if(cursor.getCount() > 0 ){
+            return true;
+        }
+        return false;
+    }
+
     public boolean add(UserAchievement userAchievement){
         try{
             ContentValues contentValues = new ContentValues();

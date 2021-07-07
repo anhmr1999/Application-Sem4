@@ -24,14 +24,37 @@ public class AchievementRepository implements CommonRepository<Achievement> {
 
     public List<Achievement> getAchievement(){
         List<Achievement> achievements = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT id,name,tutorial FROM achievement", null);
+        Cursor cursor = database.rawQuery("SELECT id,name,tutorial,checkScore,scoreOrNumber, level FROM achievement", null);
 
         if(cursor.getCount() > 0){
             while (cursor.moveToNext()){
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);
                 String tutorial = cursor.getString(2);
-                achievements.add(new Achievement(id,name,tutorial));
+                boolean checkScore = cursor.getInt(3) == 1;
+                int scoreOrNumber = cursor.getInt(4);
+                String level = cursor.getString(5);
+                achievements.add(new Achievement(id,name,tutorial, checkScore, scoreOrNumber,level));
+            }
+        }
+        cursor.close();
+
+        return  achievements;
+    }
+
+    public List<Achievement> getAchievement(int gameId){
+        List<Achievement> achievements = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT id,name,tutorial,checkScore,scoreOrNumber,level FROM achievement WHERE gameId = ? AND id NOT IN (SELECT achievementId FROM userachievement)", new String[]{gameId+""});
+
+        if(cursor.getCount() > 0){
+            while (cursor.moveToNext()){
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                String tutorial = cursor.getString(2);
+                boolean checkScore = cursor.getInt(3) == 1;
+                int scoreOrNumber = cursor.getInt(4);
+                String level = cursor.getString(5);
+                achievements.add(new Achievement(id,name,tutorial, checkScore, scoreOrNumber,level));
             }
         }
         cursor.close();
@@ -41,13 +64,36 @@ public class AchievementRepository implements CommonRepository<Achievement> {
 
     public Achievement findAchievement(int id){
         Achievement achievement = null;
-        Cursor cursor = database.rawQuery("SELECT name,tutorial FROM achievement WHERE id = ?", new String[]{id+""});
+        Cursor cursor = database.rawQuery("SELECT id,name,tutorial,checkScore,scoreOrNumber,level FROM achievement WHERE id = ?", new String[]{id+""});
 
         if(cursor.getCount() > 0){
             cursor.moveToFirst();
-            String name = cursor.getString(0);
-            String tutorial = cursor.getString(1);
-            achievement = new Achievement(id, name, tutorial);
+            id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String tutorial = cursor.getString(2);
+            boolean checkScore = cursor.getInt(3) == 1;
+            int scoreOrNumber = cursor.getInt(4);
+            String level = cursor.getString(5);
+            achievement = new Achievement(id,name,tutorial, checkScore, scoreOrNumber,level);
+        }
+        cursor.close();
+
+        return achievement;
+    }
+
+    public Achievement findAchievement(String name){
+        Achievement achievement = null;
+        Cursor cursor = database.rawQuery("SELECT id,name,tutorial,checkScore,scoreOrNumber,level FROM achievement WHERE name = ?", new String[]{name});
+
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            int id = cursor.getInt(0);
+            name = cursor.getString(1);
+            String tutorial = cursor.getString(2);
+            boolean checkScore = cursor.getInt(3) == 1;
+            int scoreOrNumber = cursor.getInt(4);
+            String level = cursor.getString(5);
+            achievement = new Achievement(id,name,tutorial, checkScore, scoreOrNumber,level);
         }
         cursor.close();
 

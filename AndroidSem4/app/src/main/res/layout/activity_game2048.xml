@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Game2048Activity"
-    android:background="@drawable/background_2048">
+    android:background="@drawable/background_2048"
+    tools:context=".Game2048Activity">
 
     <RelativeLayout
         android:layout_width="match_parent"

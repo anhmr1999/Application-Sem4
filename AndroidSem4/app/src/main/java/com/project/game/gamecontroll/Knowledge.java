@@ -4,17 +4,16 @@ import android.content.Context;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.project.game.KnowledgeActivity;
-import com.project.game.MainActivity;
 import com.project.game.R;
 import com.project.game.adapter.AnswerAdapter;
+import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.QuestionRepository;
 import com.project.game.entity.Answer;
 import com.project.game.entity.Question;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -23,8 +22,10 @@ public class Knowledge {
     private static Knowledge knowledge;
     private List<Question> questionList;
     private List<Answer> answers;
-    private int score = 0;
+    private int score = 0,timer;;
     private Random random;
+    private Context context;
+    CountDownTimer countDown;
 
     static {knowledge = new Knowledge();}
 
@@ -36,6 +37,13 @@ public class Knowledge {
         random = new Random();
         score = 0;
         repository = new QuestionRepository(context);
+        if(Contants.knowLevel.getName().toLowerCase().equals("easy")){
+            timer = 21000;
+        } else if(Contants.knowLevel.getName().toLowerCase().equals("normal")) {
+            timer = 16000;
+        } else {
+            timer = 11000;
+        }
         getQuestion();
     }
 
@@ -46,10 +54,43 @@ public class Knowledge {
             questionList.remove(question);
         } else {
             question = questionList.get(0);
+            getQuestion();
         }
         KnowledgeActivity.txt_Question.setText(question.getContent());
         answers = question.getAnswers();
         KnowledgeActivity.lst_answer.setAdapter(new AnswerAdapter(question.getAnswers()));
+        setTimer();
+    }
+
+    public void setTimer(){
+        countDown = new CountDownTimer(timer, 1000){
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if((millisUntilFinished/1000) >= 10){
+                    KnowledgeActivity.txtTimer.setText("00:"+millisUntilFinished/1000);
+                } else {
+                    KnowledgeActivity.txtTimer.setText("00:0"+millisUntilFinished/1000);
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                ListView lst_answer =KnowledgeActivity.lst_answer;
+                for (int i = 0; i< lst_answer.getChildCount(); i++){
+                    if(((Answer)lst_answer.getItemAtPosition(i)).isCorrect()){
+                        lst_answer.getChildAt(i).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_true);
+                        countDown.cancel();
+                        EndGame();
+                    }
+                }
+            }
+        };
+        countDown.start();
+    }
+
+    public void stopCountDown(){
+        countDown.cancel();
     }
 
     public void CorrectAnswer(){
