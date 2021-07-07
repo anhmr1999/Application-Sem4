@@ -126,6 +126,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\ScoreController.cs" />
@@ -133,9 +134,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202107060332047_initDb.cs" />
-    <Compile Include="Migrations\202107060332047_initDb.Designer.cs">
-      <DependentUpon>202107060332047_initDb.cs</DependentUpon>
+    <Compile Include="Migrations\202107071254474_initDb.cs" />
+    <Compile Include="Migrations\202107071254474_initDb.Designer.cs">
+      <DependentUpon>202107071254474_initDb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EntityManagers\DataContext.cs" />
@@ -195,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Api\" />
     <Folder Include="Views\Question\" />
     <Folder Include="Views\Score\" />
     <Folder Include="Views\User\" />
@@ -213,8 +215,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202107060332047_initDb.resx">
-      <DependentUpon>202107060332047_initDb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202107071254474_initDb.resx">
+      <DependentUpon>202107071254474_initDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

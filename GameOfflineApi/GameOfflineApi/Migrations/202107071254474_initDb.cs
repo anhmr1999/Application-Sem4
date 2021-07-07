@@ -14,6 +14,10 @@ namespace GameOfflineApi.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Tutorial = c.String(),
+                        CheckScore = c.Boolean(nullable: false),
+                        ScoreOrNumber = c.Int(nullable: false),
+                        GameId = c.Int(nullable: false),
+                        LevelName = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             

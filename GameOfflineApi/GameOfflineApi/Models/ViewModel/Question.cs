@@ -10,6 +10,7 @@ namespace GameOfflineApi.Models.ViewModel
     {
         public string content { get; set; }
         public string subject { get; set; }
+        public int? userId { get; set; }
         public ICollection<Answer> Answers { get; set; }
     }
 
