@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -67,7 +68,18 @@ public class FlappyBirdActivity extends AppCompatActivity {
         endgameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.activity_flappy_bird_home);
+                new CountDownTimer(1000, 100){
+
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        setContentView(R.layout.activity_flappy_bird_home);
+                    }
+                }.start();
             }
         });
     }
@@ -136,5 +148,9 @@ public class FlappyBirdActivity extends AppCompatActivity {
 
     public void BackToHome(View view){
         setContentView(R.layout.activity_flappy_bird_home);
+    }
+
+    public void BackToMainActivity(View view){
+        onBackPressed();
     }
 }

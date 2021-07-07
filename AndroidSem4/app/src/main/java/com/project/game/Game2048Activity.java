@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -113,7 +114,18 @@ public class Game2048Activity extends AppCompatActivity {
         overGame2048.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.activity_game2048_home);
+                new CountDownTimer(1000, 100){
+
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        setContentView(R.layout.activity_game2048_home);
+                    }
+                }.start();
             }
         });
 
@@ -185,5 +197,9 @@ public class Game2048Activity extends AppCompatActivity {
 
     public void BackToHome(View view){
         setContentView(R.layout.activity_game2048_home);
+    }
+
+    public void BackToMainActivity(View view){
+        onBackPressed();
     }
 }

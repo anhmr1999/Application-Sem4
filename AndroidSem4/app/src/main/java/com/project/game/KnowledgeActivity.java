@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -20,6 +19,7 @@ import com.project.game.adapter.ScoreModel;
 import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.LevelHardRepository;
 import com.project.game.datamanager.repository.ScoreRepository;
+import com.project.game.datamanager.services.ScoreService;
 import com.project.game.entity.Answer;
 import com.project.game.entity.Score;
 import com.project.game.gamecontroll.Knowledge;
@@ -116,7 +116,18 @@ public class KnowledgeActivity extends AppCompatActivity {
     }
 
     public void ContinueGame(View view){
-        setContentView(R.layout.activity_knowledge_home);
+        new CountDownTimer(1000, 100){
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                setContentView(R.layout.activity_knowledge_home);
+            }
+        }.start();
     }
 
     public void help5050(View view){
@@ -194,6 +205,8 @@ public class KnowledgeActivity extends AppCompatActivity {
         }
         findViewById(R.id.highScoreLayout).setBackgroundResource(R.drawable.knowledge_background);
         ((ListView) findViewById(R.id.Lst_HighScore)).setAdapter(new ScoreAdapter(scoreModels));
+
+        ScoreService.UpdateScore();
     }
 
     public void BackToHome(View view){
@@ -202,5 +215,9 @@ public class KnowledgeActivity extends AppCompatActivity {
 
     public void showQuestionManager(View view){
         setContentView(R.layout.activity_question_manager);
+    }
+
+    public void BackToMainActivity(View view){
+        onBackPressed();
     }
 }
