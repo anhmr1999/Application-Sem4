@@ -24,7 +24,6 @@ public class Knowledge {
     private List<Answer> answers;
     private int score = 0,timer;;
     private Random random;
-    private Context context;
     CountDownTimer countDown;
 
     static {knowledge = new Knowledge();}

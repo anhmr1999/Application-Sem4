@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -22,6 +23,7 @@ import com.project.game.datamanager.repository.LevelHardRepository;
 import com.project.game.datamanager.repository.ScoreRepository;
 import com.project.game.entity.Answer;
 import com.project.game.entity.Score;
+import com.project.game.gamecontroll.Game2048;
 import com.project.game.gamecontroll.Knowledge;
 
 import java.util.ArrayList;
@@ -37,10 +39,13 @@ public class KnowledgeActivity extends AppCompatActivity {
     public static AchievementDialog dialog;
     private int levelId;
     private ScoreRepository scoreRepository;
+    private boolean allowBack, isPlayGame, gameOver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        allowBack = true;
+        isPlayGame = gameOver = false;
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_knowledge_home);
         levelHardRepository = new LevelHardRepository(KnowledgeActivity.this);
@@ -60,6 +65,8 @@ public class KnowledgeActivity extends AppCompatActivity {
     }
 
     public void PlayKnowledge(View view){
+        allowBack = gameOver = false;
+        isPlayGame = true;
         setContentView(R.layout.activity_knowledge);
         Knowledge.getDataGame().init(KnowledgeActivity.this);
         dialog = new AchievementDialog(KnowledgeActivity.this,null);
@@ -75,6 +82,7 @@ public class KnowledgeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 lst_answer.getChildAt(position).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_choose);
                 Knowledge.getDataGame().stopCountDown();
+                KnowledgeActivity.lst_answer.setOnItemClickListener(null);
 
                 new CountDownTimer(2000,100){
 
@@ -109,6 +117,7 @@ public class KnowledgeActivity extends AppCompatActivity {
                                 @Override
                                 public void onFinish() {
                                     Knowledge.getDataGame().EndGame();
+                                    gameOver = true;
                                 }
                             }.start();
                         }
@@ -220,6 +229,26 @@ public class KnowledgeActivity extends AppCompatActivity {
     }
 
     public void BackToMainActivity(View view){
-        onBackPressed();
+        super.onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(allowBack){
+            super.onBackPressed();
+        } else {
+            if(isPlayGame){
+                if(gameOver){
+                    setContentView(R.layout.activity_knowledge_home);
+                    allowBack = !allowBack;
+                } else {
+                    Knowledge.getDataGame().EndGame();
+                    gameOver = true;
+                }
+            } else {
+                setContentView(R.layout.activity_knowledge_home);
+                allowBack = !allowBack;
+            }
+        }
     }
 }

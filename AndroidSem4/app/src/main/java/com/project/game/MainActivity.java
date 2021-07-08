@@ -35,15 +35,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         userRepository = new UserRepository(MainActivity.this);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        sp = MainActivity.this.getSharedPreferences("knowLedgeSetting", Context.MODE_PRIVATE);
-        Contants.Music = sp.getBoolean("Music",true);
-
         DisplayMetrics dm = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(dm);
         Contants.Screen_Height = dm.heightPixels;
         Contants.Screen_Width = dm.widthPixels;
+
         setContentView(R.layout.activity_main);
+        sp = MainActivity.this.getSharedPreferences("MusicSetting", Context.MODE_PRIVATE);
+        Contants.Music = sp.getBoolean("Music",true);
+        if (Contants.Music){
+            ((ImageView) findViewById(R.id.music)).setImageResource(R.drawable.mute);
+        } else {
+            ((ImageView) findViewById(R.id.music)).setImageResource(R.drawable.un_mute);
+        }
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         callbackManager = CallbackManager.Factory.create();
@@ -70,15 +75,8 @@ public class MainActivity extends AppCompatActivity {
         if(accessToken != null && !accessToken.isExpired()){
             Contants.User = userRepository.getUser(accessToken.getToken());
         }
-        Log.e("Main Check Network", "Connection : " + isNetworkConnected());
+        Log.e("Main Check Network", "Connection : " + Contants.IsNetworkConnected(MainActivity.this));
     }
-
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -108,5 +106,11 @@ public class MainActivity extends AppCompatActivity {
             ((ImageView) findViewById(R.id.music)).setImageResource(R.drawable.un_mute);
         }
         Contants.Music = !Contants.Music;
+        if(sp == null){
+            sp = MainActivity.this.getSharedPreferences("MusicSetting", Context.MODE_PRIVATE);
+        }
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean("Music",Contants.Music);
+        editor.apply();
     }
 }

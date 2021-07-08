@@ -95,6 +95,7 @@ public class DataHelper extends SQLiteOpenHelper {
             content.put("userId",InitData.Score().get(i).getUserId());
             content.put("levelId",InitData.Score().get(i).getLevelHardId());
             content.put("score",InitData.Score().get(i).getScore());
+            content.put("isUpload",InitData.Score().get(i).isUpload());
             db.insert("score", null, content);
         }
     }
@@ -144,6 +145,7 @@ class InitTable{
             "\tuserId INTEGER NOT NULL,\n" +
             "\tgameId INTEGER NOT NULL,\n" +
             "\tscore INTEGER NOT NULL,\n" +
+            "\tisUpload bit NOT NULL default 1,\n" +
             "\tPRIMARY KEY(levelId,userId,gameId),\n" +
             "\tFOREIGN KEY(levelId) REFERENCES levelHard(id),\n" +
             "\tFOREIGN KEY(userId) REFERENCES user(id),\n" +
@@ -163,6 +165,7 @@ class InitTable{
     public static String UserAchievement = "CREATE TABLE userachievement (\n" +
             "\tuserId INTEGER NOT NULL,\n" +
             "\tachievementId INTEGER, \n" +
+            "\tisUpload bit NOT NULL default 1,\n" +
             "FOREIGN KEY(achievementId) REFERENCES achievement(id),\n" +
             "FOREIGN KEY(userId) REFERENCES user(id)" +
             ");";
@@ -278,17 +281,17 @@ class InitData{
 
     public static List<Score> Score(){
         List<Score> Scores = new ArrayList<>();
-        Scores.add(new Score(1, 1, 1,50));
-        Scores.add(new Score(1, 1, 2,40));
-        Scores.add(new Score(1, 1, 3,70));
+        Scores.add(new Score(1, 1, 1,50, true));
+        Scores.add(new Score(1, 1, 2,40, true));
+        Scores.add(new Score(1, 1, 3,70, true));
 
-        Scores.add(new Score(2, 2, 1,16000));
-        Scores.add(new Score(2, 2, 2,20000));
-        Scores.add(new Score(2, 2, 3,16000));
+        Scores.add(new Score(2, 2, 1,16000, true));
+        Scores.add(new Score(2, 2, 2,20000, true));
+        Scores.add(new Score(2, 2, 3,16000, true));
 
-        Scores.add(new Score(3, 3, 1,100));
-        Scores.add(new Score(3, 3, 2,90));
-        Scores.add(new Score(3, 3, 3,70));
+        Scores.add(new Score(3, 3, 1,100, true));
+        Scores.add(new Score(3, 3, 2,90, true));
+        Scores.add(new Score(3, 3, 3,70, true));
         return Scores;
     }
 }

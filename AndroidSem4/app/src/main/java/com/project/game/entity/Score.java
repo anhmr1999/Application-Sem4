@@ -5,6 +5,7 @@ public class Score{
     private Integer gameId;
     private Integer userId;
     private int score;
+    private boolean isUpload;
     private LevelHard levelHard;
     private Game game;
     private User user;
@@ -17,6 +18,14 @@ public class Score{
         this.userId = userId;
         this.score = score;
         this.levelHardId = levelHardId;
+    }
+
+    public Score(Integer levelHardId, Integer gameId, Integer userId, int score, boolean isUpload) {
+        this.levelHardId = levelHardId;
+        this.gameId = gameId;
+        this.userId = userId;
+        this.score = score;
+        this.isUpload = isUpload;
     }
 
     public Integer getLevelHardId() {
@@ -75,4 +84,11 @@ public class Score{
         this.user = user;
     }
 
+    public boolean isUpload() {
+        return isUpload;
+    }
+
+    public void setUpload(boolean upload) {
+        isUpload = upload;
+    }
 }

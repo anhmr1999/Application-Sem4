@@ -41,7 +41,7 @@ public class FlappyBird extends View {
     private int soundJump;
     private boolean loadSound;
     private SoundPool soundPool;
-    private boolean gameover;
+    public static boolean gameover;
     private AchievementRepository achievementRepository;
     private UserAchievementRepository userAchievementRepository;
 
@@ -123,14 +123,12 @@ public class FlappyBird extends View {
         super.draw(canvas);
         bird.draw(canvas);
         for (int i = 0; i < sumpipe; i++) {
-            if(bird.getRect().intersect(arrPipes.get(i).getRect())||bird.getY()-bird.getHeight()<0||bird.getY() > Contants.Screen_Height){
+            if(bird.getRect().intersect(arrPipes.get(i).getRect())||bird.getY()-bird.getHeight()<0||bird.getY() > Contants.Screen_Height ||gameover){
                 Pipe.speed = 0;
                 FlappyBirdActivity.endgameLayout.setVisibility(VISIBLE);
                 FlappyBirdActivity.endScore.setText(FlappyBirdActivity.txtScore.getText());
-                if(!gameover){
-                    checkAchievement();
-                    gameover = true;
-                }
+                checkAchievement();
+                gameover= true;
             }
 
             if (this.bird.getX() + this.bird.getWidth() > arrPipes.get(i).getX() + arrPipes.get(i).getWidth() / 2

@@ -43,10 +43,13 @@ public class Game2048Activity extends AppCompatActivity {
     private int levelId;
     public static TextView txtScore, txtendScore;
     private RelativeLayout overGame2048;
+    private boolean allowBack, isPlayGame, gameOver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        allowBack = true;
+        isPlayGame = gameOver = false;
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game2048_home);
         levelHardRepository = new LevelHardRepository(Game2048Activity.this);
@@ -67,6 +70,8 @@ public class Game2048Activity extends AppCompatActivity {
     }
 
     public void Play2048(View view){
+        allowBack = gameOver = false;
+        isPlayGame = true;
         setContentView(R.layout.activity_game2048);
         txtScore = findViewById(R.id.txt2048Score);
         txtendScore = findViewById(R.id.game2048EndScore);
@@ -107,6 +112,7 @@ public class Game2048Activity extends AppCompatActivity {
                 if(!Game2048.getDataGame().canMove()){
                     overGame2048.setVisibility(View.VISIBLE);
                     txtendScore.setText("" + Game2048.getDataGame().getScore());
+                    gameOver = false;
                 } else {
                     txtScore.setText("" + Game2048.getDataGame().getScore());
                 }
@@ -137,6 +143,7 @@ public class Game2048Activity extends AppCompatActivity {
     }
 
     public void ChangeLevel(View view){
+        allowBack = false;
         setContentView(R.layout.activity_level);
         findViewById(R.id.levelLayout).setBackgroundResource(R.drawable.background_2048);
         ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(), levelId));
@@ -154,6 +161,7 @@ public class Game2048Activity extends AppCompatActivity {
     }
 
     public void viewScore(View view){
+        allowBack = false;
         List<ScoreModel> scoreModels = new ArrayList<>();
         for (Score score : scoreRepository.GetScore(2)) {
             boolean checkHas = false;
@@ -203,6 +211,27 @@ public class Game2048Activity extends AppCompatActivity {
     }
 
     public void BackToMainActivity(View view){
-        onBackPressed();
+        super.onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(allowBack){
+            super.onBackPressed();
+        } else {
+            if(isPlayGame){
+                if(gameOver){
+                    setContentView(R.layout.activity_game2048_home);
+                    allowBack = !allowBack;
+                } else {
+                    overGame2048.setVisibility(View.VISIBLE);
+                    txtendScore.setText("" + Game2048.getDataGame().getScore());
+                    gameOver = true;
+                }
+            } else {
+                setContentView(R.layout.activity_game2048_home);
+                allowBack = !allowBack;
+            }
+        }
     }
 }

@@ -23,6 +23,7 @@ import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.LevelHardRepository;
 import com.project.game.datamanager.repository.ScoreRepository;
 import com.project.game.entity.Score;
+import com.project.game.gamecontroll.FlappyBird;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +36,14 @@ public class FlappyBirdActivity extends AppCompatActivity {
     private LevelHardRepository levelHardRepository;
     private SharedPreferences sp;
     private int levelId;
+    private boolean allowBack, isPlaygame;
     private ScoreRepository scoreRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        allowBack = true;
+        isPlaygame = false;
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_flappy_bird_home);
         levelHardRepository = new LevelHardRepository(FlappyBirdActivity.this);
@@ -60,6 +64,8 @@ public class FlappyBirdActivity extends AppCompatActivity {
     }
 
     public void PlayFlappyBird(View view){
+        allowBack = false;
+        isPlaygame = true;
         setContentView(R.layout.activity_flappy_bird);
         txtScore = findViewById(R.id.txtFlappyBirdScore);
         endgameLayout = findViewById(R.id.flappybirdEndGame);
@@ -85,6 +91,7 @@ public class FlappyBirdActivity extends AppCompatActivity {
     }
 
     public void ChangeLevel(View view){
+        allowBack = false;
         setContentView(R.layout.activity_level);
         findViewById(R.id.levelLayout).setBackgroundResource(R.drawable.flappy_bird_backgroup);
         ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(), levelId));
@@ -102,6 +109,7 @@ public class FlappyBirdActivity extends AppCompatActivity {
     }
 
     public void viewScore(View view){
+        allowBack = false;
         List<ScoreModel> scoreModels = new ArrayList<>();
         for (Score score : scoreRepository.GetScore(1)) {
             boolean checkHas = false;
@@ -151,6 +159,24 @@ public class FlappyBirdActivity extends AppCompatActivity {
     }
 
     public void BackToMainActivity(View view){
-        onBackPressed();
+        super.onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(allowBack){
+            super.onBackPressed();
+        } else {
+            if(isPlaygame){
+                if(FlappyBird.gameover){
+                    setContentView(R.layout.activity_flappy_bird_home);
+                    allowBack = !allowBack;
+                }
+                FlappyBird.gameover = true;
+            } else {
+                setContentView(R.layout.activity_flappy_bird_home);
+                allowBack = !allowBack;
+            }
+        }
     }
 }
