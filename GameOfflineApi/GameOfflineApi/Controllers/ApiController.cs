@@ -19,6 +19,7 @@ namespace GameOfflineApi.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public JsonResult UpdateScore(ICollection<Models.ViewModel.Score> scores)
         {
             foreach (var score in scores)
@@ -60,6 +61,7 @@ namespace GameOfflineApi.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public JsonResult LoginUser(string Token, string name="")
         {
             var loginUser = context.Users.FirstOrDefault(x => x.AccessToken == Token);
@@ -86,6 +88,7 @@ namespace GameOfflineApi.Controllers
             return Json(user, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public JsonResult AddAchievement(int userId, ICollection<int> achievements)
         {
             foreach (var item in achievements)
@@ -110,7 +113,7 @@ namespace GameOfflineApi.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult getAchievement(int lastId)
+        public JsonResult GetAchievement(int lastId)
         {
             var result = context.Achievements.Where(x => x.Id > lastId)?.Select(x=>
                 new Models.ViewModel.Achievement()
@@ -127,6 +130,7 @@ namespace GameOfflineApi.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public JsonResult AddQuestion(Models.ViewModel.Question question)
         {
             try
@@ -152,7 +156,7 @@ namespace GameOfflineApi.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult getQuestion(int lastId)
+        public JsonResult GetQuestion(int lastId)
         {
             var result = context.Questions.Where(x => x.Id > lastId)?.Select(x =>
                 new Models.ViewModel.Question()

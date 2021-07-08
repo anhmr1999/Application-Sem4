@@ -22,6 +22,7 @@ import com.project.game.adapter.ScoreModel;
 import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.LevelHardRepository;
 import com.project.game.datamanager.repository.ScoreRepository;
+import com.project.game.datamanager.services.ScoreService;
 import com.project.game.entity.Score;
 import com.project.game.gamecontroll.FlappyBird;
 
