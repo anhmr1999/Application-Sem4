@@ -7,16 +7,22 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.project.game.FlappyBirdActivity;
 import com.project.game.KnowledgeActivity;
 import com.project.game.R;
 import com.project.game.adapter.AnswerAdapter;
 import com.project.game.common.Contants;
+import com.project.game.datamanager.repository.AchievementRepository;
 import com.project.game.datamanager.repository.QuestionRepository;
 import com.project.game.datamanager.repository.ScoreRepository;
+import com.project.game.datamanager.repository.UserAchievementRepository;
+import com.project.game.entity.Achievement;
 import com.project.game.entity.Answer;
 import com.project.game.entity.Question;
 import com.project.game.entity.Score;
+import com.project.game.entity.UserAchievement;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -30,6 +36,8 @@ public class Knowledge {
     CountDownTimer countDown;
     private ScoreRepository scoreRepository;
     private AdapterView.OnItemClickListener itemClickListener;
+    private AchievementRepository achievementRepository;
+    private UserAchievementRepository userAchievementRepository;
 
     static {knowledge = new Knowledge();}
 
@@ -39,6 +47,8 @@ public class Knowledge {
 
     public void init(Context context){
         scoreRepository = new ScoreRepository(context);
+        achievementRepository = new AchievementRepository(context);
+        userAchievementRepository = new UserAchievementRepository(context);
         random = new Random();
         score = 0;
         repository = new QuestionRepository(context);
@@ -166,6 +176,18 @@ public class Knowledge {
                 currentScore.setUpload(false);
                 scoreRepository.update(currentScore);
             }
+        }
+
+        List<Achievement> achievements = new ArrayList<>();
+        for (Achievement achievement: achievementRepository.getAchievement(2)) {
+            if(achievement.getScoreOrNumber() <= Game2048.getDataGame().getScore() && achievement.getLevelName().equals(Contants._2048Level.getName())){
+                achievements.add(achievement);
+                userAchievementRepository.add(new UserAchievement(Contants.User.getId(), achievement.getId(), false));
+            }
+        }
+        if(achievements.size() > 0){
+            KnowledgeActivity.dialog.setAchievement(achievements);
+            KnowledgeActivity.dialog.show();
         }
     }
 

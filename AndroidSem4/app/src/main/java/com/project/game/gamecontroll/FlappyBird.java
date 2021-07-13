@@ -26,6 +26,7 @@ import com.project.game.datamanager.repository.ScoreRepository;
 import com.project.game.datamanager.repository.UserAchievementRepository;
 import com.project.game.entity.Achievement;
 import com.project.game.entity.Score;
+import com.project.game.entity.UserAchievement;
 import com.project.game.gameobj.Bird;
 import com.project.game.gameobj.Pipe;
 
@@ -193,6 +194,7 @@ public class FlappyBird extends View {
         for (Achievement achievement: achievementRepository.getAchievement(1)) {
             if(achievement.getScoreOrNumber() <= score && achievement.getLevelName().equals(Contants.flappyBirdLevel.getName())){
                 achievements.add(achievement);
+                userAchievementRepository.add(new UserAchievement(Contants.User.getId(), achievement.getId(), false));
             }
         }
         if(achievements.size() > 0){

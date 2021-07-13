@@ -8,6 +8,7 @@ import com.project.game.R;
 import com.project.game.common.Contants;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Game2048 {
@@ -52,6 +53,10 @@ public class Game2048 {
             int position = (int) (Math.log(number)/Math.log(2)) - 1;
             return arrColor[position];
         }
+    }
+
+    public List<Integer> getLstNumber(){
+        return arrView;
     }
 
     public void createNumber(){

@@ -11,10 +11,9 @@ public class UserAchievement{
         this.achievementId = achievementId;
     }
 
-    public UserAchievement(Integer userId, Integer achievementId, Achievement achievement, boolean isUpload) {
+    public UserAchievement(Integer userId, Integer achievementId, boolean isUpload) {
         this.userId = userId;
         this.achievementId = achievementId;
-        this.achievement = achievement;
         this.isUpload = isUpload;
     }
 

@@ -22,10 +22,14 @@ import com.project.game.adapter.LevelAdapter;
 import com.project.game.adapter.ScoreAdapter;
 import com.project.game.adapter.ScoreModel;
 import com.project.game.common.Contants;
+import com.project.game.datamanager.repository.AchievementRepository;
 import com.project.game.datamanager.repository.LevelHardRepository;
 import com.project.game.datamanager.repository.ScoreRepository;
+import com.project.game.datamanager.repository.UserAchievementRepository;
+import com.project.game.entity.Achievement;
 import com.project.game.entity.LevelHard;
 import com.project.game.entity.Score;
+import com.project.game.entity.UserAchievement;
 import com.project.game.gamecontroll.Game2048;
 
 import java.util.ArrayList;
@@ -37,9 +41,11 @@ public class Game2048Activity extends AppCompatActivity {
     private View.OnTouchListener listener;
     private LevelHardRepository levelHardRepository;
     private ScoreRepository scoreRepository;
+    private AchievementRepository achievementRepository;
+    private UserAchievementRepository userAchievementRepository;
     private float x, y;
     private SharedPreferences sp;
-    public static AchievementDialog dialog;
+    private AchievementDialog dialog;
     private int levelId;
     public static TextView txtScore, txtendScore;
     private RelativeLayout overGame2048;
@@ -54,6 +60,8 @@ public class Game2048Activity extends AppCompatActivity {
         setContentView(R.layout.activity_game2048_home);
         levelHardRepository = new LevelHardRepository(Game2048Activity.this);
         scoreRepository = new ScoreRepository(Game2048Activity.this);
+        achievementRepository = new AchievementRepository(Game2048Activity.this);
+        userAchievementRepository = new UserAchievementRepository(Game2048Activity.this);
         sp = Game2048Activity.this.getSharedPreferences("game2048Setting", Context.MODE_PRIVATE);
         if(sp!=null){
             levelId = sp.getInt("levelId",0);
@@ -174,6 +182,27 @@ public class Game2048Activity extends AppCompatActivity {
                 currentScore.setUpload(false);
                 scoreRepository.update(currentScore);
             }
+        }
+
+        List<Achievement> achievements = new ArrayList<>();
+        for (Achievement achievement: achievementRepository.getAchievement(2)) {
+            if(achievement.isCheckScore()){
+                if(achievement.getScoreOrNumber() <= Game2048.getDataGame().getScore() && achievement.getLevelName().equals(Contants._2048Level.getName())){
+                    achievements.add(achievement);
+                    userAchievementRepository.add(new UserAchievement(Contants.User.getId(), achievement.getId(), false));
+                }
+            } else {
+                for (Integer number : Game2048.getDataGame().getArrView()){
+                    if(number >= achievement.getScoreOrNumber()){
+                        achievements.add(achievement);
+                        userAchievementRepository.add(new UserAchievement(Contants.User.getId(), achievement.getId(), false));
+                    }
+                }
+            }
+        }
+        if(achievements.size() > 0){
+            dialog.setAchievement(achievements);
+            dialog.show();
         }
     }
 
