@@ -5,30 +5,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
+import com.project.game.adapter.UserSettingDialog;
 import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.UserRepository;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
     private UserRepository userRepository;
-    private CallbackManager callbackManager;
     private SharedPreferences sp;
+    public static ImageView userAvatar;
+    public static TextView userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +37,17 @@ public class MainActivity extends AppCompatActivity {
         Contants.Screen_Width = dm.widthPixels;
 
         setContentView(R.layout.activity_main);
-        sp = MainActivity.this.getSharedPreferences("MusicSetting", Context.MODE_PRIVATE);
+        userAvatar = findViewById(R.id.avatar);
+        userName = findViewById(R.id.name);
+        sp = MainActivity.this.getSharedPreferences("CommonSetting", Context.MODE_PRIVATE);
         Contants.Music = sp.getBoolean("Music",true);
         if (Contants.Music){
-            ((ImageView) findViewById(R.id.music)).setImageResource(R.drawable.mute);
-        } else {
             ((ImageView) findViewById(R.id.music)).setImageResource(R.drawable.un_mute);
+        } else {
+            ((ImageView) findViewById(R.id.music)).setImageResource(R.drawable.mute);
         }
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
+        /*FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         callbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
@@ -70,18 +68,17 @@ public class MainActivity extends AppCompatActivity {
             public void onError(FacebookException exception) {
                 // App code
             }
-        });
+        });*/
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         if(accessToken != null && !accessToken.isExpired()){
             Contants.User = userRepository.getUser(accessToken.getToken());
+        } else {
+            Contants.User = userRepository.getUser(0);
+            if(Contants.User == null){
+                new UserSettingDialog(MainActivity.this, false).show();
+            }
         }
-        Log.e("Main Check Network", "Connection : " + Contants.IsNetworkConnected(MainActivity.this));
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
+        //Log.e("Main Check Network", "Connection : " + Contants.IsNetworkConnected(MainActivity.this));
     }
 
     public void ToFlappyBird(View view){
@@ -107,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         }
         Contants.Music = !Contants.Music;
         if(sp == null){
-            sp = MainActivity.this.getSharedPreferences("MusicSetting", Context.MODE_PRIVATE);
+            sp = MainActivity.this.getSharedPreferences("CommonSetting", Context.MODE_PRIVATE);
         }
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean("Music",Contants.Music);

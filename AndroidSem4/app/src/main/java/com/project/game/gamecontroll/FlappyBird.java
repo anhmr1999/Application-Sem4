@@ -22,8 +22,10 @@ import com.project.game.R;
 import com.project.game.adapter.AchievementAdapter;
 import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.AchievementRepository;
+import com.project.game.datamanager.repository.ScoreRepository;
 import com.project.game.datamanager.repository.UserAchievementRepository;
 import com.project.game.entity.Achievement;
+import com.project.game.entity.Score;
 import com.project.game.gameobj.Bird;
 import com.project.game.gameobj.Pipe;
 
@@ -39,10 +41,11 @@ public class FlappyBird extends View {
     private int score,bestScore = 0;
     private Context context;
     private int soundJump;
-    private boolean loadSound;
+    private boolean loadSound, showAchievement;
     private SoundPool soundPool;
     public static boolean gameover;
     private AchievementRepository achievementRepository;
+    private ScoreRepository scoreRepository;
     private UserAchievementRepository userAchievementRepository;
 
     public FlappyBird(Context context, @Nullable AttributeSet attrs) {
@@ -50,11 +53,13 @@ public class FlappyBird extends View {
         this.context = context;
         achievementRepository = new AchievementRepository(context);
         userAchievementRepository = new UserAchievementRepository(context);
+        scoreRepository = new ScoreRepository(context);
         SharedPreferences sp = context.getSharedPreferences("gameSetting",Context.MODE_PRIVATE);
         if(sp!=null){
             bestScore = sp.getInt("bestScore",0);
         }
         gameover = false;
+        showAchievement = false;
         initBird();
         initPipe();
         score = 0;
@@ -123,12 +128,14 @@ public class FlappyBird extends View {
         super.draw(canvas);
         bird.draw(canvas);
         for (int i = 0; i < sumpipe; i++) {
-            if(bird.getRect().intersect(arrPipes.get(i).getRect())||bird.getY()-bird.getHeight()<0||bird.getY() > Contants.Screen_Height ||gameover){
+            if(bird.getRect().intersect(arrPipes.get(i).getRect())||bird.getY()-bird.getHeight()<0||bird.getY() > Contants.Screen_Height || gameover){
                 Pipe.speed = 0;
                 FlappyBirdActivity.endgameLayout.setVisibility(VISIBLE);
                 FlappyBirdActivity.endScore.setText(FlappyBirdActivity.txtScore.getText());
-                checkAchievement();
-                gameover= true;
+                FlappyBirdActivity.isPlaygame = false;
+                if(!showAchievement){
+                    checkAchievement();
+                }
             }
 
             if (this.bird.getX() + this.bird.getWidth() > arrPipes.get(i).getX() + arrPipes.get(i).getWidth() / 2
@@ -171,6 +178,17 @@ public class FlappyBird extends View {
     }
 
     private void checkAchievement(){
+        Score currentScore = scoreRepository.getScoreForUpdate(1, Contants.User.getId(), Contants.flappyBirdLevel.getId());
+        if(currentScore == null){
+            currentScore = new Score(Contants.flappyBirdLevel.getId(),1, Contants.User.getId(), score, false);
+            scoreRepository.add(currentScore);
+        } else {
+            if(currentScore.getScore() < score){
+                currentScore.setScore(score);
+                currentScore.setUpload(false);
+                scoreRepository.update(currentScore);
+            }
+        }
         List<Achievement> achievements = new ArrayList<>();
         for (Achievement achievement: achievementRepository.getAchievement(1)) {
             if(achievement.getScoreOrNumber() <= score && achievement.getLevelName().equals(Contants.flappyBirdLevel.getName())){
@@ -181,5 +199,6 @@ public class FlappyBird extends View {
             FlappyBirdActivity.dialog.setAchievement(achievements);
             FlappyBirdActivity.dialog.show();
         }
+        showAchievement = true;
     }
 }

@@ -112,7 +112,9 @@ public class Game2048Activity extends AppCompatActivity {
                 if(!Game2048.getDataGame().canMove()){
                     overGame2048.setVisibility(View.VISIBLE);
                     txtendScore.setText("" + Game2048.getDataGame().getScore());
-                    gameOver = false;
+                    checkScore();
+                    gameOver = true;
+                    isPlayGame = false;
                 } else {
                     txtScore.setText("" + Game2048.getDataGame().getScore());
                 }
@@ -133,6 +135,7 @@ public class Game2048Activity extends AppCompatActivity {
                     @Override
                     public void onFinish() {
                         setContentView(R.layout.activity_game2048_home);
+                        allowBack = true;
                     }
                 }.start();
             }
@@ -158,6 +161,20 @@ public class Game2048Activity extends AppCompatActivity {
                 setContentView(R.layout.activity_game2048_home);
             }
         });
+    }
+
+    private void checkScore(){
+        Score currentScore = scoreRepository.getScoreForUpdate(1, Contants.User.getId(), Contants._2048Level.getId());
+        if(currentScore == null){
+            currentScore = new Score(Contants._2048Level.getId(),1, Contants.User.getId(), Game2048.getDataGame().getScore(), false);
+            scoreRepository.add(currentScore);
+        } else {
+            if(currentScore.getScore() < Game2048.getDataGame().getScore()){
+                currentScore.setScore(Game2048.getDataGame().getScore());
+                currentScore.setUpload(false);
+                scoreRepository.update(currentScore);
+            }
+        }
     }
 
     public void viewScore(View view){

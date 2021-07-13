@@ -60,6 +60,18 @@ public class ScoreRepository implements CommonRepository<Score> {
         return scores;
     }
 
+    public Score getScoreForUpdate(int gameId, int userId, int levelId){
+        Score score = null;
+        Cursor cursor = database.rawQuery("SELECT score FROM score WHERE gameId = ? AND userId = ? AND levelId = ?"
+                , new String[]{gameId+"", userId+"", levelId+""});
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            score = new Score(gameId,userId,levelId,cursor.getInt(0));
+        }
+        cursor.close();
+        return score;
+    }
+
     public boolean add(Score score){
         try {
             ContentValues contentValues = convertToValue(score);

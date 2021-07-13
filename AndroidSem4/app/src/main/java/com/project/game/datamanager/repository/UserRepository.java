@@ -22,10 +22,10 @@ public class UserRepository implements CommonRepository<User> {
     }
 
     public User getUser(int userID){
-        Cursor cursor = database.rawQuery("SELECT name FROM user where id = ?",new String[]{userID+""});
+        Cursor cursor = database.rawQuery("SELECT name,avatar FROM user where id = ?",new String[]{userID+""});
         if(cursor.getCount() > 0){
             cursor.moveToFirst();
-            User user = new User(userID, cursor.getString(0), "");
+            User user = new User(userID, cursor.getString(0), "",cursor.getInt(1));
             user.setAchievements(achievementRepository.get(userID));
             return user;
         }
@@ -33,10 +33,10 @@ public class UserRepository implements CommonRepository<User> {
     }
 
     public User getUser(String accessToken){
-        Cursor cursor = database.rawQuery("SELECT id,name FROM user where accessToken = ?",new String[]{accessToken});
+        Cursor cursor = database.rawQuery("SELECT id,name,avatar FROM user where accessToken = ?",new String[]{accessToken});
         if(cursor.getCount() > 0){
             cursor.moveToFirst();
-            User user = new User(cursor.getInt(0), cursor.getString(1), accessToken);
+            User user = new User(cursor.getInt(0), cursor.getString(1), accessToken,cursor.getInt(2));
             user.setAchievements(achievementRepository.get(user.getId()));
             return user;
         }

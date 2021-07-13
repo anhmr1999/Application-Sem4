@@ -137,7 +137,8 @@ class InitTable{
     public static String User = "CREATE TABLE user (\n" +
             "\tid INTEGER NOT NULL PRIMARY KEY,\n" +
             "\tname nvarchar(250) NOT NULL,\n" +
-            "\taccessToken nvarchar(250)\n" +
+            "\taccessToken nvarchar(250),\n" +
+            "\tavatar INTEGER\n" +
             ");";
 
     public static String Score = "CREATE TABLE score (\n" +
@@ -190,13 +191,13 @@ class InitData{
 
     public static List<User> User(){
         List<User> Users = new ArrayList<>();
-        Users.add(new User(1, "Tom Hiddleston",""));
-        Users.add(new User(2, "Alethea",""));
-        Users.add(new User(3, "Eudora",""));
-        Users.add(new User(4, "Griselda",""));
-        Users.add(new User(5, "Magnus",""));
-        Users.add(new User(6, "Calantha",""));
-        Users.add(new User(7, "Jocasta ",""));
+        Users.add(new User(1, "Tom Hiddleston","",1));
+        Users.add(new User(2, "Alethea","",2));
+        Users.add(new User(3, "Eudora","",3));
+        Users.add(new User(4, "Griselda","",4));
+        Users.add(new User(5, "Magnus","",4));
+        Users.add(new User(6, "Calantha","",3));
+        Users.add(new User(7, "Jocasta ","",1));
         return Users;
     }
 

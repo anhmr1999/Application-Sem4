@@ -15,7 +15,17 @@ namespace GameOfflineApi.Controllers
 
         public JsonResult GetScore()
         {
-            var result = context.Scores.Select(x => new Models.ViewModel.Score() { gameId = x.GameId, levelId = x.LevelId, userId = x.UserId, score = x.Point });
+            var result = context.Scores.Select(x => new Models.ViewModel.Score() { 
+                gameId = x.GameId, 
+                levelId = x.LevelId, 
+                userId = x.UserId, 
+                score = x.Point, 
+                User = new Models.ViewModel.User() {  
+                    name = x.User.Name,
+                    id = x.User.Id,
+                    avatar = x.User.Avatar
+                } 
+            });
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -62,16 +72,16 @@ namespace GameOfflineApi.Controllers
         }
 
         [HttpPost]
-        public JsonResult LoginUser(string Token, string name="")
+        public JsonResult LoginUser(string Token="", string name="", int avatar = 1)
         {
-            var loginUser = context.Users.FirstOrDefault(x => x.AccessToken == Token);
+            var loginUser = !string.IsNullOrEmpty(Token) ? context.Users.FirstOrDefault(x => x.AccessToken == Token) : null;
             if (loginUser == null)
             {
                 context.Users.Add(new User()
                 {
-                    Name = string.IsNullOrEmpty(name) ? "New Player" : name,
+                    Name = string.IsNullOrEmpty(name) ? "G"+DateTime.Now.Millisecond : name,
                     AccessToken = Token,
-                    Avatar = 1,
+                    Avatar = avatar,
                 });
                 context.SaveChanges();
                 loginUser = context.Users.FirstOrDefault(x => x.AccessToken == Token);

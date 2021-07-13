@@ -11,5 +11,6 @@ namespace GameOfflineApi.Models.ViewModel
         public int gameId { get; set; }
         public int levelId { get; set; }
         public int score { get; set; }
+        public User User { get; set; }
     }
 }

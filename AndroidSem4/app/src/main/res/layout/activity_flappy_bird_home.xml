@@ -33,7 +33,9 @@
             android:layout_centerInParent="true"
             android:text="play"
             android:onClick="PlayFlappyBird"
-            android:textSize="25dp"/>
+            android:textSize="25dp"
+            android:background="@drawable/common_bg_button"
+            android:layout_marginBottom="8dp"/>
 
         <Button
             android:layout_width="match_parent"
@@ -41,7 +43,9 @@
             android:layout_centerInParent="true"
             android:text="Level"
             android:textSize="25dp"
-            android:onClick="ChangeLevel"/>
+            android:onClick="ChangeLevel"
+            android:background="@drawable/common_bg_button"
+            android:layout_marginBottom="8dp"/>
 
         <Button
             android:layout_width="match_parent"
@@ -49,14 +53,17 @@
             android:layout_centerInParent="true"
             android:text="High Score"
             android:onClick="viewScore"
-            android:textSize="25dp"/>
+            android:textSize="25dp"
+            android:background="@drawable/common_bg_button"
+            android:layout_marginBottom="8dp"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="manual"
-            android:textSize="25dp"/>
+            android:textSize="25dp"
+            android:background="@drawable/common_bg_button"/>
 
     </LinearLayout>
 

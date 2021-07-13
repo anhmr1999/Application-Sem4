@@ -22,7 +22,6 @@ import com.project.game.adapter.ScoreModel;
 import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.LevelHardRepository;
 import com.project.game.datamanager.repository.ScoreRepository;
-import com.project.game.datamanager.services.ScoreService;
 import com.project.game.entity.Score;
 import com.project.game.gamecontroll.FlappyBird;
 
@@ -37,7 +36,7 @@ public class FlappyBirdActivity extends AppCompatActivity {
     private LevelHardRepository levelHardRepository;
     private SharedPreferences sp;
     private int levelId;
-    private boolean allowBack, isPlaygame;
+    public static boolean allowBack, isPlaygame;
     private ScoreRepository scoreRepository;
 
     @Override
@@ -85,6 +84,7 @@ public class FlappyBirdActivity extends AppCompatActivity {
                     @Override
                     public void onFinish() {
                         setContentView(R.layout.activity_flappy_bird_home);
+                        allowBack = true;
                     }
                 }.start();
             }
@@ -165,6 +165,8 @@ public class FlappyBirdActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Log.e("Isplay", isPlaygame+"");
+
         if(allowBack){
             super.onBackPressed();
         } else {

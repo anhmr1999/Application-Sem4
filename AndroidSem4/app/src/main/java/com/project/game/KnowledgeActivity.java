@@ -34,12 +34,11 @@ public class KnowledgeActivity extends AppCompatActivity {
     public static ListView lst_answer;
     public static RelativeLayout GameKnowLedgeOver;
     private LevelHardRepository levelHardRepository;
-    private AdapterView.OnItemClickListener itemClickListener;
     private SharedPreferences sp;
     public static AchievementDialog dialog;
     private int levelId;
     private ScoreRepository scoreRepository;
-    private boolean allowBack, isPlayGame, gameOver;
+    public static boolean allowBack, isPlayGame, gameOver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,55 +76,6 @@ public class KnowledgeActivity extends AppCompatActivity {
         lst_answer = findViewById(R.id.lst_answer);
         GameKnowLedgeOver = findViewById(R.id.GameKnowLedgeOver);
         Knowledge.getDataGame().changeQuestion();
-        itemClickListener = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                lst_answer.getChildAt(position).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_choose);
-                Knowledge.getDataGame().stopCountDown();
-                KnowledgeActivity.lst_answer.setOnItemClickListener(null);
-
-                new CountDownTimer(2000,100){
-
-                    @Override
-                    public void onTick(long millisUntilFinished) {}
-
-                    @Override
-                    public void onFinish() {
-                        if(((Answer)lst_answer.getItemAtPosition(position)).isCorrect()){
-                            lst_answer.getChildAt(position).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_true);
-                            new CountDownTimer(1000, 100) {
-                                @Override
-                                public void onTick(long l) {}
-
-                                @Override
-                                public void onFinish() {
-                                    Knowledge.getDataGame().CorrectAnswer();
-                                    Knowledge.getDataGame().changeQuestion();
-                                }
-                            }.start();
-                        } else {
-                            lst_answer.getChildAt(position).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_danger);
-                            for (int i = 0; i< KnowledgeActivity.lst_answer.getChildCount(); i++){
-                                if(((Answer)lst_answer.getItemAtPosition(i)).isCorrect()){
-                                    lst_answer.getChildAt(i).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_true);
-                                }
-                            }
-                            new CountDownTimer(1000, 100) {
-                                @Override
-                                public void onTick(long l) {}
-
-                                @Override
-                                public void onFinish() {
-                                    Knowledge.getDataGame().EndGame();
-                                    gameOver = true;
-                                }
-                            }.start();
-                        }
-                    }
-                }.start();
-            }
-        };
-        KnowledgeActivity.lst_answer.setOnItemClickListener(itemClickListener);
     }
 
     public void ContinueGame(View view){
@@ -139,6 +89,7 @@ public class KnowledgeActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 setContentView(R.layout.activity_knowledge_home);
+                allowBack = true;
             }
         }.start();
     }

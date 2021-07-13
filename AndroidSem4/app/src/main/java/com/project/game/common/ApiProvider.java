@@ -1,4 +1,4 @@
-package com.project.game.datamanager;
+package com.project.game.common;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,7 +35,7 @@ public interface ApiProvider {
     Call<List<Question>> GetQuestion(@Query("lastId") int lastId);
 
     @POST("LoginUser")
-    Call<User> LoginUser(@Query("Token") String Token, @Query("name") String name);
+    Call<User> LoginUser(@Query("Token") String Token, @Query("name") String name, @Query("avatar") int avatar);
 
     @POST("UpdateScore")
     Call<Boolean> UpdateScore(@Body List<Score> scores);

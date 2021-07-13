@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.project.game.KnowledgeActivity;
@@ -11,8 +12,10 @@ import com.project.game.R;
 import com.project.game.adapter.AnswerAdapter;
 import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.QuestionRepository;
+import com.project.game.datamanager.repository.ScoreRepository;
 import com.project.game.entity.Answer;
 import com.project.game.entity.Question;
+import com.project.game.entity.Score;
 
 import java.util.List;
 import java.util.Random;
@@ -25,6 +28,8 @@ public class Knowledge {
     private int score = 0,timer;;
     private Random random;
     CountDownTimer countDown;
+    private ScoreRepository scoreRepository;
+    private AdapterView.OnItemClickListener itemClickListener;
 
     static {knowledge = new Knowledge();}
 
@@ -33,6 +38,7 @@ public class Knowledge {
     }
 
     public void init(Context context){
+        scoreRepository = new ScoreRepository(context);
         random = new Random();
         score = 0;
         repository = new QuestionRepository(context);
@@ -43,6 +49,55 @@ public class Knowledge {
         } else {
             timer = 11000;
         }
+        itemClickListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                KnowledgeActivity.lst_answer.getChildAt(position).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_choose);
+                stopCountDown();
+                KnowledgeActivity.lst_answer.setOnItemClickListener(null);
+
+                new CountDownTimer(2000,100){
+
+                    @Override
+                    public void onTick(long millisUntilFinished) {}
+
+                    @Override
+                    public void onFinish() {
+                        if(((Answer)KnowledgeActivity.lst_answer.getItemAtPosition(position)).isCorrect()){
+                            KnowledgeActivity.lst_answer.getChildAt(position).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_true);
+                            new CountDownTimer(1000, 100) {
+                                @Override
+                                public void onTick(long l) {}
+
+                                @Override
+                                public void onFinish() {
+                                    CorrectAnswer();
+                                    changeQuestion();
+                                }
+                            }.start();
+                        } else {
+                            KnowledgeActivity.lst_answer.getChildAt(position).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_danger);
+                            for (int i = 0; i< KnowledgeActivity.lst_answer.getChildCount(); i++){
+                                if(((Answer)KnowledgeActivity.lst_answer.getItemAtPosition(i)).isCorrect()){
+                                    KnowledgeActivity.lst_answer.getChildAt(i).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_true);
+                                }
+                            }
+                            new CountDownTimer(1000, 100) {
+                                @Override
+                                public void onTick(long l) {}
+
+                                @Override
+                                public void onFinish() {
+                                    EndGame();
+                                    KnowledgeActivity.gameOver = true;
+                                    KnowledgeActivity.isPlayGame = false;
+                                }
+                            }.start();
+                        }
+                    }
+                }.start();
+            }
+        };
         getQuestion();
     }
 
@@ -58,6 +113,7 @@ public class Knowledge {
         KnowledgeActivity.txt_Question.setText(question.getContent());
         answers = question.getAnswers();
         KnowledgeActivity.lst_answer.setAdapter(new AnswerAdapter(question.getAnswers()));
+        KnowledgeActivity.lst_answer.setOnItemClickListener(itemClickListener);
         setTimer();
     }
 
@@ -100,6 +156,17 @@ public class Knowledge {
     public void EndGame() {
         KnowledgeActivity.txt_EndCore.setText(""+score);
         KnowledgeActivity.GameKnowLedgeOver.setVisibility(View.VISIBLE);
+        Score currentScore = scoreRepository.getScoreForUpdate(3, Contants.User.getId(), Contants.knowLevel.getId());
+        if(currentScore == null){
+            currentScore = new Score(Contants.knowLevel.getId(), 3, Contants.User.getId(), score, false);
+            scoreRepository.add(currentScore);
+        } else {
+            if(currentScore.getScore() < score){
+                currentScore.setScore(score);
+                currentScore.setUpload(false);
+                scoreRepository.update(currentScore);
+            }
+        }
     }
 
     public void use5050(){
