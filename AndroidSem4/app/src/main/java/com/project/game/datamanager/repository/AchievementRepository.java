@@ -100,6 +100,25 @@ public class AchievementRepository implements CommonRepository<Achievement> {
         return achievement;
     }
 
+    public int getLastId(){
+        Cursor cursor = database.rawQuery("SELECT MAX(id)  FROM achievement", null);
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            return cursor.getInt(0);
+        }
+        return 0;
+    }
+
+    public boolean addAchievement(Achievement achievement){
+        try {
+            ContentValues values = convertToValue(achievement);
+            database.insert("answer", null, values);
+            return true;
+        } catch (Exception ex){
+            return false;
+        }
+    }
+
     @Override
     public ContentValues convertToValue(Achievement entity) {
         ContentValues contentValues = new ContentValues();

@@ -27,6 +27,26 @@ public class ScoreRepository implements CommonRepository<Score> {
         levelHardRepository = new LevelHardRepository(context);
     }
 
+    public List<Score> GetScore(){
+        List<Score> scores = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT gameId,levelId,userId,score FROM score", null);
+        if(cursor.getCount() > 0){
+            while (cursor.moveToNext()){
+                int gameId = cursor.getInt(0);
+                int levelId = cursor.getInt(1);
+                int userId = cursor.getInt(2);
+                int scoreNumber = cursor.getInt(3);
+                Score score = new Score(gameId,userId,levelId,scoreNumber);
+                score.setUser(userRepository.getUser(userId));
+                score.setLevelHard(levelHardRepository.getLevel(levelId));
+                scores.add(score);
+            }
+        }
+
+        cursor.close();
+        return scores;
+    }
+
     public List<Score> GetScore(int gameId){
         List<Score> scores = new ArrayList<>();
         Cursor cursor = database.rawQuery("SELECT gameId,levelId,userId,score FROM score WHERE gameId = ?", new String[]{gameId+""});
@@ -58,6 +78,27 @@ public class ScoreRepository implements CommonRepository<Score> {
         }
         cursor.close();
         return scores;
+    }
+
+    public List<Score> getListScoreUpload() {
+        List<Score> scores = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT score,gameId, levelId,userId FROM score WHERE isUpload = 0", null);
+        if(cursor.getCount() > 0){
+            while (cursor.moveToNext()){
+                int scoreNumber = cursor.getInt(0);
+                int gameId = cursor.getInt(1);
+                int levelId = cursor.getInt(2);
+                int userId = cursor.getInt(3);
+                Score score = new Score(gameId,userId,levelId,scoreNumber);
+                scores.add(score);
+            }
+        }
+        cursor.close();
+        return scores;
+    }
+
+    public void UploadSuccess(){
+        database.execSQL("UPDATE score SET isUpload = 1");
     }
 
     public Score getScoreForUpdate(int gameId, int userId, int levelId){

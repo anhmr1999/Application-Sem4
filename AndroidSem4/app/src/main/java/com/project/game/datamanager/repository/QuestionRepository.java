@@ -61,6 +61,15 @@ public class QuestionRepository implements CommonRepository<Question> {
         return true;
     }
 
+    public int getLastId() {
+        Cursor cursor = database.rawQuery("SELECT MAX(id)  FROM question", null);
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            return cursor.getInt(0);
+        }
+        return 0;
+    }
+
     @Override
     public ContentValues convertToValue(Question entity) {
         ContentValues content = new ContentValues();

@@ -38,6 +38,7 @@ public class FlappyBirdActivity extends AppCompatActivity {
     private int levelId;
     public static boolean allowBack, isPlaygame;
     private ScoreRepository scoreRepository;
+    private RelativeLayout flashScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,9 @@ public class FlappyBirdActivity extends AppCompatActivity {
         allowBack = true;
         isPlaygame = false;
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_flappy_bird_home);
+        flashScreen = findViewById(R.id.flashScreen);
         levelHardRepository = new LevelHardRepository(FlappyBirdActivity.this);
         scoreRepository = new ScoreRepository(FlappyBirdActivity.this);
         sp = FlappyBirdActivity.this.getSharedPreferences("flappyBirdSetting", Context.MODE_PRIVATE);
@@ -93,24 +96,37 @@ public class FlappyBirdActivity extends AppCompatActivity {
 
     public void ChangeLevel(View view){
         allowBack = false;
-        setContentView(R.layout.activity_level);
-        findViewById(R.id.levelLayout).setBackgroundResource(R.drawable.flappy_bird_backgroup);
-        ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(), levelId));
-        ((ListView)findViewById(R.id.Lst_Level)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        flashScreen.setVisibility(View.VISIBLE);
+        new CountDownTimer(500, 100) {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                levelId = (int) ((ListView) findViewById(R.id.Lst_Level)).getAdapter().getItemId(position);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putInt("levelId",levelId);
-                editor.apply();
-                Contants.flappyBirdLevel = levelHardRepository.getLevel(levelId);
-                setContentView(R.layout.activity_flappy_bird_home);
+            public void onTick(long millisUntilFinished) {
+
             }
-        });
+
+            @Override
+            public void onFinish() {
+                flashScreen.setVisibility(View.INVISIBLE);
+                setContentView(R.layout.activity_level);
+                findViewById(R.id.levelLayout).setBackgroundResource(R.drawable.flappy_bird_backgroup);
+                ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(), levelId));
+                ((ListView)findViewById(R.id.Lst_Level)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        levelId = (int) ((ListView) findViewById(R.id.Lst_Level)).getAdapter().getItemId(position);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putInt("levelId",levelId);
+                        editor.apply();
+                        Contants.flappyBirdLevel = levelHardRepository.getLevel(levelId);
+                        setContentView(R.layout.activity_flappy_bird_home);
+                    }
+                });
+            }
+        }.start();
     }
 
     public void viewScore(View view){
         allowBack = false;
+        flashScreen.setVisibility(View.VISIBLE);
         List<ScoreModel> scoreModels = new ArrayList<>();
         for (Score score : scoreRepository.GetScore(1)) {
             boolean checkHas = false;
@@ -139,24 +155,35 @@ public class FlappyBirdActivity extends AppCompatActivity {
                 scoreModels.add(model);
             }
         }
-        setContentView(R.layout.activity_highscore);
-        if(Contants.User != null){
-            for ( Score score:scoreRepository.getScoreForUser(1,Contants.User.getId())) {
-                if(score.getLevelHard().getName().toLowerCase().equals("easy")){
-                    ((TextView) findViewById(R.id.yourEasyScore)).setText(""+score.getScore());
-                } else if(score.getLevelHard().getName().toLowerCase().equals("normal")){
-                    ((TextView) findViewById(R.id.yourNormalScore)).setText(""+score.getScore());
-                } else {
-                    ((TextView) findViewById(R.id.yourDifficultScore)).setText(""+score.getScore());
-                }
+        new CountDownTimer(500, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
             }
-        }
-        findViewById(R.id.highScoreLayout).setBackgroundResource(R.drawable.flappy_bird_backgroup);
-        ((ListView) findViewById(R.id.Lst_HighScore)).setAdapter(new ScoreAdapter(scoreModels));
+
+            @Override
+            public void onFinish() {
+                setContentView(R.layout.activity_highscore);
+                if(Contants.User != null){
+                    for ( Score score:scoreRepository.getScoreForUser(1,Contants.User.getId())) {
+                        if(score.getLevelHard().getName().toLowerCase().equals("easy")){
+                            ((TextView) findViewById(R.id.yourEasyScore)).setText(""+score.getScore());
+                        } else if(score.getLevelHard().getName().toLowerCase().equals("normal")){
+                            ((TextView) findViewById(R.id.yourNormalScore)).setText(""+score.getScore());
+                        } else {
+                            ((TextView) findViewById(R.id.yourDifficultScore)).setText(""+score.getScore());
+                        }
+                    }
+                }
+                findViewById(R.id.highScoreLayout).setBackgroundResource(R.drawable.flappy_bird_backgroup);
+                ((ListView) findViewById(R.id.Lst_HighScore)).setAdapter(new ScoreAdapter(scoreModels));
+            }
+        }.start();
     }
 
     public void BackToHome(View view){
         setContentView(R.layout.activity_flappy_bird_home);
+        flashScreen = findViewById(R.id.flashScreen);
     }
 
     public void BackToMainActivity(View view){
@@ -165,8 +192,6 @@ public class FlappyBirdActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Log.e("Isplay", isPlaygame+"");
-
         if(allowBack){
             super.onBackPressed();
         } else {

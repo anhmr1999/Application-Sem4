@@ -166,7 +166,7 @@ class InitTable{
     public static String UserAchievement = "CREATE TABLE userachievement (\n" +
             "\tuserId INTEGER NOT NULL,\n" +
             "\tachievementId INTEGER, \n" +
-            "\tisUpload bit NOT NULL default 1,\n" +
+            "\tisUpload bit NOT NULL default 0,\n" +
             "FOREIGN KEY(achievementId) REFERENCES achievement(id),\n" +
             "FOREIGN KEY(userId) REFERENCES user(id)" +
             ");";

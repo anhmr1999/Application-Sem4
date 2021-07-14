@@ -55,4 +55,32 @@ public class UserAchievementRepository {
         }
         return true;
     }
+
+    public boolean add(int UserId, int AchievementId){
+        try{
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("userId", UserId);
+            contentValues.put("achievementId", AchievementId);
+            database.insert("userachievement", null, contentValues);
+        } catch (Exception ex){
+            return false;
+        }
+        return true;
+    }
+
+    public List<Integer> getListScoreForUpload() {
+        List<Integer> result = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT achievementId FROM userachievement WHERE isUpload = 0",null);
+        if(cursor.getCount() > 0 ){
+            while (cursor.moveToNext()){
+                result.add(cursor.getInt(0));
+            }
+        }
+        cursor.close();
+        return result;
+    }
+
+    public void UploadSuccess() {
+        database.execSQL("UPDATE userachievement SET isUpload=1");
+    }
 }
