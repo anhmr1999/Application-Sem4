@@ -73,6 +73,7 @@ public class ScoreRepository implements CommonRepository<Score> {
         if(cursor.getCount() > 0){
             while (cursor.moveToNext()){
                 Score score = new Score(gameId,userId,cursor.getInt(1),cursor.getInt(0));
+                score.setLevelHard(levelHardRepository.getLevel(score.getLevelHardId()));
                 scores.add(score);
             }
         }

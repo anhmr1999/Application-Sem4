@@ -39,6 +39,7 @@ public class KnowledgeActivity extends AppCompatActivity {
     private int levelId;
     private ScoreRepository scoreRepository;
     public static boolean allowBack, isPlayGame, gameOver;
+    private RelativeLayout flashScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class KnowledgeActivity extends AppCompatActivity {
         isPlayGame = gameOver = false;
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_knowledge_home);
+        flashScreen = findViewById(R.id.flashScreen);
         levelHardRepository = new LevelHardRepository(KnowledgeActivity.this);
         scoreRepository = new ScoreRepository(KnowledgeActivity.this);
         sp = KnowledgeActivity.this.getSharedPreferences("knowLedgeSetting", Context.MODE_PRIVATE);
@@ -89,6 +91,7 @@ public class KnowledgeActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 setContentView(R.layout.activity_knowledge_home);
+                flashScreen = findViewById(R.id.flashScreen);
                 allowBack = true;
             }
         }.start();
@@ -110,23 +113,40 @@ public class KnowledgeActivity extends AppCompatActivity {
     }
 
     public void ChangeLevel(View view){
-        setContentView(R.layout.activity_level);
-        findViewById(R.id.levelLayout).setBackgroundResource(R.drawable.knowledge_background);
-        ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(), levelId));
-        ((ListView)findViewById(R.id.Lst_Level)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        flashScreen.setVisibility(View.VISIBLE);
+        allowBack = false;
+        new CountDownTimer(500, 100) {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                levelId = (int) ((ListView) findViewById(R.id.Lst_Level)).getAdapter().getItemId(position);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putInt("levelId",levelId);
-                editor.apply();
-                Contants.knowLevel = levelHardRepository.getLevel(levelId);
-                setContentView(R.layout.activity_knowledge_home);
+            public void onTick(long millisUntilFinished) {
+
             }
-        });
+
+            @Override
+            public void onFinish() {
+                flashScreen.setVisibility(View.INVISIBLE);
+                setContentView(R.layout.activity_level);
+                findViewById(R.id.levelLayout).setBackgroundResource(R.drawable.knowledge_background);
+                ((ListView)findViewById(R.id.Lst_Level)).setAdapter(new LevelAdapter(levelHardRepository.getLevelGame(), levelId));
+                ((ListView)findViewById(R.id.Lst_Level)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        levelId = (int) ((ListView) findViewById(R.id.Lst_Level)).getAdapter().getItemId(position);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putInt("levelId",levelId);
+                        editor.apply();
+                        Contants.knowLevel = levelHardRepository.getLevel(levelId);
+                        setContentView(R.layout.activity_knowledge_home);
+                        flashScreen = findViewById(R.id.flashScreen);
+                        allowBack = false;
+                    }
+                });
+            }
+        }.start();
     }
 
     public void viewScore(View view){
+        flashScreen.setVisibility(View.VISIBLE);
+        allowBack = false;
         List<ScoreModel> scoreModels = new ArrayList<>();
         for (Score score : scoreRepository.GetScore(3)) {
             boolean checkHas = false;
@@ -155,28 +175,54 @@ public class KnowledgeActivity extends AppCompatActivity {
                 scoreModels.add(model);
             }
         }
-        setContentView(R.layout.activity_highscore);
-        if(Contants.User != null){
-            for ( Score score:scoreRepository.getScoreForUser(3,Contants.User.getId())) {
-                if(score.getLevelHard().getName().toLowerCase().equals("easy")){
-                    ((TextView) findViewById(R.id.yourEasyScore)).setText(""+score.getScore());
-                } else if(score.getLevelHard().getName().toLowerCase().equals("normal")){
-                    ((TextView) findViewById(R.id.yourNormalScore)).setText(""+score.getScore());
-                } else {
-                    ((TextView) findViewById(R.id.yourDifficultScore)).setText(""+score.getScore());
-                }
+        new CountDownTimer(500, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
             }
-        }
-        findViewById(R.id.highScoreLayout).setBackgroundResource(R.drawable.knowledge_background);
-        ((ListView) findViewById(R.id.Lst_HighScore)).setAdapter(new ScoreAdapter(scoreModels));
+
+            @Override
+            public void onFinish() {
+                flashScreen.setVisibility(View.INVISIBLE);
+                setContentView(R.layout.activity_highscore);
+                if(Contants.User != null){
+                    for ( Score score:scoreRepository.getScoreForUser(3,Contants.User.getId())) {
+                        if(score.getLevelHard().getName().toLowerCase().equals("easy")){
+                            ((TextView) findViewById(R.id.yourEasyScore)).setText(""+score.getScore());
+                        } else if(score.getLevelHard().getName().toLowerCase().equals("normal")){
+                            ((TextView) findViewById(R.id.yourNormalScore)).setText(""+score.getScore());
+                        } else {
+                            ((TextView) findViewById(R.id.yourDifficultScore)).setText(""+score.getScore());
+                        }
+                    }
+                }
+                findViewById(R.id.highScoreLayout).setBackgroundResource(R.drawable.knowledge_background);
+                ((ListView) findViewById(R.id.Lst_HighScore)).setAdapter(new ScoreAdapter(scoreModels));
+            }
+        }.start();
     }
 
     public void BackToHome(View view){
         setContentView(R.layout.activity_knowledge_home);
+        flashScreen = findViewById(R.id.flashScreen);
+        allowBack= true;
     }
 
     public void showQuestionManager(View view){
-        setContentView(R.layout.activity_question_manager);
+        flashScreen.setVisibility(View.VISIBLE);
+        allowBack = false;
+        new CountDownTimer(500, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                flashScreen.setVisibility(View.INVISIBLE);
+                setContentView(R.layout.activity_question_manager);
+            }
+        }.start();
     }
 
     public void BackToMainActivity(View view){
@@ -191,6 +237,7 @@ public class KnowledgeActivity extends AppCompatActivity {
             if(isPlayGame){
                 if(gameOver){
                     setContentView(R.layout.activity_knowledge_home);
+                    flashScreen = findViewById(R.id.flashScreen);
                     allowBack = !allowBack;
                 } else {
                     Knowledge.getDataGame().EndGame();
@@ -198,6 +245,7 @@ public class KnowledgeActivity extends AppCompatActivity {
                 }
             } else {
                 setContentView(R.layout.activity_knowledge_home);
+                flashScreen = findViewById(R.id.flashScreen);
                 allowBack = !allowBack;
             }
         }

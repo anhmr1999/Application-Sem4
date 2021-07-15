@@ -87,6 +87,7 @@ public class FlappyBirdActivity extends AppCompatActivity {
                     @Override
                     public void onFinish() {
                         setContentView(R.layout.activity_flappy_bird_home);
+                        flashScreen = findViewById(R.id.flashScreen);
                         allowBack = true;
                     }
                 }.start();
@@ -118,6 +119,7 @@ public class FlappyBirdActivity extends AppCompatActivity {
                         editor.apply();
                         Contants.flappyBirdLevel = levelHardRepository.getLevel(levelId);
                         setContentView(R.layout.activity_flappy_bird_home);
+                        flashScreen = findViewById(R.id.flashScreen);
                     }
                 });
             }
@@ -198,11 +200,13 @@ public class FlappyBirdActivity extends AppCompatActivity {
             if(isPlaygame){
                 if(FlappyBird.gameover){
                     setContentView(R.layout.activity_flappy_bird_home);
+                    flashScreen = findViewById(R.id.flashScreen);
                     allowBack = !allowBack;
                 }
                 FlappyBird.gameover = true;
             } else {
                 setContentView(R.layout.activity_flappy_bird_home);
+                flashScreen = findViewById(R.id.flashScreen);
                 allowBack = !allowBack;
             }
         }
