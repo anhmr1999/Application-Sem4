@@ -12,4 +12,11 @@
     <string name="easy">Easy</string>
     <string name="normal">Normal</string>
     <string name="difficult">Difficult</string>
+
+    <string name="edit_profile">Edit Profile</string>
+    <string name="music_on">Music: On</string>
+    <string name="music_off">Music: Off</string>
+    <string name="languege_en">Language: En</string>
+    <string name="languege_vi">Language: Vi</string>
+    <string name="logout">Logout</string>
 </resources>

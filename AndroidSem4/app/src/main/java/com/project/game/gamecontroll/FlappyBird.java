@@ -11,7 +11,6 @@ import android.media.SoundPool;
 import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -19,7 +18,6 @@ import androidx.annotation.Nullable;
 
 import com.project.game.FlappyBirdActivity;
 import com.project.game.R;
-import com.project.game.adapter.AchievementAdapter;
 import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.AchievementRepository;
 import com.project.game.datamanager.repository.ScoreRepository;

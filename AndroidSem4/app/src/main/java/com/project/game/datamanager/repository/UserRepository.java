@@ -71,4 +71,13 @@ public class UserRepository implements CommonRepository<User> {
         content.put("accessToken",entity.getAccessToken());
         return content;
     }
+
+    public void logout() {
+        String removeScore = "DELETE FROM score WHERE userId = 0 ";
+        String removeAchievement = "DELETE FROM score WHERE userId = 0";
+        String removeUser = "DELETE FROM score WHERE userId = 0";
+        database.execSQL(removeScore);
+        database.execSQL(removeAchievement);
+        database.execSQL(removeUser);
+    }
 }

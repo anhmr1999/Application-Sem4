@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -14,16 +13,14 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.project.game.adapter.AchievementDialog;
-import com.project.game.adapter.LevelAdapter;
-import com.project.game.adapter.ScoreAdapter;
-import com.project.game.adapter.ScoreModel;
+import com.project.game.component.AchievementDialog;
+import com.project.game.component.LevelAdapter;
+import com.project.game.component.ScoreAdapter;
+import com.project.game.component.ScoreModel;
 import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.LevelHardRepository;
 import com.project.game.datamanager.repository.ScoreRepository;
-import com.project.game.entity.Answer;
 import com.project.game.entity.Score;
-import com.project.game.gamecontroll.Game2048;
 import com.project.game.gamecontroll.Knowledge;
 
 import java.util.ArrayList;

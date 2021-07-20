@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,19 +17,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
-import com.project.game.adapter.UserSettingDialog;
+import com.project.game.component.UserSettingDialog;
 import com.project.game.common.ApiProviderImpl;
 import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.UserRepository;
 
-import org.w3c.dom.Text;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private UserRepository userRepository;
     private SharedPreferences sp;
     public static ImageView userAvatar;
     public static TextView userName;
-    private RelativeLayout flasshScreen;
+    private RelativeLayout flashScreen;
     private boolean currentIsMain;
 
     @Override
@@ -44,8 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
         sp = MainActivity.this.getSharedPreferences("CommonSetting", Context.MODE_PRIVATE);
         Contants.Music = sp.getBoolean("Music",true);
+        Contants.localeKey = sp.getString("LanguageKey","en");
 
         changeMainActivity();
+        changeLanguage();
 
         /*FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ToFlappyBird(View view){
-        flasshScreen.setVisibility(View.VISIBLE);
+        flashScreen.setVisibility(View.VISIBLE);
         new CountDownTimer(500, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                flasshScreen.setVisibility(View.INVISIBLE);
+                flashScreen.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(MainActivity.this, FlappyBirdActivity.class);
                 startActivity(intent);
             }
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ToGame2048(View view){
-        flasshScreen.setVisibility(View.VISIBLE);
+        flashScreen.setVisibility(View.VISIBLE);
         new CountDownTimer(500, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                flasshScreen.setVisibility(View.INVISIBLE);
+                flashScreen.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(MainActivity.this, Game2048Activity.class);
                 startActivity(intent);
             }
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ToKnowledge(View view){
-        flasshScreen.setVisibility(View.VISIBLE);
+        flashScreen.setVisibility(View.VISIBLE);
         new CountDownTimer(500, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                flasshScreen.setVisibility(View.INVISIBLE);
+                flashScreen.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(MainActivity.this, KnowledgeActivity.class);
                 startActivity(intent);
             }
@@ -137,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ToSetting(View view){
-        flasshScreen.setVisibility(View.VISIBLE);
+        flashScreen.setVisibility(View.VISIBLE);
         new CountDownTimer(500, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -146,19 +148,20 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                flasshScreen.setVisibility(View.INVISIBLE);
+                flashScreen.setVisibility(View.INVISIBLE);
                 currentIsMain = false;
                 setContentView(R.layout.activity_setting);
-                ((TextView)findViewById(R.id.MusicSetting)).setText("MUSIC: " + (Contants.Music?"ON":"OFF"));
+                ((TextView)findViewById(R.id.MusicSetting)).setText(Contants.Music? R.string.music_on : R.string.music_off);
+                ((TextView)findViewById(R.id.LanguageSetting)).setText(Contants.localeKey=="vi"? R.string.languege_vi : R.string.languege_en);
             }
         }.start();
     }
 
     public void SettingChangeMusic(View view){
         if(Contants.Music){
-            ((Button)view).setText("MUSIC: OFF");
+            ((Button)view).setText(R.string.music_off);
         } else {
-            ((Button)view).setText("MUSIC: ON");
+            ((Button)view).setText(R.string.music_on);
         }
         saveMusic();
     }
@@ -168,11 +171,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void SettingChangeLanguage(View view){
+        if(Contants.localeKey == "vi"){
+            Contants.localeKey = "en";
+        } else {
+            Contants.localeKey = "vi";
+        }
 
+        if(sp == null){
+            sp = MainActivity.this.getSharedPreferences("CommonSetting", Context.MODE_PRIVATE);
+        }
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("LanguageKey",Contants.localeKey);
+        editor.apply();
+
+        changeLanguage();
+        flashScreen = findViewById(R.id.flashScreen);
+        flashScreen.setVisibility(View.VISIBLE);
+        new CountDownTimer(1000, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                changeMainActivity();
+            }
+        }.start();
     }
 
     public void Logout(View view){
-
+        if(Contants.User.getId() == 0){
+            userRepository.logout();
+        }
+        changeMainActivity();
     }
 
     public void SettingChangeProfile(View view){
@@ -212,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
     private void changeMainActivity(){
         setContentView(R.layout.activity_main);
         currentIsMain = true;
-        flasshScreen = findViewById(R.id.flashScreen);
+        flashScreen = findViewById(R.id.flashScreen);
         userAvatar = findViewById(R.id.avatar);
         userName = findViewById(R.id.name);
         if (Contants.Music){
@@ -221,6 +253,14 @@ public class MainActivity extends AppCompatActivity {
             ((ImageView) findViewById(R.id.music)).setImageResource(R.drawable.mute);
         }
         checkUser();
+    }
+
+    private void changeLanguage(){
+        Locale locale = new Locale(Contants.localeKey);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        this.getResources().updateConfiguration(config,this.getResources().getDisplayMetrics());
     }
 
     @Override

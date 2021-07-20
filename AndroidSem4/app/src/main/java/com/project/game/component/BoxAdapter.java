@@ -1,4 +1,4 @@
-package com.project.game.adapter;
+package com.project.game.component;
 
 import android.content.Context;
 import android.view.LayoutInflater;

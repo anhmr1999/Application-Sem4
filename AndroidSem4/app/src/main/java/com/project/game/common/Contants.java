@@ -15,6 +15,7 @@ public class Contants {
     public static User User;
     public static int Screen_Width;
     public static int Screen_Height;
+    public static String localeKey="";
 
     public static boolean IsNetworkConnected(Context context){
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

@@ -7,10 +7,17 @@
     <string name="play">Bắt đầu</string>
     <string name="level">Độ khó</string>
     <string name="hightScore">Điểm cao</string>
-    <string name="questionManager">Câu hỏi</string>
+    <string name="questionManager">Quản lý câu hỏi</string>
     <string name="manual">Hướng dẫn</string>
 
     <string name="easy">Dễ</string>
     <string name="normal">Trung bình</string>
     <string name="difficult">Khó</string>
+
+    <string name="edit_profile">Sửa thông tin</string>
+    <string name="music_on">Âm thanh: Bật</string>
+    <string name="music_off">Âm thanh: Tắt</string>
+    <string name="languege_en">Ngôn ngữ: En</string>
+    <string name="languege_vi">Ngôn ngữ: Vi</string>
+    <string name="logout">Đăng xuất</string>
 </resources>

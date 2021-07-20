@@ -1,4 +1,4 @@
-package com.project.game.adapter;
+package com.project.game.component;
 
 public class ScoreModel {
     private int id;

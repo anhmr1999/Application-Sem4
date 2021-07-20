@@ -1,8 +1,7 @@
-package com.project.game.adapter;
+package com.project.game.component;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;

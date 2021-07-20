@@ -1,13 +1,11 @@
-package com.project.game.adapter;
+package com.project.game.component;
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.project.game.R;
-import com.project.game.entity.Answer;
 import com.project.game.entity.LevelHard;
 
 import java.util.List;

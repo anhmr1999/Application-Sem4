@@ -2,15 +2,13 @@ package com.project.game.gamecontroll;
 
 import android.content.Context;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.project.game.FlappyBirdActivity;
 import com.project.game.KnowledgeActivity;
 import com.project.game.R;
-import com.project.game.adapter.AnswerAdapter;
+import com.project.game.component.AnswerAdapter;
 import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.AchievementRepository;
 import com.project.game.datamanager.repository.QuestionRepository;
