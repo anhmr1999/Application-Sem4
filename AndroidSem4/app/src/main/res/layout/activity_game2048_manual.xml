@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/manualLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_2048">
+
+    <RelativeLayout
+        android:id="@+id/back_block"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:onClick="BackToHome"
+            android:src="@drawable/back"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/back_block"
+        android:layout_height="match_parent"
+        android:paddingBottom="15dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp">
+
+        <ScrollView
+            android:id="@+id/manualContent"
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="23dp"
+                    android:gravity="center"
+                    android:text="2048"/>
+
+                <TextView
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text=" - Vuốt các ô số trên bàn cờ về 1 hướng( trên, dưới, trái phải ) để thu tất cả các
+ô số về hướng đó. Nếu các ô số bị kéo về cùng hướng mà có cùng giá trị và đứng cạnh nhau, chúng sẽ ghép lại với nhau
+thành một số mới có giá trị là tổng 2 ô đó và cho bạn điểm bằng với giá trị của ô mới được tạo"
+                    />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="1dp"
+                        android:layout_height="250dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/bird"
+                        android:layout_marginRight="10dp"/>
+
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="1dp"
+                        android:layout_height="250dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/bird"/>
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="(hình minh họa)"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:layout_margin="5dp"/>
+
+                <TextView
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" - Sau mỗi lượt vuốt các ô số, khi các ô số đã cộng vào với nhau và được kéo về
+hướng chỉ định, sẽ có từ 1-2 số mới được tạo ra tại các ô chưa có số. Giá trị của các ô đó sẽ được thay đổi khi bạn tùy
+chỉnh độ khó của trò chơi"
+                    />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textSize="17dp"
+                        android:textColor="@color/black"
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text=" - Ở giao diện chính của trò chơi, bạn có thể bấm vào ô độ khó để thay đổi độ khó
+cho trò chơi. Độ khó càng cao thì giá trị của các số mới sinh ra sẽ càng cao, cụ thể như sau:"/>
+
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="1dp"
+                        android:layout_height="200dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/bird"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    android:text=" + Dễ: Xuất hiện 1 đến 2 ô có giá trị là 2"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    android:text=" + Trung bình: Xuất hiện từ 1 đến 2 ô có giá trị là 2 hoặc 4"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    android:text=" + Khó: Xuất hiện từ 1 đến 2 ô có giá trị là 2,4 hoặc 8"
+                    />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="1dp"
+                        android:layout_height="200dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/bird"/>
+
+                    <TextView
+                        android:textSize="17dp"
+                        android:textColor="@color/black"
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text=" - Đôi khi bạn muốn xem lại điểm của bản thân và những người chơi khác?
+Hãy chọn ô điểm cao để xem lại thành tích của mình cũng như những người chơi khác nhé!"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.project.game.common;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -37,10 +38,18 @@ public class ApiProviderImpl {
 
     public ApiProviderImpl(Context context) {
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
-        _apiProvider = new Retrofit.Builder()
+        //Laptop
+        /*_apiProvider = new Retrofit.Builder()
                 .baseUrl("http://192.168.1.8:10101/Api/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .build().create(ApiProvider.class);*/
+
+        //PC công ty
+        _apiProvider = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.47:44397/Api/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build().create(ApiProvider.class);
+
         _scoreRepository = new ScoreRepository(context);
         _userRepository = new UserRepository(context);
         _achievementRepository = new AchievementRepository(context);
@@ -57,7 +66,7 @@ public class ApiProviderImpl {
                 if(response.isSuccessful()){
                     List<Score> scores = _scoreRepository.GetScore();
                     for (Score score: response.body()) {
-                        if(checkHaveScore(scores, score)){
+                        if(!checkHaveScore(scores, score)){
                             if(_userRepository.getUser(score.getUserId()) == null){
                                 _userRepository.add(score.getUser());
                             }

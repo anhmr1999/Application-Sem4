@@ -199,6 +199,23 @@ public class KnowledgeActivity extends AppCompatActivity {
         }.start();
     }
 
+    public void viewManual(View view){
+        flashScreen.setVisibility(View.VISIBLE);
+        allowBack = false;
+        new CountDownTimer(500, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                flashScreen.setVisibility(View.INVISIBLE);
+                setContentView(R.layout.activity_knowledge_manual);
+            }
+        }.start();
+    }
+
     public void BackToHome(View view){
         setContentView(R.layout.activity_knowledge_home);
         flashScreen = findViewById(R.id.flashScreen);

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/manualLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/flappy_bird_backgroup">
+
+    <RelativeLayout
+        android:id="@+id/back_block"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:onClick="BackToHome"
+            android:src="@drawable/back"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/back_block"
+        android:layout_height="match_parent"
+        android:paddingBottom="15dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp">
+
+        <ScrollView
+            android:id="@+id/manualContent"
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="23dp"
+                    android:gravity="center"
+                    android:text="Flappy Bird"/>
+
+                <TextView
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text=" - Khi bấm vào màn hình, chú chim của bạn sẽ bay lên 1 đoạn. Khéo léo
+điều khiển chú chim của bạn bay qua các khe giữ các chướng ngại vật"
+                    />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="1dp"
+                        android:layout_height="250dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/bird"
+                        android:layout_marginRight="10dp"/>
+
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="1dp"
+                        android:layout_height="250dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/bird"/>
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="(hình minh họa)"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:layout_margin="5dp"/>
+
+                <TextView
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" - Nếu chú chim của bạn bay quá cao hoặc quá thấp hoặc chạm vào các chướng ngại vật,
+trò chơi sẽ lập tức dừng lại và kết thúc"
+                    />
+
+                <TextView
+                    android:textSize="17dp"
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text=" - Mỗi khi bạn vượt qua được 1 chướng ngại vật thành công, bạn sẽ nhận được 1 điểm
+Hãy cố gắng vượt qua thật nhiều để có thể kiếm được thật nhiều điểm nhé"
+                    />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textSize="17dp"
+                        android:textColor="@color/black"
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text=" - Nếu bạn thấy trò chơi đã quá dễ, hãy thử tăng độ khó lên bằng cách chọn vào ô độ khó và chọn
+độ khó cao hơn để trải nghiệm trò chơi ở mức độ khác"
+                        />
+
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="1dp"
+                        android:layout_height="200dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/bird"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="1dp"
+                        android:layout_height="200dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/bird"/>
+
+                    <TextView
+                        android:textSize="17dp"
+                        android:textColor="@color/black"
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text=" - Đôi khi bạn muốn xem lại điểm của bản thân và những người chơi khác?
+Hãy chọn ô điểm cao để xem lại thành tích của mình cũng như những người chơi khác nhé!"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+    </RelativeLayout>
+
+</RelativeLayout>

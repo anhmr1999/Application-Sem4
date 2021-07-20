@@ -278,9 +278,27 @@ public class Game2048Activity extends AppCompatActivity {
         }.start();
     }
 
+    public void viewManual(View view){
+        allowBack = false;
+        flashScreen.setVisibility(View.VISIBLE);
+        new CountDownTimer(500, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                flashScreen.setVisibility(View.INVISIBLE);
+                setContentView(R.layout.activity_game2048_manual);
+            }
+        }.start();
+    }
+
     public void BackToHome(View view){
         setContentView(R.layout.activity_game2048_home);
         flashScreen = findViewById(R.id.flashScreen);
+        allowBack = true;
     }
 
     public void BackToMainActivity(View view){

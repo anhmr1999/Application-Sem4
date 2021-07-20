@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -71,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                 // App code
             }
         });*/
-
         if(Contants.IsNetworkConnected(MainActivity.this)){
             ApiProviderImpl apiProvider = new ApiProviderImpl(MainActivity.this);
             apiProvider.LoadScore();

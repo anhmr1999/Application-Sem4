@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Android-Sem4</string>
+    <string name="facebook_app_id">406767427220496</string>
+    <string name="fb_login_protocol_scheme">fb406767427220496</string>
+
+    <string name="play">Play</string>
+    <string name="level">Level</string>
+    <string name="hightScore">High Score</string>
+    <string name="questionManager">Question Manager</string>
+    <string name="manual">Manual</string>
+
+    <string name="easy">Easy</string>
+    <string name="normal">Normal</string>
+    <string name="difficult">Difficult</string>
+
+    <string name="edit_profile">Edit Profile</string>
+    <string name="music_on">Music: On</string>
+    <string name="music_off">Music: Off</string>
+    <string name="languege_en">Language: En</string>
+    <string name="languege_vi">Language: Vi</string>
+    <string name="logout">Logout</string>
+</resources>

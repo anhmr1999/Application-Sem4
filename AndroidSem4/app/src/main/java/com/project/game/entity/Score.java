@@ -1,7 +1,7 @@
 package com.project.game.entity;
 
 public class Score{
-    private Integer levelHardId;
+    private Integer levelId;
     private Integer gameId;
     private Integer userId;
     private int score;
@@ -17,11 +17,11 @@ public class Score{
         this.gameId = gameId;
         this.userId = userId;
         this.score = score;
-        this.levelHardId = levelHardId;
+        this.levelId = levelHardId;
     }
 
     public Score(Integer levelHardId, Integer gameId, Integer userId, int score, boolean isUpload) {
-        this.levelHardId = levelHardId;
+        this.levelId = levelHardId;
         this.gameId = gameId;
         this.userId = userId;
         this.score = score;
@@ -29,11 +29,11 @@ public class Score{
     }
 
     public Integer getLevelHardId() {
-        return levelHardId;
+        return levelId;
     }
 
     public void setLevelHardId(Integer levelHardId) {
-        this.levelHardId = levelHardId;
+        this.levelId = levelHardId;
     }
 
     public Integer getGameId() {
