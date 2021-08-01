@@ -11,13 +11,13 @@ namespace GameOfflineApi.Models.ViewModel
         public string content { get; set; }
         public string subject { get; set; }
         public int? userId { get; set; }
-        public ICollection<Answer> Answers { get; set; }
+        public ICollection<Answer> answers { get; set; }
     }
 
     public class Answer : BaseEntity
     {
         public string content { get; set; }
         public bool correct { get; set; }
-        public int QuestionId { get; set; }
+        public int questionId { get; set; }
     }
 }

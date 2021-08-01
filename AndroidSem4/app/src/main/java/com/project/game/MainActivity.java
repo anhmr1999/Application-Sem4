@@ -18,9 +18,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
+import com.project.game.component.AchievementDialog;
 import com.project.game.component.UserSettingDialog;
 import com.project.game.common.ApiProviderImpl;
 import com.project.game.common.Contants;
+import com.project.game.datamanager.repository.AchievementRepository;
+import com.project.game.datamanager.repository.UserAchievementRepository;
 import com.project.game.datamanager.repository.UserRepository;
 
 import java.util.Locale;
@@ -42,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
         this.getWindowManager().getDefaultDisplay().getMetrics(dm);
         Contants.Screen_Height = dm.heightPixels;
         Contants.Screen_Width = dm.widthPixels;
+
+        if(Contants.IsNetworkConnected(MainActivity.this)){
+            ApiProviderImpl apiProvider = new ApiProviderImpl(MainActivity.this);
+            apiProvider.LoadScore();
+            apiProvider.LoadAchievement();
+        }
 
         sp = MainActivity.this.getSharedPreferences("CommonSetting", Context.MODE_PRIVATE);
         Contants.Music = sp.getBoolean("Music",true);
@@ -72,10 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 // App code
             }
         });*/
-        if(Contants.IsNetworkConnected(MainActivity.this)){
-            ApiProviderImpl apiProvider = new ApiProviderImpl(MainActivity.this);
-            apiProvider.LoadScore();
-        }
     }
 
     public void ToFlappyBird(View view){
@@ -230,14 +235,14 @@ public class MainActivity extends AppCompatActivity {
                 int userId = sp.getInt("UserId",0);
                 Contants.User = userRepository.getUser(userId);
                 if(Contants.User == null){
-                    new UserSettingDialog(MainActivity.this, false).show();
+                    new UserSettingDialog(MainActivity.this).show();
                 } else {
                     userName.setText(Contants.User.getName());
                     userAvatar.setImageResource(Contants.getAvatarResource());
                 }
             }
         } else {
-            userName.setText(Contants.User.getName()+" - "+ Contants.User.getId());
+            userName.setText(Contants.User.getName());
             userAvatar.setImageResource(Contants.getAvatarResource());
         }
     }
@@ -271,5 +276,9 @@ public class MainActivity extends AppCompatActivity {
         }else{
             changeMainActivity();
         }
+    }
+
+    public void ViewAchievement(View view) {
+        new AchievementDialog(MainActivity.this,new AchievementRepository(MainActivity.this), new UserAchievementRepository(MainActivity.this)).show();
     }
 }

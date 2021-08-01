@@ -72,9 +72,12 @@ public class ApiProviderImpl {
                     for (Score score: response.body()) {
                         if(!checkHaveScore(scores, score)){
                             if(_userRepository.getUser(score.getUserId()) == null){
-                                GetUser(score.getUserId());
+                                if(score.getUser() == null){
+                                    Log.e("API Score","null ");
+                                }
+                                if(_userRepository.add(score.getUser()))
+                                    _scoreRepository.add(score);
                             }
-                            _scoreRepository.add(score);
                         } else {
                             _scoreRepository.update(score);
                         }
@@ -156,8 +159,18 @@ public class ApiProviderImpl {
                 if(response.isSuccessful()){
                     User user = response.body();
                     if(_userRepository.add(user)){
-                        GetScore(user.getId());
-                        GetAchievementForUser(user.getId());
+
+                        if(user.getAchievements() != null){
+                            for (Achievement achievement: user.getAchievements()) {
+                                _userAchievementRepository.add(user.getId(), achievement.getId());
+                            }
+                        }
+                        if(user.getScores() != null){
+                            for (Score score: user.getScores()) {
+                                _scoreRepository.add(score);
+                            }
+                        }
+
                         Contants.User = user;
 
                         SharedPreferences.Editor editor = sp.edit();
@@ -166,16 +179,12 @@ public class ApiProviderImpl {
 
                         MainActivity.userName.setText(Contants.User.getName());
                         MainActivity.userAvatar.setImageResource(Contants.getAvatarResource());
-
-                        Log.e("API","Success");
                     }
                     result.setStatus(true);
                 } else {
                     result.setStatusCode(response.code());
                     result.setStatus(false);
                     result.setMessage("Đã xảy ra lỗi khi xử lý yêu cầu này!");
-
-                    Log.e("API","Failt");
                 }
             }
 

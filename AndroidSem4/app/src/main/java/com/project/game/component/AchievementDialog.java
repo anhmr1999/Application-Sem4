@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 
 import com.project.game.R;
 import com.project.game.common.Contants;
+import com.project.game.datamanager.repository.AchievementRepository;
+import com.project.game.datamanager.repository.UserAchievementRepository;
 import com.project.game.entity.Achievement;
 
 import java.util.List;
@@ -30,6 +32,23 @@ public class AchievementDialog extends Dialog{
         if(Contants.User == null){
             findViewById(R.id.shareWithFacebook).setVisibility(View.INVISIBLE);
         }
+    }
+
+    public AchievementDialog(@NonNull Context context, AchievementRepository achievementRepository, UserAchievementRepository userAchievementRepository) {
+        super(context);
+        setContentView(R.layout.achievement_dialog);
+        ((Button)findViewById(R.id.btnOK)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+        ViewAchievementAdapter adapter = new ViewAchievementAdapter(achievementRepository, userAchievementRepository);
+        ((ListView)findViewById(R.id.lstAchievement)).setAdapter(adapter);
+        if(Contants.User == null){
+            findViewById(R.id.shareWithFacebook).setVisibility(View.INVISIBLE);
+        }
+
     }
 
     public void setAchievement(List<Achievement> achievements){

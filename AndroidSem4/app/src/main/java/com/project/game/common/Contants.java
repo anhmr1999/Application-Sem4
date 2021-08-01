@@ -24,7 +24,7 @@ public class Contants {
     }
 
     public static int getAvatarResource(){
-        int result = 1;
+        int result;
         switch (Contants.User.getAvatar()){
             case 1:
                 result = R.drawable.bird;

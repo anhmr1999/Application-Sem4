@@ -3,6 +3,7 @@ package com.project.game.component;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.game.R;
@@ -42,7 +43,15 @@ public class AchievementAdapter  extends BaseAdapter {
             achievementView = convertView;
         }
 
-        ((TextView) achievementView.findViewById(R.id.achievementName)).setText(getItem(position).getName());
+        Achievement achievement = getItem(position);
+        ((TextView) achievementView.findViewById(R.id.achievementName)).setText(achievement.getName());
+        if(achievement.getGameId() == 1){
+            ((ImageView) achievementView.findViewById(R.id.achievementImg)).setImageResource(R.drawable.bird);
+        } else if(achievement.getGameId() == 2) {
+            ((ImageView) achievementView.findViewById(R.id.achievementImg)).setImageResource(R.drawable.logo2048);
+        } else {
+            ((ImageView) achievementView.findViewById(R.id.achievementImg)).setImageResource(R.drawable.knowledge_logo);
+        }
         return achievementView;
     }
 }

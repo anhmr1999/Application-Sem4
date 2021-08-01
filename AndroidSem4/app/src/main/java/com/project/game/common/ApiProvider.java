@@ -50,5 +50,5 @@ public interface ApiProvider {
     Call<Boolean> AddAchievements(@Query("userId") int userId, @Body List<Integer> achievements);
 
     @POST("AddAchievement")
-    Call<Boolean> AddAchievement(@Query("userId") int userId, @Query("userId") int achievementId);
+    Call<Boolean> AddAchievement(@Query("userId") int userId, @Query("achievementId") int achievementId);
 }

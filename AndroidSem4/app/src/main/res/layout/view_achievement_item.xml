@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:background="@drawable/achievement_item_background"
+    android:layout_marginBottom="2dp">
+
+    <ImageView
+        android:id="@+id/achievementImg"
+        android:layout_width="40dp"
+        android:layout_height="80dp"
+        android:src="@drawable/bird"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:paddingLeft="15dp"
+            android:id="@+id/achievementName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textSize="15dp"
+            android:textColor="#FFFFFF"
+            android:text="New Player!"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_below="@id/achievementName"
+            android:layout_height="1dp"
+            android:background="#FFFFFF"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"/>
+
+        <TextView
+            android:paddingLeft="15dp"
+            android:id="@+id/achievementDescription"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textColor="#FFFFFF"
+            android:layout_below="@id/achievementName"
+            android:textSize="14dp"
+            android:text="Description!"/>
+    </RelativeLayout>
+
+</LinearLayout>

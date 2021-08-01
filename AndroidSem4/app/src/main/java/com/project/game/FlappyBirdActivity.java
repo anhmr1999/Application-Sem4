@@ -133,11 +133,6 @@ public class FlappyBirdActivity extends AppCompatActivity {
         List<ScoreModel> scoreModels = new ArrayList<>();
         for (Score score : scoreRepository.GetScore(1)) {
             boolean checkHas = false;
-            if(score.getUser() == null){
-                Log.e("Score","null r - " + score.getUserId());
-            } else {
-                Log.e("Score",score.getUser().getName());
-            }
             for (ScoreModel scoremodel : scoreModels){
                 if(scoremodel.getId() == score.getUserId()){
                     checkHas = true;

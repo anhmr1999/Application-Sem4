@@ -21,7 +21,7 @@ namespace GameOfflineApi.Controllers
                 levelId = x.LevelId, 
                 userId = x.UserId, 
                 score = x.Point,
-                User = new Models.ViewModel.User()
+                user = new Models.ViewModel.User()
                 {
                     id = x.User.Id,
                     name = x.User.Name
@@ -55,8 +55,8 @@ namespace GameOfflineApi.Controllers
                 name = userSeach.Name,
                 accessToken = "",
                 avatar = userSeach.Avatar,
-                Achievements = userSeach.Achievements?.Select(x => new Models.ViewModel.Achievement() { id = x.Id }).ToList(),
-                Scores = userSeach.Scores?.Select(x => new Models.ViewModel.Score() { gameId = x.GameId, levelId = x.LevelId, score = x.Point, userId = x.UserId }).ToList()
+                achievements = userSeach.Achievements?.Select(x => new Models.ViewModel.Achievement() { id = x.Id }).ToList(),
+                scores = userSeach.Scores?.Select(x => new Models.ViewModel.Score() { gameId = x.GameId, levelId = x.LevelId, score = x.Point, userId = x.UserId }).ToList()
             };
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -113,7 +113,7 @@ namespace GameOfflineApi.Controllers
                 {
                     Name = string.IsNullOrEmpty(name) ? "G" + DateTime.Now.ToLongDateString() : name,
                     AccessToken = Token,
-                    Avatar = avatar,
+                    Avatar = avatar
                 };
                 context.Users.Add(loginUser);
                 context.SaveChanges();
@@ -123,7 +123,16 @@ namespace GameOfflineApi.Controllers
                 id = loginUser.Id,
                 name = loginUser.Name,
                 avatar = loginUser.Avatar,
-                accessToken = loginUser.AccessToken
+                accessToken = loginUser.AccessToken,
+                achievements = loginUser.Achievements?.Select(x=> new Models.ViewModel.Achievement() { 
+                    id = x.Id
+                }).ToList(),
+                scores = loginUser.Scores?.Select(x=> new Models.ViewModel.Score(){
+                    gameId = x.GameId,
+                    levelId = x.LevelId,
+                    score = x.Point,
+                    userId = x.UserId
+                }).ToList()
             };
             return Json(user, JsonRequestBehavior.AllowGet);
         }
@@ -189,7 +198,7 @@ namespace GameOfflineApi.Controllers
                 context.Questions.Add(new Question()
                 {
                     Active = false,
-                    Answers = question.Answers.Select(x => new Answer()
+                    Answers = question.answers.Select(x => new Answer()
                     {
                         Content = x.content,
                         Correct = x.correct
@@ -213,11 +222,11 @@ namespace GameOfflineApi.Controllers
                 new Models.ViewModel.Question()
                 {
                     id = x.Id,
-                    Answers = x.Answers.Select(a=> new Models.ViewModel.Answer() { 
+                    answers = x.Answers.Select(a=> new Models.ViewModel.Answer() { 
                         id = a.Id,
                         content = a.Content,
                         correct = a.Correct,
-                        QuestionId = a.QuestionId
+                        questionId = a.QuestionId
                     }).ToList(),
                     content = x.Content,
                     subject = x.Subject,

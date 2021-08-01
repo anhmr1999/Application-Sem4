@@ -24,7 +24,7 @@ public class AchievementRepository implements CommonRepository<Achievement> {
 
     public List<Achievement> getAchievement(){
         List<Achievement> achievements = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT id,name,tutorial,checkScore,scoreOrNumber, level FROM achievement", null);
+        Cursor cursor = database.rawQuery("SELECT id,name,tutorial,checkScore,scoreOrNumber, level, gameId FROM achievement", null);
 
         if(cursor.getCount() > 0){
             while (cursor.moveToNext()){
@@ -34,7 +34,8 @@ public class AchievementRepository implements CommonRepository<Achievement> {
                 boolean checkScore = cursor.getInt(3) == 1;
                 int scoreOrNumber = cursor.getInt(4);
                 String level = cursor.getString(5);
-                achievements.add(new Achievement(id,name,tutorial, checkScore, scoreOrNumber,level));
+                int gameId = cursor.getInt(6);
+                achievements.add(new Achievement(id,name,tutorial, checkScore, scoreOrNumber,level,gameId));
             }
         }
         cursor.close();
