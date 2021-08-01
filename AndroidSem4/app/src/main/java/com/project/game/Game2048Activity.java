@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.project.game.common.ApiProviderImpl;
 import com.project.game.component.AchievementDialog;
 import com.project.game.component.BoxAdapter;
 import com.project.game.component.LevelAdapter;
@@ -33,7 +34,7 @@ import com.project.game.gamecontroll.Game2048;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game2048Activity extends AppCompatActivity {
+public class        Game2048Activity extends AppCompatActivity {
     private GridView gridView;
     private BoxAdapter boxAdapter;
     private View.OnTouchListener listener;
@@ -48,6 +49,7 @@ public class Game2048Activity extends AppCompatActivity {
     public static TextView txtScore, txtendScore;
     private RelativeLayout overGame2048, flashScreen;
     private boolean allowBack, isPlayGame, gameOver;
+    private ApiProviderImpl apiProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class Game2048Activity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game2048_home);
         flashScreen = findViewById(R.id.flashScreen);
+        apiProvider = new ApiProviderImpl(Game2048Activity.this);
 
         levelHardRepository = new LevelHardRepository(Game2048Activity.this);
         scoreRepository = new ScoreRepository(Game2048Activity.this);
@@ -118,11 +121,21 @@ public class Game2048Activity extends AppCompatActivity {
                 }
 
                 if(!Game2048.getDataGame().canMove()){
-                    overGame2048.setVisibility(View.VISIBLE);
                     txtendScore.setText("" + Game2048.getDataGame().getScore());
                     checkScore();
                     gameOver = true;
                     isPlayGame = false;
+                    new CountDownTimer(1000, 100) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            overGame2048.setVisibility(View.VISIBLE);
+                        }
+                    }.start();
                 } else {
                     txtScore.setText("" + Game2048.getDataGame().getScore());
                 }
@@ -189,12 +202,19 @@ public class Game2048Activity extends AppCompatActivity {
         Score currentScore = scoreRepository.getScoreForUpdate(1, Contants.User.getId(), Contants._2048Level.getId());
         if(currentScore == null){
             currentScore = new Score(Contants._2048Level.getId(),1, Contants.User.getId(), Game2048.getDataGame().getScore(), false);
-            scoreRepository.add(currentScore);
+            if(scoreRepository.add(currentScore)){
+                if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(Game2048Activity.this) && Contants.User.getAccessToken() != ""){
+                    apiProvider.UpdateScore();
+                }
+            }
         } else {
             if(currentScore.getScore() < Game2048.getDataGame().getScore()){
                 currentScore.setScore(Game2048.getDataGame().getScore());
                 currentScore.setUpload(false);
                 scoreRepository.update(currentScore);
+                if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(Game2048Activity.this) && Contants.User.getAccessToken() != ""){
+                    apiProvider.UpdateScore();
+                }
             }
         }
 
@@ -215,8 +235,12 @@ public class Game2048Activity extends AppCompatActivity {
             }
         }
         if(achievements.size() > 0){
+            apiProvider.UpdateAchievement();
             dialog.setAchievement(achievements);
             dialog.show();
+            if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(Game2048Activity.this) && Contants.User.getAccessToken() != ""){
+                apiProvider.UpdateAchievement();
+            }
         }
     }
 

@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 
 import com.project.game.MainActivity;
 import com.project.game.R;
+import com.project.game.common.ApiProviderImpl;
+import com.project.game.common.CallApiResult;
 import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.UserRepository;
 import com.project.game.entity.User;
@@ -48,14 +50,8 @@ public class UserSettingDialog  extends Dialog {
                 }else {
                     User user = new User(0,userName,"",userAvatar);
                     if(Contants.IsNetworkConnected(context)){
-
-                    }
-                    UserRepository repository = new UserRepository(context);
-                    if(repository.add(user)){
-                        Log.e("Sussecc","Done");
-                        Contants.User = user;
-                        MainActivity.userName.setText(Contants.User.getName());
-                        MainActivity.userAvatar.setImageResource(Contants.getAvatarResource());
+                        ApiProviderImpl provider = new ApiProviderImpl(context);
+                        provider.Login("", userName, userAvatar);
                         dismiss();
                     }
                 }

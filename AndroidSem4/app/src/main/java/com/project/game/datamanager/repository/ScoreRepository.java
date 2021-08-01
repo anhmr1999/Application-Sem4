@@ -98,8 +98,8 @@ public class ScoreRepository implements CommonRepository<Score> {
         return scores;
     }
 
-    public void UploadSuccess(){
-        database.execSQL("UPDATE score SET isUpload = 1");
+    public void UploadSuccess(int userId, int gameId, int levelId){
+        database.execSQL("UPDATE score SET isUpload = 1 WHERE gameId = ? AND userId = ? AND levelId = ?", new String[]{gameId+"", userId+"", levelId+""});
     }
 
     public Score getScoreForUpdate(int gameId, int userId, int levelId){
@@ -141,6 +141,7 @@ public class ScoreRepository implements CommonRepository<Score> {
         content.put("gameId", entity.getGameId());
         content.put("userId", entity.getUserId());
         content.put("levelId", entity.getLevelHardId());
+        content.put("isUpload", false);
         content.put("score", entity.getScore());
         return content;
     }

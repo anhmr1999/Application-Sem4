@@ -227,7 +227,8 @@ public class MainActivity extends AppCompatActivity {
             if(accessToken != null && !accessToken.isExpired()){
                 Contants.User = userRepository.getUser(accessToken.getToken());
             } else {
-                Contants.User = userRepository.getUser(0);
+                int userId = sp.getInt("UserId",0);
+                Contants.User = userRepository.getUser(userId);
                 if(Contants.User == null){
                     new UserSettingDialog(MainActivity.this, false).show();
                 } else {
@@ -236,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } else {
-            userName.setText(Contants.User.getName());
+            userName.setText(Contants.User.getName()+" - "+ Contants.User.getId());
             userAvatar.setImageResource(Contants.getAvatarResource());
         }
     }

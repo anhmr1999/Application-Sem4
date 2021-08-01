@@ -52,8 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text=" - Khi bắt đầu trò chơi, bạn sẽ có 1 khoảng thời gian để đọc và đưa ra đáp án của mình.
-Bấm chọn vào ô đáp án và chờ trò chơi đưa ra đáp án chính xác"
+                    android:text="@string/know_howtoplay"
                     />
 
                 <LinearLayout
@@ -65,7 +64,7 @@ Bấm chọn vào ô đáp án và chờ trò chơi đưa ra đáp án chính x�
                         android:layout_width="1dp"
                         android:layout_height="250dp"
                         android:layout_weight="1"
-                        android:src="@drawable/bird"
+                        android:src="@drawable/know_game"
                         android:layout_marginRight="10dp"/>
 
                     <ImageView
@@ -73,13 +72,13 @@ Bấm chọn vào ô đáp án và chờ trò chơi đưa ra đáp án chính x�
                         android:layout_width="1dp"
                         android:layout_height="250dp"
                         android:layout_weight="1"
-                        android:src="@drawable/bird"/>
+                        android:src="@drawable/know_choose"/>
 
                 </LinearLayout>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="(hình minh họa)"
+                    android:text="@string/illustration"
                     android:textColor="@color/black"
                     android:gravity="center"
                     android:layout_margin="5dp"/>
@@ -89,8 +88,7 @@ Bấm chọn vào ô đáp án và chờ trò chơi đưa ra đáp án chính x�
                     android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=" - Mỗi đáp án chính xác, bạn sẽ nhận được 5 điểm. Nếu bạn chọn sai
-hoặc hết thời gian, trò chơi sẽ ngay lập tức kết thúc"
+                    android:text="@string/know_plusscore"
                     />
 
                 <LinearLayout
@@ -105,15 +103,14 @@ hoặc hết thời gian, trò chơi sẽ ngay lập tức kết thúc"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:text=" - Ở giao diện chính của trò chơi, bạn có thể bấm vào ô độ khó để thay đổi độ khó
-cho trò chơi. Độ khó càng cao thì thời gian càng thấp, cụ thể như sau:"/>
+                        android:text="@string/know_level"/>
 
                     <ImageView
                         android:layout_marginLeft="10dp"
                         android:layout_width="1dp"
                         android:layout_height="200dp"
                         android:layout_weight="1"
-                        android:src="@drawable/bird"/>
+                        android:src="@drawable/know_level"/>
 
                 </LinearLayout>
 
@@ -122,7 +119,7 @@ cho trò chơi. Độ khó càng cao thì thời gian càng thấp, cụ thể n
                     android:layout_height="wrap_content"
                     android:textSize="17dp"
                     android:textColor="@color/black"
-                    android:text=" + Dễ: 20s để trả lời"
+                    android:text="@string/know_easy"
                     />
 
                 <TextView
@@ -130,7 +127,7 @@ cho trò chơi. Độ khó càng cao thì thời gian càng thấp, cụ thể n
                     android:layout_height="wrap_content"
                     android:textSize="17dp"
                     android:textColor="@color/black"
-                    android:text=" + Trung bình: 15s để trả lời"
+                    android:text="@string/know_normal"
                     />
 
                 <TextView
@@ -138,13 +135,44 @@ cho trò chơi. Độ khó càng cao thì thời gian càng thấp, cụ thể n
                     android:layout_height="wrap_content"
                     android:textSize="17dp"
                     android:textColor="@color/black"
-                    android:text=" + Khó: 10s để trả lời"
+                    android:text="@string/know_difficult"
                     />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_marginRight="10dp"
+                        android:layout_width="1dp"
+                        android:layout_height="200dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/question_manager"/>
+
+                    <TextView
+                        android:textSize="17dp"
+                        android:textColor="@color/black"
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="2"
+                        android:text="@string/know_question"/>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/know_helpper"
+                        android:textSize="20dp"
+                        android:gravity="center"
+                        android:textColor="#A50000"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -165,7 +193,7 @@ cho trò chơi. Độ khó càng cao thì thời gian càng thấp, cụ thể n
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text=" + 50/50: Loại bỏ ngẫu nhiên 2 đáp án sai( chỉ dùng được 1 lần )"
+                            android:text="@string/know_5050"
                             />
                     </RelativeLayout>
 
@@ -188,8 +216,7 @@ cho trò chơi. Độ khó càng cao thì thời gian càng thấp, cụ thể n
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text=" + Bỏ qua: Bỏ qua câu hỏi và nhận được điểm của câu hỏi bỏ qua
-                            (chỉ dùng được 1 lần)"
+                            android:text="@string/know_skip"
                             />
                     </RelativeLayout>
 
@@ -212,8 +239,7 @@ cho trò chơi. Độ khó càng cao thì thời gian càng thấp, cụ thể n
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text=" + Thay đổi: Cho phép bạn đổi câu hỏi, nhưng sẽ không nhận được điểm của
-câu hỏi đó"
+                            android:text="@string/know_reload"
                             />
                     </RelativeLayout>
 
@@ -225,11 +251,11 @@ câu hỏi đó"
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_width="1dp"
                         android:layout_height="200dp"
                         android:layout_weight="1"
-                        android:src="@drawable/bird"/>
+                        android:src="@drawable/know_hightscore"/>
 
                     <TextView
                         android:textSize="17dp"
@@ -237,9 +263,8 @@ câu hỏi đó"
                         android:layout_width="1dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:text=" - Đôi khi bạn muốn xem lại điểm của bản thân và những người chơi khác?
-Hãy chọn ô điểm cao để xem lại thành tích của mình cũng như những người chơi khác nhé!"
+                        android:layout_weight="2"
+                        android:text="@string/know_score"
                         />
 
                 </LinearLayout>

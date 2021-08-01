@@ -52,9 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text=" - Vuốt các ô số trên bàn cờ về 1 hướng( trên, dưới, trái phải ) để thu tất cả các
-ô số về hướng đó. Nếu các ô số bị kéo về cùng hướng mà có cùng giá trị và đứng cạnh nhau, chúng sẽ ghép lại với nhau
-thành một số mới có giá trị là tổng 2 ô đó và cho bạn điểm bằng với giá trị của ô mới được tạo"
+                    android:text="@string/game2048_howtoplay"
                     />
 
                 <LinearLayout
@@ -66,7 +64,7 @@ thành một số mới có giá trị là tổng 2 ô đó và cho bạn điể
                         android:layout_width="1dp"
                         android:layout_height="250dp"
                         android:layout_weight="1"
-                        android:src="@drawable/bird"
+                        android:src="@drawable/game2048_before"
                         android:layout_marginRight="10dp"/>
 
                     <ImageView
@@ -74,13 +72,13 @@ thành một số mới có giá trị là tổng 2 ô đó và cho bạn điể
                         android:layout_width="1dp"
                         android:layout_height="250dp"
                         android:layout_weight="1"
-                        android:src="@drawable/bird"/>
+                        android:src="@drawable/game2048_after"/>
 
                 </LinearLayout>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="(hình minh họa)"
+                    android:text="@string/illustration"
                     android:textColor="@color/black"
                     android:gravity="center"
                     android:layout_margin="5dp"/>
@@ -90,9 +88,7 @@ thành một số mới có giá trị là tổng 2 ô đó và cho bạn điể
                     android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=" - Sau mỗi lượt vuốt các ô số, khi các ô số đã cộng vào với nhau và được kéo về
-hướng chỉ định, sẽ có từ 1-2 số mới được tạo ra tại các ô chưa có số. Giá trị của các ô đó sẽ được thay đổi khi bạn tùy
-chỉnh độ khó của trò chơi"
+                    android:text="@string/game2048_gennumber"
                     />
 
                 <LinearLayout
@@ -107,15 +103,14 @@ chỉnh độ khó của trò chơi"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:text=" - Ở giao diện chính của trò chơi, bạn có thể bấm vào ô độ khó để thay đổi độ khó
-cho trò chơi. Độ khó càng cao thì giá trị của các số mới sinh ra sẽ càng cao, cụ thể như sau:"/>
+                        android:text=""/>
 
                     <ImageView
                         android:layout_marginLeft="10dp"
                         android:layout_width="1dp"
                         android:layout_height="200dp"
                         android:layout_weight="1"
-                        android:src="@drawable/bird"/>
+                        android:src="@drawable/game2048level"/>
 
                 </LinearLayout>
 
@@ -124,7 +119,7 @@ cho trò chơi. Độ khó càng cao thì giá trị của các số mới sinh 
                     android:layout_height="wrap_content"
                     android:textSize="17dp"
                     android:textColor="@color/black"
-                    android:text=" + Dễ: Xuất hiện 1 đến 2 ô có giá trị là 2"
+                    android:text="@string/game2048_easy"
                     />
 
                 <TextView
@@ -132,7 +127,7 @@ cho trò chơi. Độ khó càng cao thì giá trị của các số mới sinh 
                     android:layout_height="wrap_content"
                     android:textSize="17dp"
                     android:textColor="@color/black"
-                    android:text=" + Trung bình: Xuất hiện từ 1 đến 2 ô có giá trị là 2 hoặc 4"
+                    android:text="@string/game2048_normal"
                     />
 
                 <TextView
@@ -140,7 +135,7 @@ cho trò chơi. Độ khó càng cao thì giá trị của các số mới sinh 
                     android:layout_height="wrap_content"
                     android:textSize="17dp"
                     android:textColor="@color/black"
-                    android:text=" + Khó: Xuất hiện từ 1 đến 2 ô có giá trị là 2,4 hoặc 8"
+                    android:text="@string/game2048_difficult"
                     />
 
                 <LinearLayout
@@ -153,7 +148,7 @@ cho trò chơi. Độ khó càng cao thì giá trị của các số mới sinh 
                         android:layout_width="1dp"
                         android:layout_height="200dp"
                         android:layout_weight="1"
-                        android:src="@drawable/bird"/>
+                        android:src="@drawable/game2048hightscore"/>
 
                     <TextView
                         android:textSize="17dp"
@@ -161,9 +156,8 @@ cho trò chơi. Độ khó càng cao thì giá trị của các số mới sinh 
                         android:layout_width="1dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:text=" - Đôi khi bạn muốn xem lại điểm của bản thân và những người chơi khác?
-Hãy chọn ô điểm cao để xem lại thành tích của mình cũng như những người chơi khác nhé!"
+                        android:layout_weight="2"
+                        android:text="@string/game2048_score"
                         />
 
                 </LinearLayout>

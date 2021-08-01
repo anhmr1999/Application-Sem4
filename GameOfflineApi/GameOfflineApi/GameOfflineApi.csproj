@@ -134,9 +134,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202107071254474_initDb.cs" />
-    <Compile Include="Migrations\202107071254474_initDb.Designer.cs">
-      <DependentUpon>202107071254474_initDb.cs</DependentUpon>
+    <Compile Include="Migrations\202107270946262_initDb.cs" />
+    <Compile Include="Migrations\202107270946262_initDb.Designer.cs">
+      <DependentUpon>202107270946262_initDb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EntityManagers\DataContext.cs" />
@@ -148,7 +148,6 @@
     <Compile Include="Models\EntityManagers\Entities\Question.cs" />
     <Compile Include="Models\EntityManagers\Entities\Score.cs" />
     <Compile Include="Models\EntityManagers\Entities\User.cs" />
-    <Compile Include="Models\EntityManagers\Entities\UserAchievement.cs" />
     <Compile Include="Models\EntityManagers\InitialData.cs" />
     <Compile Include="Models\ViewModel\Achievement.cs" />
     <Compile Include="Models\ViewModel\BaseEntity.cs" />
@@ -215,8 +214,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202107071254474_initDb.resx">
-      <DependentUpon>202107071254474_initDb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202107270946262_initDb.resx">
+      <DependentUpon>202107270946262_initDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

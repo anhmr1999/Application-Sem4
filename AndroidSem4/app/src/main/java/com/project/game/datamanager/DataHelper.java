@@ -95,7 +95,7 @@ public class DataHelper extends SQLiteOpenHelper {
             content.put("userId",InitData.Score().get(i).getUserId());
             content.put("levelId",InitData.Score().get(i).getLevelHardId());
             content.put("score",InitData.Score().get(i).getScore());
-            content.put("isUpload",InitData.Score().get(i).isUpload());
+            content.put("isUpload",InitData.Score().get(i).isUpload() ? 1 : 0);
             db.insert("score", null, content);
         }
     }
@@ -146,7 +146,7 @@ class InitTable{
             "\tuserId INTEGER NOT NULL,\n" +
             "\tgameId INTEGER NOT NULL,\n" +
             "\tscore INTEGER NOT NULL,\n" +
-            "\tisUpload bit NOT NULL default 1,\n" +
+            "\tisUpload bit NOT NULL default 0,\n" +
             "\tPRIMARY KEY(levelId,userId,gameId),\n" +
             "\tFOREIGN KEY(levelId) REFERENCES levelHard(id),\n" +
             "\tFOREIGN KEY(userId) REFERENCES user(id),\n" +
@@ -195,9 +195,6 @@ class InitData{
         Users.add(new User(2, "Alethea","",2));
         Users.add(new User(3, "Eudora","",3));
         Users.add(new User(4, "Griselda","",4));
-        Users.add(new User(5, "Magnus","",4));
-        Users.add(new User(6, "Calantha","",3));
-        Users.add(new User(7, "Jocasta ","",1));
         return Users;
     }
 

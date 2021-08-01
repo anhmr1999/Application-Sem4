@@ -19,6 +19,5 @@ namespace GameOfflineApi.Models.EntityManagers
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Score> Scores { get; set; }
-        public DbSet<UserAchievement> UserAchievements { get; set; }
     }
 }

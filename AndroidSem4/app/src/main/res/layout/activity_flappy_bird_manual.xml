@@ -52,8 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text=" - Khi bấm vào màn hình, chú chim của bạn sẽ bay lên 1 đoạn. Khéo léo
-điều khiển chú chim của bạn bay qua các khe giữ các chướng ngại vật"
+                    android:text="@string/flappybird_howtoplay"
                     />
 
                 <LinearLayout
@@ -63,23 +62,23 @@
 
                     <ImageView
                         android:layout_width="1dp"
-                        android:layout_height="250dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
                         android:layout_weight="1"
-                        android:src="@drawable/bird"
-                        android:layout_marginRight="10dp"/>
+                        android:src="@drawable/flappybird_normal" />
 
                     <ImageView
-                        android:layout_marginLeft="10dp"
                         android:layout_width="1dp"
-                        android:layout_height="250dp"
+                        android:layout_height="218dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:src="@drawable/bird"/>
+                        android:src="@drawable/flappybird_fly" />
 
                 </LinearLayout>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="(hình minh họa)"
+                    android:text="@string/illustration"
                     android:textColor="@color/black"
                     android:gravity="center"
                     android:layout_margin="5dp"/>
@@ -89,8 +88,7 @@
                     android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=" - Nếu chú chim của bạn bay quá cao hoặc quá thấp hoặc chạm vào các chướng ngại vật,
-trò chơi sẽ lập tức dừng lại và kết thúc"
+                    android:text="@string/flappybird_endgame"
                     />
 
                 <TextView
@@ -99,8 +97,7 @@ trò chơi sẽ lập tức dừng lại và kết thúc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text=" - Mỗi khi bạn vượt qua được 1 chướng ngại vật thành công, bạn sẽ nhận được 1 điểm
-Hãy cố gắng vượt qua thật nhiều để có thể kiếm được thật nhiều điểm nhé"
+                    android:text="@string/flappybird_plus_score"
                     />
 
                 <LinearLayout
@@ -115,8 +112,7 @@ Hãy cố gắng vượt qua thật nhiều để có thể kiếm được th�
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:text=" - Nếu bạn thấy trò chơi đã quá dễ, hãy thử tăng độ khó lên bằng cách chọn vào ô độ khó và chọn
-độ khó cao hơn để trải nghiệm trò chơi ở mức độ khác"
+                        android:text="@string/flappybird_level"
                         />
 
                     <ImageView
@@ -124,7 +120,7 @@ Hãy cố gắng vượt qua thật nhiều để có thể kiếm được th�
                         android:layout_width="1dp"
                         android:layout_height="200dp"
                         android:layout_weight="1"
-                        android:src="@drawable/bird"/>
+                        android:src="@drawable/flappybird_level"/>
 
                 </LinearLayout>
 
@@ -134,11 +130,11 @@ Hãy cố gắng vượt qua thật nhiều để có thể kiếm được th�
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_width="1dp"
                         android:layout_height="200dp"
                         android:layout_weight="1"
-                        android:src="@drawable/bird"/>
+                        android:src="@drawable/flappybird_hightscore"/>
 
                     <TextView
                         android:textSize="17dp"
@@ -146,9 +142,8 @@ Hãy cố gắng vượt qua thật nhiều để có thể kiếm được th�
                         android:layout_width="1dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:text=" - Đôi khi bạn muốn xem lại điểm của bản thân và những người chơi khác?
-Hãy chọn ô điểm cao để xem lại thành tích của mình cũng như những người chơi khác nhé!"
+                        android:layout_weight="2"
+                        android:text="@string/flappybird_score"
                         />
 
                 </LinearLayout>

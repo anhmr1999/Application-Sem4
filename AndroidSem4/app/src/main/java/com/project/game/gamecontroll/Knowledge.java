@@ -8,6 +8,7 @@ import android.widget.ListView;
 
 import com.project.game.KnowledgeActivity;
 import com.project.game.R;
+import com.project.game.common.ApiProviderImpl;
 import com.project.game.component.AnswerAdapter;
 import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.AchievementRepository;
@@ -31,11 +32,13 @@ public class Knowledge {
     private List<Answer> answers;
     private int score = 0,timer;;
     private Random random;
-    CountDownTimer countDown;
+    private CountDownTimer countDown;
+    private ApiProviderImpl apiProvider;
     private ScoreRepository scoreRepository;
     private AdapterView.OnItemClickListener itemClickListener;
     private AchievementRepository achievementRepository;
     private UserAchievementRepository userAchievementRepository;
+    private Context context;
 
     static {knowledge = new Knowledge();}
 
@@ -44,11 +47,13 @@ public class Knowledge {
     }
 
     public void init(Context context){
+        this.context = context;
         scoreRepository = new ScoreRepository(context);
         achievementRepository = new AchievementRepository(context);
         userAchievementRepository = new UserAchievementRepository(context);
         random = new Random();
         score = 0;
+        apiProvider = new ApiProviderImpl(context);
         repository = new QuestionRepository(context);
         if(Contants.knowLevel.getName().toLowerCase().equals("easy")){
             timer = 21000;
@@ -84,23 +89,9 @@ public class Knowledge {
                                 }
                             }.start();
                         } else {
-                            KnowledgeActivity.lst_answer.getChildAt(position).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_danger);
-                            for (int i = 0; i< KnowledgeActivity.lst_answer.getChildCount(); i++){
-                                if(((Answer)KnowledgeActivity.lst_answer.getItemAtPosition(i)).isCorrect()){
-                                    KnowledgeActivity.lst_answer.getChildAt(i).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_true);
-                                }
-                            }
-                            new CountDownTimer(1000, 100) {
-                                @Override
-                                public void onTick(long l) {}
-
-                                @Override
-                                public void onFinish() {
-                                    EndGame();
-                                    KnowledgeActivity.gameOver = true;
-                                    KnowledgeActivity.isPlayGame = false;
-                                }
-                            }.start();
+                            EndGame();
+                            KnowledgeActivity.gameOver = true;
+                            KnowledgeActivity.isPlayGame = false;
                         }
                     }
                 }.start();
@@ -126,6 +117,9 @@ public class Knowledge {
     }
 
     public void setTimer(){
+        if(countDown != null){
+            countDown.cancel();
+        }
         countDown = new CountDownTimer(timer, 1000){
 
             @Override
@@ -139,14 +133,7 @@ public class Knowledge {
 
             @Override
             public void onFinish() {
-                ListView lst_answer =KnowledgeActivity.lst_answer;
-                for (int i = 0; i< lst_answer.getChildCount(); i++){
-                    if(((Answer)lst_answer.getItemAtPosition(i)).isCorrect()){
-                        lst_answer.getChildAt(i).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_true);
-                        countDown.cancel();
-                        EndGame();
-                    }
-                }
+                EndGame();
             }
         };
         countDown.start();
@@ -162,31 +149,57 @@ public class Knowledge {
     }
 
     public void EndGame() {
+        ListView lst_answer =KnowledgeActivity.lst_answer;
         KnowledgeActivity.txt_EndCore.setText(""+score);
-        KnowledgeActivity.GameKnowLedgeOver.setVisibility(View.VISIBLE);
-        Score currentScore = scoreRepository.getScoreForUpdate(3, Contants.User.getId(), Contants.knowLevel.getId());
-        if(currentScore == null){
-            currentScore = new Score(Contants.knowLevel.getId(), 3, Contants.User.getId(), score, false);
-            scoreRepository.add(currentScore);
-        } else {
-            if(currentScore.getScore() < score){
-                currentScore.setScore(score);
-                currentScore.setUpload(false);
-                scoreRepository.update(currentScore);
+        for (int i = 0; i< lst_answer.getChildCount(); i++){
+            if(((Answer)lst_answer.getItemAtPosition(i)).isCorrect()){
+                lst_answer.getChildAt(i).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_true);
+                countDown.cancel();
             }
         }
+        new CountDownTimer(1000, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
 
-        List<Achievement> achievements = new ArrayList<>();
-        for (Achievement achievement: achievementRepository.getAchievement(2)) {
-            if(achievement.getScoreOrNumber() <= Game2048.getDataGame().getScore() && achievement.getLevelName().equals(Contants._2048Level.getName())){
-                achievements.add(achievement);
-                userAchievementRepository.add(new UserAchievement(Contants.User.getId(), achievement.getId(), false));
             }
-        }
-        if(achievements.size() > 0){
-            KnowledgeActivity.dialog.setAchievement(achievements);
-            KnowledgeActivity.dialog.show();
-        }
+
+            @Override
+            public void onFinish() {
+                KnowledgeActivity.GameKnowLedgeOver.setVisibility(View.VISIBLE);
+                Score currentScore = scoreRepository.getScoreForUpdate(3, Contants.User.getId(), Contants.knowLevel.getId());
+                if(currentScore == null){
+                    currentScore = new Score(Contants.knowLevel.getId(), 3, Contants.User.getId(), score, false);
+                    scoreRepository.add(currentScore);
+                    if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
+                        apiProvider.UpdateScore();
+                    }
+                } else {
+                    if(currentScore.getScore() < score){
+                        currentScore.setScore(score);
+                        currentScore.setUpload(false);
+                        scoreRepository.update(currentScore);
+                        if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
+                            apiProvider.UpdateScore();
+                        }
+                    }
+                }
+
+                List<Achievement> achievements = new ArrayList<>();
+                for (Achievement achievement: achievementRepository.getAchievement(2)) {
+                    if(achievement.getScoreOrNumber() <= Game2048.getDataGame().getScore() && achievement.getLevelName().equals(Contants._2048Level.getName())){
+                        achievements.add(achievement);
+                        userAchievementRepository.add(new UserAchievement(Contants.User.getId(), achievement.getId(), false));
+                    }
+                }
+                if(achievements.size() > 0){
+                    KnowledgeActivity.dialog.setAchievement(achievements);
+                    KnowledgeActivity.dialog.show();
+                    if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
+                        apiProvider.UpdateAchievement();
+                    }
+                }
+            }
+        }.start();
     }
 
     public void use5050(){
@@ -206,8 +219,25 @@ public class Knowledge {
     }
 
     public void useSkipQuestion(){
-        CorrectAnswer();
-        changeQuestion();
+        ListView lst_answer =KnowledgeActivity.lst_answer;
+        for (int i = 0; i< lst_answer.getChildCount(); i++){
+            if(((Answer)lst_answer.getItemAtPosition(i)).isCorrect()){
+                lst_answer.getChildAt(i).findViewById(R.id.btn_answer).setBackgroundResource(R.drawable.bg_answer_true);
+                countDown.cancel();
+            }
+        }
+        new CountDownTimer(1000, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                CorrectAnswer();
+                changeQuestion();
+            }
+        }.start();
     }
 
     private void getQuestion(){

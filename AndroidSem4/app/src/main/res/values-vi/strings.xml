@@ -20,4 +20,43 @@
     <string name="languege_en">Ngôn ngữ: En</string>
     <string name="languege_vi">Ngôn ngữ: Vi</string>
     <string name="logout">Đăng xuất</string>
+
+    <string name="illustration">( Hình minh họa )</string>
+
+    <string name="flappybird_howtoplay"> - Khi bấm vào màn hình, chú chim của bạn sẽ bay lên 1 đoạn. Khéo léo điều khiển chú chim của bạn bay qua các khe giữ các chướng ngại vật</string>
+    <string name="flappybird_endgame"> - Nếu chú chim của bạn bay quá cao hoặc quá thấp hoặc chạm vào các chướng ngại vật, trò chơi sẽ lập tức dừng lại và kết thúc</string>
+    <string name="flappybird_plus_score"> - Mỗi khi bạn vượt qua được 1 chướng ngại vật thành công, bạn sẽ nhận được 1 điểm. Hãy cố gắng vượt qua thật nhiều để có thể kiếm được thật nhiều điểm nhé</string>
+    <string name="flappybird_level"> - Nếu bạn thấy trò chơi đã quá dễ, hãy thử tăng độ khó lên bằng cách chọn vào ô độ khó và chọn độ khó cao hơn để trải nghiệm trò chơi ở mức độ khác</string>
+    <string name="flappybird_score"> - Đôi khi bạn muốn xem lại điểm của bản thân và những người chơi khác? Hãy chọn ô điểm cao để xem lại thành tích của mình cũng như những người chơi khác nhé!</string>
+
+    <string name="game2048_howtoplay"> - Vuốt các ô số trên bàn cờ về 1 hướng( trên, dưới, trái phải ) để thu tất cả các ô số về hướng đó. Nếu các ô số bị kéo về cùng hướng mà có cùng giá trị và đứng cạnh nhau, chúng sẽ ghép lại với nhau thành một số mới có giá trị là tổng 2 ô đó và cho bạn điểm bằng với giá trị của ô mới được tạo</string>
+    <string name="game2048_gennumber"> - Sau mỗi lượt vuốt các ô số, khi các ô số đã cộng vào với nhau và được kéo về hướng chỉ định, sẽ có từ 1-2 số mới được tạo ra tại các ô chưa có số. Giá trị của các ô đó sẽ được thay đổi khi bạn tùy chỉnh độ khó của trò chơi</string>
+    <string name="game2048_level"> - Ở giao diện chính của trò chơi, bạn có thể bấm vào ô độ khó để thay đổi độ khó cho trò chơi. Độ khó càng cao thì giá trị của các số mới sinh ra sẽ càng cao, cụ thể như sau:</string>
+    <string name="game2048_easy">   + Dễ: Xuất hiện 1 đến 2 ô có giá trị là 2</string>
+    <string name="game2048_normal">    + Trung bình: Xuất hiện từ 1 đến 2 ô có giá trị là 2 hoặc 4</string>
+    <string name="game2048_difficult">    + Khó: Xuất hiện từ 1 đến 2 ô có giá trị là 2,4 hoặc 8</string>
+    <string name="game2048_score"> - Đôi khi bạn muốn xem lại điểm của bản thân và những người chơi khác? Hãy chọn ô điểm cao để xem lại thành tích của mình cũng như những người chơi khác nhé!</string>
+
+    <string name="know_howtoplay"> - Khi bắt đầu trò chơi, bạn sẽ có 1 khoảng thời gian để đọc và đưa ra đáp án của mình. Bấm chọn vào ô đáp án và chờ trò chơi đưa ra đáp án chính xác</string>
+    <string name="know_plusscore"> - Mỗi đáp án chính xác, bạn sẽ nhận được 5 điểm. Nếu bạn chọn sai hoặc hết thời gian, trò chơi sẽ ngay lập tức kết thúc</string>
+    <string name="know_level"> - Ở giao diện chính của trò chơi, bạn có thể bấm vào ô độ khó để thay đổi độ khó cho trò chơi. Độ khó càng cao thì thời gian càng thấp, cụ thể như sau:</string>
+    <string name="know_easy">    + Dễ: 20s để trả lời</string>
+    <string name="know_normal">    + Trung bình: 15s để trả lời</string>
+    <string name="know_difficult">   + Khó: 10s để trả lời</string>
+    <string name="know_score"> - Đôi khi bạn muốn xem lại điểm của bản thân và những người chơi khác? Hãy chọn ô điểm cao để xem lại thành tích của mình cũng như những người chơi khác nhé!</string>
+    <string name="know_question"> - Đôi khi số lượng câu hỏi quá ít để bạn có thể trải nghiệm độ khó của game, bạn có thể đề xuất thêm các câu hỏi cho bên quản lý game và tải thêm các câu hỏi khác</string>
+    <string name="know_5050">   + 50/50: Loại bỏ ngẫu nhiên 2 đáp án sai ( chỉ dùng được 1 lần )</string>
+    <string name="know_skip">    + Bỏ qua: Bỏ qua câu hỏi và nhận được điểm của câu hỏi bỏ qua (chỉ dùng được 1 lần)</string>
+    <string name="know_reload">   + Thay đổi: Cho phép bạn đổi câu hỏi, nhưng sẽ không nhận được điểm của câu hỏi đó</string>
+    <string name="know_helpper">Sự trợ giúp</string>
+
+    <string name="downloadmore">Tải xuống</string>
+    <string name="uploadquestion">Tải lên</string>
+    <string name="question">Câu hỏi</string>
+    <string name="answer1">Đáp án 1</string>
+    <string name="answer2">Đáp án 2</string>
+    <string name="answer3">Đáp án 3</string>
+    <string name="answer4">Đáp án 4</string>
+    <string name="correct">Là đáp án đúng</string>
+
 </resources>

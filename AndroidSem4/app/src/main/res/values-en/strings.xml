@@ -19,4 +19,42 @@
     <string name="languege_en">Language: En</string>
     <string name="languege_vi">Language: Vi</string>
     <string name="logout">Logout</string>
+
+    <string name="illustration">( illustration )</string>
+
+    <string name="flappybird_howtoplay"> - When clicking on the screen, your bird will fly up 1 segment. Cleverly control your bird to fly through the slots holding the obstacles</string>
+    <string name="flappybird_endgame"> - If your bird flies too high or too low or hits the obstacles, the game will immediately stop and end.</string>
+    <string name="flappybird_plus_score"> - Every time you successfully pass an obstacle, you will get 1 point. Try to pass as much as possible to earn as many points</string>
+    <string name="flappybird_level"> - If you find the game too easy, try increasing the difficulty by checking the difficulty box and choosing a higher difficulty to experience the game at a different level.</string>
+    <string name="flappybird_score"> - Sometimes you want to review your scores and other players? Please select the high score box to review your achievements as well as other players!</string>
+
+    <string name="game2048_howtoplay"> - Swipe the number tiles on the chessboard in one direction (top, bottom, left and right) to collect all the number tiles in that direction. If the number tiles are pulled in the same direction but have the same value and are next to each other, they will combine to form a new number whose value is the sum of those 2 cells and give you a score equal to the value of the newly created cell</string>
+    <string name="game2048_gennumber"> - After each swipe of the number cells, when the number cells have been added together and dragged in the specified direction, there will be 1-2 new numbers created in the empty cells. The value of those tiles will be changed when you customize the difficulty of the game</string>
+    <string name="game2048_level"> - In the main interface of the game, you can click on the difficulty box to change the difficulty for the game. The higher the difficulty, the higher the value of the newly born numbers will be, specifically as follows:</string>
+    <string name="game2048_easy">   + Easy: 1 or 2 cells appear with a value of 2</string>
+    <string name="game2048_normal">    + Medium: Appears from 1 to 2 cells with a value of 2 or 4</string>
+    <string name="game2048_difficult">    + Difficult: Occurs from 1 to 2 squares with a value of 2,4 or 8</string>
+    <string name="game2048_score"> - Sometimes you want to review your scores and other players? Please select the high score box to review your achievements as well as other players!</string>
+
+    <string name="know_howtoplay"> - At the beginning of the game, you will have 1 time to read and give your answer. Click on the answer box and wait for the game to give the correct answer</string>
+    <string name="know_plusscore"> - For each correct answer, you will get 5 points. If you choose the wrong one or run out of time, the game will immediately end</string>
+    <string name="know_level"> - In the main interface of the game, you can click on the difficulty box to change the difficulty for the game. The higher the difficulty, the lower the time, specifically as follows:</string>
+    <string name="know_easy">    + Easy: 20s to answer</string>
+    <string name="know_normal">    + Average: 15s to reply</string>
+    <string name="know_difficult">   + Difficult: 10s to answer</string>
+    <string name="know_score"> - Sometimes you want to review your scores and other players? Please select the high score box to review your achievements as well as other players!</string>
+    <string name="know_question"> - Sometimes the number of questions is too small for you to experience the difficulty of the game, you can suggest more questions to the game administrator and download more questions</string>
+    <string name="know_5050">   + 50/50: Randomly remove 2 wrong answers (can only be used once)</string>
+    <string name="know_skip">    + Skip: Skip the question and get the score of the skip question (can only be used once)</string>
+    <string name="know_reload">   + Change: Allows you to change the question, but will not receive the score for that question (can only be used once)</string>
+    <string name="know_helpper">Helpper</string>
+
+    <string name="downloadmore">Download More</string>
+    <string name="uploadquestion">Upload Question</string>
+    <string name="question">Question</string>
+    <string name="answer1">Answer No.1</string>
+    <string name="answer2">Answer No.2</string>
+    <string name="answer3">Answer No.3</string>
+    <string name="answer4">Answer No.4</string>
+    <string name="correct">Is Correct</string>
 </resources>

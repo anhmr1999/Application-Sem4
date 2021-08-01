@@ -99,15 +99,6 @@ namespace GameOfflineApi.Migrations
                 "dbo.UserAchievements",
                 c => new
                     {
-                        UserId = c.Int(nullable: false),
-                        AchievementId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.UserId, t.AchievementId });
-            
-            CreateTable(
-                "dbo.UserAchievement1",
-                c => new
-                    {
                         User_Id = c.Int(nullable: false),
                         Achievement_Id = c.Int(nullable: false),
                     })
@@ -126,16 +117,15 @@ namespace GameOfflineApi.Migrations
             DropForeignKey("dbo.Scores", "GameId", "dbo.Games");
             DropForeignKey("dbo.Questions", "UserId", "dbo.Users");
             DropForeignKey("dbo.Answers", "QuestionId", "dbo.Questions");
-            DropForeignKey("dbo.UserAchievement1", "Achievement_Id", "dbo.Achievements");
-            DropForeignKey("dbo.UserAchievement1", "User_Id", "dbo.Users");
+            DropForeignKey("dbo.UserAchievements", "Achievement_Id", "dbo.Achievements");
+            DropForeignKey("dbo.UserAchievements", "User_Id", "dbo.Users");
             DropIndex("dbo.Scores", new[] { "UserId" });
             DropIndex("dbo.Scores", new[] { "LevelId" });
             DropIndex("dbo.Scores", new[] { "GameId" });
             DropIndex("dbo.Questions", new[] { "UserId" });
             DropIndex("dbo.Answers", new[] { "QuestionId" });
-            DropIndex("dbo.UserAchievement1", new[] { "Achievement_Id" });
-            DropIndex("dbo.UserAchievement1", new[] { "User_Id" });
-            DropTable("dbo.UserAchievement1");
+            DropIndex("dbo.UserAchievements", new[] { "Achievement_Id" });
+            DropIndex("dbo.UserAchievements", new[] { "User_Id" });
             DropTable("dbo.UserAchievements");
             DropTable("dbo.LevelHards");
             DropTable("dbo.Games");

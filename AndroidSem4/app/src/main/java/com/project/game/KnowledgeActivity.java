@@ -2,6 +2,8 @@ package com.project.game;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,9 +12,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.share.widget.MessageDialog;
+import com.project.game.common.ApiProviderImpl;
 import com.project.game.component.AchievementDialog;
 import com.project.game.component.LevelAdapter;
 import com.project.game.component.ScoreAdapter;
@@ -237,6 +242,34 @@ public class KnowledgeActivity extends AppCompatActivity {
                 setContentView(R.layout.activity_question_manager);
             }
         }.start();
+    }
+
+    public void DownloadQuestion(View view){
+        ApiProviderImpl provider = new ApiProviderImpl(KnowledgeActivity.this);
+        findViewById(R.id.waitingScreen).setVisibility(View.VISIBLE);
+        provider.LoadQuestion();
+        new CountDownTimer(3000, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                findViewById(R.id.waitingScreen).setVisibility(View.INVISIBLE);
+                new AlertDialog.Builder(KnowledgeActivity.this)
+                        .setMessage("Load Done")
+                        .show();
+            }
+        }.start();
+    }
+
+    public void selectCorrectAnswer(View view){
+        ((RadioButton)findViewById(R.id.answerNo1Correct)).setChecked(false);
+        ((RadioButton)findViewById(R.id.answerNo2Correct)).setChecked(false);
+        ((RadioButton)findViewById(R.id.answerNo3Correct)).setChecked(false);
+        ((RadioButton)findViewById(R.id.answerNo4Correct)).setChecked(false);
+        ((RadioButton)view).setChecked(true);
     }
 
     public void BackToMainActivity(View view){
