@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -199,11 +200,12 @@ public class        Game2048Activity extends AppCompatActivity {
     }
 
     private void checkScore(){
-        Score currentScore = scoreRepository.getScoreForUpdate(1, Contants.User.getId(), Contants._2048Level.getId());
+        Score currentScore = scoreRepository.getScoreForUpdate(2, Contants.User.getId(), Contants._2048Level.getId());
+
         if(currentScore == null){
-            currentScore = new Score(Contants._2048Level.getId(),1, Contants.User.getId(), Game2048.getDataGame().getScore(), false);
+            currentScore = new Score(Contants._2048Level.getId(),2, Contants.User.getId(), Game2048.getDataGame().getScore(), false);
             if(scoreRepository.add(currentScore)){
-                if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(Game2048Activity.this) && Contants.User.getAccessToken() != ""){
+                if(Contants.User.getId() != 0 && Contants.IsNetworkConnected(Game2048Activity.this) && Contants.User.getAccessToken() != ""){
                     apiProvider.UpdateScore();
                 }
             }
@@ -212,7 +214,7 @@ public class        Game2048Activity extends AppCompatActivity {
                 currentScore.setScore(Game2048.getDataGame().getScore());
                 currentScore.setUpload(false);
                 scoreRepository.update(currentScore);
-                if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(Game2048Activity.this) && Contants.User.getAccessToken() != ""){
+                if(Contants.User.getId() != 0 && Contants.IsNetworkConnected(Game2048Activity.this) && Contants.User.getAccessToken() != ""){
                     apiProvider.UpdateScore();
                 }
             }
@@ -238,7 +240,7 @@ public class        Game2048Activity extends AppCompatActivity {
             apiProvider.UpdateAchievement();
             dialog.setAchievement(achievements);
             dialog.show();
-            if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(Game2048Activity.this) && Contants.User.getAccessToken() != ""){
+            if(Contants.User.getId() != 0 && Contants.IsNetworkConnected(Game2048Activity.this) && Contants.User.getAccessToken() != ""){
                 apiProvider.UpdateAchievement();
             }
         }
@@ -343,6 +345,7 @@ public class        Game2048Activity extends AppCompatActivity {
                     overGame2048.setVisibility(View.VISIBLE);
                     txtendScore.setText("" + Game2048.getDataGame().getScore());
                     gameOver = true;
+                    checkScore();
                 }
             } else {
                 setContentView(R.layout.activity_game2048_home);

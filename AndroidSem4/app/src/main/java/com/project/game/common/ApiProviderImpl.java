@@ -198,6 +198,53 @@ public class ApiProviderImpl {
         return result;
     }
 
+    public CallApiResult<User> Login(String Token, String name, int avatar, int id){
+        CallApiResult result = new CallApiResult();
+        _apiProvider.LoginUser(Token,name,avatar, id).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response.isSuccessful()){
+                    User user = response.body();
+                    if(_userRepository.update(user)){
+
+                        if(user.getAchievements() != null){
+                            for (Achievement achievement: user.getAchievements()) {
+                                _userAchievementRepository.add(user.getId(), achievement.getId());
+                            }
+                        }
+                        if(user.getScores() != null){
+                            for (Score score: user.getScores()) {
+                                _scoreRepository.add(score);
+                            }
+                        }
+
+                        Contants.User = user;
+
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putInt("UserId",user.getId());
+                        editor.apply();
+
+                        MainActivity.userName.setText(Contants.User.getName());
+                        MainActivity.userAvatar.setImageResource(Contants.getAvatarResource());
+                    }
+                    result.setStatus(true);
+                } else {
+                    result.setStatusCode(response.code());
+                    result.setStatus(false);
+                    result.setMessage("Đã xảy ra lỗi khi xử lý yêu cầu này!");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                result.setStatus(false);
+                result.setMessage("Lỗi kết nối Internet, vui lòng kiểm tra lại đường truyền!");
+                Log.e("API","Die");
+            }
+        });
+        return result;
+    }
+
     private CallApiResult<User> GetUser(int id){
         CallApiResult result = new CallApiResult();
         _apiProvider.GetUser(id).enqueue(new Callback<User>() {

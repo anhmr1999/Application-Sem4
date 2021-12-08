@@ -186,7 +186,7 @@ public class FlappyBird extends View {
         if(currentScore == null){
             currentScore = new Score(Contants.flappyBirdLevel.getId(),1, Contants.User.getId(), score, false);
             if(scoreRepository.add(currentScore)){
-                if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
+                if(Contants.User.getId() != 0 && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
                     apiProvider.UpdateScore();
                 }
             }
@@ -195,7 +195,7 @@ public class FlappyBird extends View {
                 currentScore.setScore(score);
                 currentScore.setUpload(false);
                 if(scoreRepository.update(currentScore)){
-                    if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
+                    if(Contants.User.getId() != 0 && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
                         apiProvider.UpdateScore();
                     }
                 }
@@ -212,7 +212,7 @@ public class FlappyBird extends View {
         if(achievements.size() > 0){
             FlappyBirdActivity.dialog.setAchievement(achievements);
             FlappyBirdActivity.dialog.show();
-            if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
+            if(Contants.User.getId() != 0 && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
                 apiProvider.UpdateAchievement();
             }
         }

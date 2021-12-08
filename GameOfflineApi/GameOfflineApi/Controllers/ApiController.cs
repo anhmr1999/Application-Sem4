@@ -104,19 +104,27 @@ namespace GameOfflineApi.Controllers
         }
 
         [HttpPost]
-        public JsonResult LoginUser(string Token="", string name="", int avatar = 1)
+        public JsonResult LoginUser(string Token="", string name="", int avatar = 1, int? id = null)
         {
-            var loginUser = !string.IsNullOrEmpty(Token) ? context.Users.FirstOrDefault(x => x.AccessToken == Token) : null;
-            if (loginUser == null)
-            {
-                loginUser = new User()
+            User loginUser = null;
+            if (id == null) { 
+                loginUser = !string.IsNullOrEmpty(Token) ? context.Users.FirstOrDefault(x => x.AccessToken == Token) : null;
+
+                if (loginUser == null)
                 {
-                    Name = string.IsNullOrEmpty(name) ? "G" + DateTime.Now.ToLongDateString() : name,
-                    AccessToken = Token,
-                    Avatar = avatar
-                };
-                context.Users.Add(loginUser);
-                context.SaveChanges();
+                    loginUser = new User()
+                    {
+                        Name = string.IsNullOrEmpty(name) ? "G" + DateTime.Now.ToLongDateString() : name,
+                        AccessToken = Token,
+                        Avatar = avatar
+                    };
+                    context.Users.Add(loginUser);
+                    context.SaveChanges();
+                }
+
+            } else
+            {
+                loginUser = context.Users.Find(id);
             }
             Models.ViewModel.User user = new Models.ViewModel.User()
             {

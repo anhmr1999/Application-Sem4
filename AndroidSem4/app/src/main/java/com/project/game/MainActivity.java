@@ -25,6 +25,7 @@ import com.project.game.common.Contants;
 import com.project.game.datamanager.repository.AchievementRepository;
 import com.project.game.datamanager.repository.UserAchievementRepository;
 import com.project.game.datamanager.repository.UserRepository;
+import com.project.game.entity.User;
 
 import java.util.Locale;
 
@@ -213,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void SettingChangeProfile(View view){
-
+        new UserSettingDialog(MainActivity.this).show();
     }
 
     private void saveMusic(){
@@ -231,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
             AccessToken accessToken = AccessToken.getCurrentAccessToken();
             if(accessToken != null && !accessToken.isExpired()){
                 Contants.User = userRepository.getUser(accessToken.getToken());
+                MainActivity.UpdateUser(MainActivity.this);
             } else {
                 int userId = sp.getInt("UserId",0);
                 Contants.User = userRepository.getUser(userId);
@@ -239,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     userName.setText(Contants.User.getName());
                     userAvatar.setImageResource(Contants.getAvatarResource());
+                    MainActivity.UpdateUser(MainActivity.this);
                 }
             }
         } else {
@@ -280,5 +283,34 @@ public class MainActivity extends AppCompatActivity {
 
     public void ViewAchievement(View view) {
         new AchievementDialog(MainActivity.this,new AchievementRepository(MainActivity.this), new UserAchievementRepository(MainActivity.this)).show();
+    }
+
+    public static void UpdateUser(Context context){
+        ApiProviderImpl apiProvider = new ApiProviderImpl(context);
+        User user = Contants.User;
+
+        if(Contants.IsNetworkConnected(context)){
+            if(user.getId() == 0){
+                apiProvider.Login(user.getAccessToken(), user.getName(), user.getAvatar());
+            } else {
+                apiProvider.Login(user.getAccessToken(), user.getName(), user.getAvatar(), user.getId());
+            }
+        } else {
+            UserRepository repository = new UserRepository(context);
+
+            if(repository.getUser(user.getId()) == null){
+                repository.add(user);
+            } else {
+                repository.update(user);
+            }
+
+            SharedPreferences sp = context.getSharedPreferences("CommonSetting", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putInt("UserId",user.getId());
+            editor.apply();
+
+            MainActivity.userName.setText(Contants.User.getName());
+            MainActivity.userAvatar.setImageResource(Contants.getAvatarResource());
+        }
     }
 }

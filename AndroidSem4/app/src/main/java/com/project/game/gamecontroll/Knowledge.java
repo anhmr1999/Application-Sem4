@@ -170,7 +170,7 @@ public class Knowledge {
                 if(currentScore == null){
                     currentScore = new Score(Contants.knowLevel.getId(), 3, Contants.User.getId(), score, false);
                     scoreRepository.add(currentScore);
-                    if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
+                    if(Contants.User.getId() != 0 && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
                         apiProvider.UpdateScore();
                     }
                 } else {
@@ -178,7 +178,7 @@ public class Knowledge {
                         currentScore.setScore(score);
                         currentScore.setUpload(false);
                         scoreRepository.update(currentScore);
-                        if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
+                        if(Contants.User.getId() != 0 && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
                             apiProvider.UpdateScore();
                         }
                     }
@@ -194,7 +194,7 @@ public class Knowledge {
                 if(achievements.size() > 0){
                     KnowledgeActivity.dialog.setAchievement(achievements);
                     KnowledgeActivity.dialog.show();
-                    if(Contants.User.getAccessToken() != null && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
+                    if(Contants.User.getId() != 0 && Contants.IsNetworkConnected(context) && Contants.User.getAccessToken() != ""){
                         apiProvider.UpdateAchievement();
                     }
                 }

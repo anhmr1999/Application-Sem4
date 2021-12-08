@@ -37,6 +37,9 @@ public interface ApiProvider {
     @POST("LoginUser")
     Call<User> LoginUser(@Query("Token") String Token, @Query("name") String name, @Query("avatar") int avatar);
 
+    @POST("LoginUser")
+    Call<User> LoginUser(@Query("Token") String Token, @Query("name") String name, @Query("avatar") int avatar, int id);
+
     @POST("UpdateScores")
     Call<Boolean> UpdateScores(@Body List<Score> scores);
 

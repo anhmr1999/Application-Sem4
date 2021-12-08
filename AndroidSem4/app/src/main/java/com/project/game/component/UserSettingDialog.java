@@ -52,25 +52,14 @@ public class UserSettingDialog  extends Dialog {
                     ((TextView)findViewById(R.id.txtUserName_error)).setText("Ten phai co ky tu khac khoang trang");
                     findViewById(R.id.txtUserName_error).setVisibility(View.VISIBLE);
                 }else {
-                    User user = new User(0,userName,"",userAvatar);
-
                     if(Contants.User == null){
-                        SharedPreferences sp = context.getSharedPreferences("CommonSetting", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putInt("UserId",user.getId());
-                        editor.apply();
-                    }
-
-                    UserRepository repository = new UserRepository(context);
-                    if(repository.getUser(0) == null){
-                        repository.add(user);
+                        Contants.User = new User(0,userName,"",userAvatar);
                     } else {
-                        repository.update(user);
+                        Contants.User.setName(userName);
+                        Contants.User.setAvatar(userAvatar);
                     }
 
-                    Contants.User = user;
-                    MainActivity.userName.setText(Contants.User.getName());
-                    MainActivity.userAvatar.setImageResource(Contants.getAvatarResource());
+                    MainActivity.UpdateUser(context);
                     dismiss();
                 }
             }
