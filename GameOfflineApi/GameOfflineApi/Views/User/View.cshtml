@@ -1,0 +1,114 @@
+﻿@model GameOfflineApi.Models.EntityManagers.Entities.User
+
+@{
+    ViewBag.Title = "View";
+}
+
+@section styles{
+    <style>
+        .avt {
+            height: 200px;
+            width: auto;
+        }
+    </style>
+} 
+
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Thông tin người dùng</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+                @if (Model.Avatar == 1)
+                {
+                    <img src="~/Content/Avatars/bird.png" class="avt" />
+                }
+                else if (Model.Avatar == 2)
+                {
+                    <img src="~/Content/Avatars/user1.png" class="avt" />
+                }
+                else if (Model.Avatar == 3)
+                {
+                    <img src="~/Content/Avatars/user2.png" class="avt" />
+                }
+                else if (Model.Avatar == 4)
+                {
+                    <img src="~/Content/Avatars/user3.png" class="avt" />
+                }
+                else if (Model.Avatar == 5)
+                {
+                    <img src="~/Content/Avatars/user4.png" class="avt" />
+                }
+                else
+                {
+                    <img src="~/Content/Avatars/bird.png" class="avt" />
+                }
+            </div>
+            <div class="col-sm-6 col-md-6">
+                <h3>@Model.Name</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <h3>Bảng điểm</h3>
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Dễ</th>
+                            <th>Trung Bình</th>
+                            <th>Khó</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Scores.GroupBy(x => x.GameId, (key, group) => new { key = key, scores = group }))
+                        {
+                            <tr>
+                                <td>@(item.key == 1 ? "Flappy Bird" : item.key == 2 ? "2048" : "KnowIsPower")</td>
+                                <td>@(item.scores.FirstOrDefault(x => x.LevelId == 1)?.Point)</td>
+                                <td>@(item.scores.FirstOrDefault(x => x.LevelId == 2)?.Point)</td>
+                                <td>@(item.scores.FirstOrDefault(x => x.LevelId == 3)?.Point)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <h3>Danh sách thành tích</h3>
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Thành tích</th>
+                            <th>Độ khó</th>
+                            <th>Cách đạt được</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Achievements.Select((item, index) => new { index, item }))
+                        {
+                            <tr>
+                                <td>@(item.index + 1)</td>
+                                <td>@(item.item.Name)</td>
+                                <td>@(item.item.LevelName)</td>
+                                <td>@(item.item.Tutorial)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12" style="text-align: right">
+        <button class="btn btn-success">Trở về</button>
+    </div>
+</div>

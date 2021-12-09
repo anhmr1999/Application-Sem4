@@ -1,0 +1,102 @@
+﻿@model System.Collections.Generic.List<GameOfflineApi.Models.EntityManagers.Entities.Question>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section  styles{
+    <style>
+        .panigtion{
+            text-align: right;
+        }
+        .panigtion ul li{
+            display: inline-block;
+            padding: 3px 7px;
+            cursor: pointer;
+            border: 1px solid #808080;
+            border-radius: 3px;
+        }
+            .panigtion ul li.active{
+                background-color: #00ffff
+            }
+    </style>
+}
+
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <h2>Danh sách câu hỏi</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-4">
+        <div class="form-group row">
+            <label class="col-md-4">Trạng thái</label>
+            <select class="col-md-8 form-control" style="max-width: 66.6666667%;">
+                <option>Tất cả</option>
+                <option value="0">Đã phê duyệt</option>
+                <option value="1">Đang chờ phê duyệt</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group row">
+            <label class="col-md-4">Nội dung:</label>
+            <input type="text" class="col-md-8 form-control" />
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-2">
+        <div class="form-group">
+            <button class="btn btn-primary">Tìm kiếm</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Nội dung câu hỏi</th>
+                    <th>Trạng thái</th>
+                    <th>Người tạo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@(Model.IndexOf(item)+1)</td>
+                        <td>@item.Content</td>
+                        <td>@(item.Active? "Đã phê duyệt" : "Chờ phê duyệt")</td>
+                        <td>@(item.User != null ? item.User.Name : "Hệ thống")</td>
+                        <td>
+                            @if (!item.Active)
+                            {<a href="@Url.Action("Edit","Question", new { Id = item.Id })" data-id="@item.Id">Xem</a>}
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-12 col-md-12">
+        <div class="form-group row">
+            <div class="col-sm-12 col-md-6">
+                <label>Số phần tử hiển thị</label>
+                <select class="custom-select">
+                    <option value="10" @(ViewBag.current == 10 ? "selected" : "")>10</option>
+                    <option value="20" @(ViewBag.current == 20 ? "selected" : "")>20</option>
+                    <option value="50" @(ViewBag.current == 50 ? "selected" : "")>50</option>
+                </select>
+            </div>
+            <div class="col-sm-12 col-md-6 panigtion">
+                <ul>
+                    @for (int i = 1; i <= ViewBag.pages; i++)
+                    {
+                        <li data-page="@i" class="@(ViewBag.current == i ? "active" : "")">@i</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

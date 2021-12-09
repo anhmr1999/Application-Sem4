@@ -1,5 +1,6 @@
 ﻿using GameOfflineApi.Models.EntityManagers;
 using GameOfflineApi.Models.EntityManagers.Entities;
+using GameOfflineApi.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,5 +13,32 @@ namespace GameOfflineApi.Controllers
     {
         private DataContext context = new DataContext();
 
+        public ActionResult Index(QuestionFilterInput input)
+        {
+            var list = context.Questions.Include(x => x.User);
+            if (input.Active != null)
+            {
+                list = list.Where(x=> x.Active == input.Active.Value);
+            }
+            if (!string.IsNullOrEmpty(input.Filter))
+            {
+                list = list.Where(x => x.Content.ToLower().Contains(input.Filter.ToLower()));
+            }
+            var count = list.Count();
+            ViewBag.pages = Math.Ceiling((decimal)count / input.TakeCount);
+            ViewBag.current = input.PageNumber;
+            var models = list.OrderByDescending(x=> x.Id).Skip((input.PageNumber - 1) * input.TakeCount).Take(input.TakeCount).ToList();
+            return View(models);
+        }
+
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+            var model = context.Questions.Include(x=> x.Answers).FirstOrDefault(x=> x.Id == id);
+            return View(model);
+        }
     }
 }

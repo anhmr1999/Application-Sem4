@@ -1,0 +1,187 @@
+﻿@model System.Collections.Generic.List<GameOfflineApi.Models.EntityManagers.Entities.Achievement>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section  styles{
+    <style>
+        input,textarea, select{
+            max-width: unset;
+        }
+
+        .panigtion {
+            text-align: right;
+        }
+
+            .panigtion ul li {
+                display: inline-block;
+                padding: 3px 7px;
+                cursor: pointer;
+                border: 1px solid #808080;
+                border-radius: 3px;
+            }
+
+                .panigtion ul li.active {
+                    background-color: #00ffff
+                }
+    </style>
+}
+
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <h2>Danh sách thành tích</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-3">
+        <div class="form-group row">
+            <label class="col-md-4">Độ khó</label>
+            <select class="col-md-8 form-control" style="max-width: 66.6666667%;">
+                <option>Tất cả</option>
+                <option value="easy">Dễ</option>
+                <option value="normal">Trung bình</option>
+                <option value="deff">Khó</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group row">
+            <label class="col-md-2">Tên thành tích:</label>
+            <div class="col-md-10 ">
+                <input type="text" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-3">
+        <div class="form-group">
+            <button class="btn btn-primary">Tìm kiếm</button>
+            <button class="btn btn-success" data-toggle="modal" data-target="#addModal">Thêm mới</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên thành tích</th>
+                    <th>Độ khó</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@(Model.IndexOf(item)+1)</td>
+                        <td>@item.Name</td>
+                        <td>@item.LevelName</td>
+                        <td>
+                            <a href="@Url.Action("Edit","Achievement", new { Id = item.Id })" data-id="@item.Id">Chỉnh sửa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-12 col-md-12">
+        <div class="form-group row">
+            <div class="col-sm-12 col-md-6">
+                <label>Số phần tử hiển thị</label>
+                <select class="custom-select">
+                    <option value="10" @(ViewBag.current == 10 ? "selected" : "")>10</option>
+                    <option value="20" @(ViewBag.current == 20 ? "selected" : "")>20</option>
+                    <option value="50" @(ViewBag.current == 50 ? "selected" : "")>50</option>
+                </select>
+            </div>
+            <div class="col-sm-12 col-md-6 panigtion">
+                <ul>
+                    @for (int i = 1; i <= ViewBag.pages; i++)
+                    {
+                        <li data-page="@i" class="@(ViewBag.current == i ? "active" : "")">@i</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm thành tích</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 form-group">
+                        <div class="row">
+                            <label class="col-sm-3 col-md-3">Tên:</label>
+                            <div class="col-sm-9 col-md-9">
+                                <input class="form-control" placeholder="Tên thành tích" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 form-group">
+                        <div class="row">
+                            <label class="col-sm-6 col-md-6">Trò chơi:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <select class="form-control">
+                                    @foreach (var item in ViewBag.games)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 form-group">
+                        <div class="row">
+                            <label class="col-sm-6 col-md-6">Độ khó:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <select class="form-control">
+                                    <option value="easy">Dễ</option>
+                                    <option value="normal">Trung bình</option>
+                                    <option value="deff">Khó</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 form-group">
+                        <div class="row">
+                            <label class="col-sm-6 col-md-6">Điểm số/ ô số:</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input type="number" value="0" min="0" max="10000000" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 form-group">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <input type="checkbox" value="" checked />
+                                <label>Dùng điểm để đạt được thành tích</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 form-group">
+                        <div class="row">
+                            <label class="col-sm-12 col-md-12">Hướng dẫn đạt được:</label>
+                            <div class="col-sm-12 col-md-12">
+                                <textarea class="form-group" style="max-width: 100%; min-width: 100%; min-height: 100px"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                <button type="button" class="btn btn-primary">Thêm thành tích</button>
+            </div>
+        </div>
+    </div>
+</div>

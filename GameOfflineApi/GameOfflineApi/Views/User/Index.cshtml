@@ -1,0 +1,140 @@
+﻿@model System.Collections.Generic.List<GameOfflineApi.Models.EntityManagers.Entities.User>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section  styles{
+    <style>
+        .panigtion {
+            text-align: right;
+        }
+
+            .panigtion ul li {
+                display: inline-block;
+                padding: 3px 7px;
+                cursor: pointer;
+                border: 1px solid #808080;
+                border-radius: 3px;
+            }
+
+                .panigtion ul li.active {
+                    background-color: #00ffff
+                }
+
+        .avt {
+            height: 50px;
+            width: auto;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <h2>Danh sách người dùng</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-5">
+        <div class="form-group row">
+            <label class="col-md-4">Tên người dùng:</label>
+            <input type="text" class="col-md-8 form-control" />
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-3">
+        <div class="form-group row">
+            <label class="col-md-4">Sắp xếp theo</label>
+            <select class="col-md-8 form-control" style="max-width: 66.6666667%;">
+                <option value="0">Không sắp xếp</option>
+                <option value="1">Tên</option>
+                <option value="2">Số lượng thành tích</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-2">
+        <div class="form-group">
+            <input type="checkbox" value="" @(ViewBag.OrderDesc ? "checked" : "") /> Từ Z-A / 9-1
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-2">
+        <div class="form-group">
+            <button class="btn btn-primary">Tìm kiếm</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Ảnh đại diện</th>
+                    <th>Tên người dùng</th>
+                    <th>Thành tích</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@(Model.IndexOf(item)+1)</td>
+                        <td>
+                            @if (item.Avatar == 1)
+                            {
+                                <img src="~/Content/Avatars/bird.png" class="avt" />
+                            }
+                            else if (item.Avatar == 2)
+                            {
+                                <img src="~/Content/Avatars/user1.png" class="avt" />
+                            }
+                            else if (item.Avatar == 3)
+                            {
+                                <img src="~/Content/Avatars/user2.png" class="avt" />
+                            }
+                            else if (item.Avatar == 4)
+                            {
+                                <img src="~/Content/Avatars/user3.png" class="avt" />
+                            }
+                            else if (item.Avatar == 5)
+                            {
+                                <img src="~/Content/Avatars/user4.png" class="avt" />
+                            }
+                            else
+                            {
+                                <img src="~/Content/Avatars/bird.png" class="avt" />
+                            }
+                        </td>
+                        <td>@item.Name</td>
+                        <td>@item.Achievements.Count / @ViewBag.countAch</td>
+                        <td><a href="@Url.Action("View","User",new { id = item.Id })">Xem thành tích</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-12 col-md-12">
+        <div class="form-group row">
+            <div class="col-sm-12 col-md-6">
+                <label>Số phần tử hiển thị</label>
+                <select class="custom-select">
+                    <option value="10" @(ViewBag.current == 10 ? "selected" : "")>10</option>
+                    <option value="20" @(ViewBag.current == 20 ? "selected" : "")>20</option>
+                    <option value="50" @(ViewBag.current == 50 ? "selected" : "")>50</option>
+                </select>
+            </div>
+            <div class="col-sm-12 col-md-6 panigtion">
+                <ul>
+                    @for (int i = 1; i <= ViewBag.pages; i++)
+                    {
+                        <li data-page="@i" class="@(ViewBag.current == i ? "active" : "")">@i</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
