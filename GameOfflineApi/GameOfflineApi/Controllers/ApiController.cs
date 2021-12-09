@@ -116,7 +116,8 @@ namespace GameOfflineApi.Controllers
                     {
                         Name = string.IsNullOrEmpty(name) ? "G" + DateTime.Now.ToLongDateString() : name,
                         AccessToken = Token,
-                        Avatar = avatar
+                        Avatar = avatar,
+                        CreationTime = DateTime.Now
                     };
                     context.Users.Add(loginUser);
                     context.SaveChanges();

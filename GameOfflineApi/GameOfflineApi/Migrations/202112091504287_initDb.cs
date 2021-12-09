@@ -29,6 +29,7 @@ namespace GameOfflineApi.Migrations
                         Name = c.String(),
                         AccessToken = c.String(),
                         Avatar = c.Int(nullable: false),
+                        CreationTime = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -72,9 +73,9 @@ namespace GameOfflineApi.Migrations
                 .ForeignKey("dbo.Games", t => t.GameId, cascadeDelete: true)
                 .ForeignKey("dbo.LevelHards", t => t.LevelId, cascadeDelete: true)
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.UserId)
                 .Index(t => t.GameId)
-                .Index(t => t.LevelId)
-                .Index(t => t.UserId);
+                .Index(t => t.LevelId);
             
             CreateTable(
                 "dbo.Games",
@@ -119,13 +120,13 @@ namespace GameOfflineApi.Migrations
             DropForeignKey("dbo.Answers", "QuestionId", "dbo.Questions");
             DropForeignKey("dbo.UserAchievements", "Achievement_Id", "dbo.Achievements");
             DropForeignKey("dbo.UserAchievements", "User_Id", "dbo.Users");
-            DropIndex("dbo.Scores", new[] { "UserId" });
-            DropIndex("dbo.Scores", new[] { "LevelId" });
-            DropIndex("dbo.Scores", new[] { "GameId" });
-            DropIndex("dbo.Questions", new[] { "UserId" });
-            DropIndex("dbo.Answers", new[] { "QuestionId" });
             DropIndex("dbo.UserAchievements", new[] { "Achievement_Id" });
             DropIndex("dbo.UserAchievements", new[] { "User_Id" });
+            DropIndex("dbo.Scores", new[] { "LevelId" });
+            DropIndex("dbo.Scores", new[] { "GameId" });
+            DropIndex("dbo.Scores", new[] { "UserId" });
+            DropIndex("dbo.Answers", new[] { "QuestionId" });
+            DropIndex("dbo.Questions", new[] { "UserId" });
             DropTable("dbo.UserAchievements");
             DropTable("dbo.LevelHards");
             DropTable("dbo.Games");

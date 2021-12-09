@@ -30,10 +30,10 @@ namespace GameOfflineApi.Models.EntityManagers
         };
 
         public static IEnumerable<User> Users = new List<User>() {
-            new User(){Id = 1, Name = "Tom Hiddleston", Avatar = 1},
-            new User(){Id = 2, Name = "Alethea", Avatar = 1},
-            new User(){Id = 3, Name = "Eudora", Avatar = 1},
-            new User(){Id = 4, Name = "Griselda", Avatar = 1}
+            new User(){Id = 1, Name = "Tom Hiddleston", Avatar = 1, CreationTime = DateTime.Now},
+            new User(){Id = 2, Name = "Alethea", Avatar = 1, CreationTime = DateTime.Now},
+            new User(){Id = 3, Name = "Eudora", Avatar = 1, CreationTime = DateTime.Now},
+            new User(){Id = 4, Name = "Griselda", Avatar = 1, CreationTime = DateTime.Now}
         };
 
         public static IEnumerable<Question> Questions = new List<Question>() {

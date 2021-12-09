@@ -6,14 +6,14 @@ namespace GameOfflineApi.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    [GeneratedCode("EntityFramework.Migrations", "6.0.0-20911")]
+    [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
     public sealed partial class initDb : IMigrationMetadata
     {
         private readonly ResourceManager Resources = new ResourceManager(typeof(initDb));
         
         string IMigrationMetadata.Id
         {
-            get { return "202107270946262_initDb"; }
+            get { return "202112091504287_initDb"; }
         }
         
         string IMigrationMetadata.Source
