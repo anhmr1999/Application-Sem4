@@ -26,7 +26,7 @@ namespace GameOfflineApi.Controllers
             }
             var count = list.Count();
             ViewBag.pages = Math.Ceiling((decimal)count / input.TakeCount);
-            ViewBag.current = input.PageNumber;
+            ViewBag.current = input;
             var models = list.OrderByDescending(x=> x.Id).Skip((input.PageNumber - 1) * input.TakeCount).Take(input.TakeCount).ToList();
             return View(models);
         }
@@ -39,6 +39,20 @@ namespace GameOfflineApi.Controllers
             }
             var model = context.Questions.Include(x=> x.Answers).FirstOrDefault(x=> x.Id == id);
             return View(model);
+        }
+
+        public JsonResult Edit(Question question)
+        {
+            try
+            {
+                context.Entry(question).State = EntityState.Modified;
+                context.SaveChanges();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

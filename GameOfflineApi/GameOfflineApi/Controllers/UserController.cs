@@ -18,7 +18,6 @@ namespace GameOfflineApi.Controllers
         public ActionResult Index(UserFilterInput input)
         {
             ViewBag.countAch = context.Achievements.Count();
-            ViewBag.OrderDesc = input.Desc;
             var ds = context.Users.Include(x=> x.Achievements).Include(x=> x.Scores);
             if (!string.IsNullOrEmpty(input.Filter))
             {
@@ -43,7 +42,7 @@ namespace GameOfflineApi.Controllers
                     break;
             }
             ViewBag.pages = Math.Ceiling((decimal)ds.Count()/input.TakeCount);
-            ViewBag.current = input.PageNumber;
+            ViewBag.current = input;
             var models = ds.Skip((input.PageNumber - 1) * input.TakeCount).Take(input.TakeCount).ToList();
 
             return View(models);

@@ -6,7 +6,7 @@
 
 @section  styles{
     <style>
-        input,textarea, select{
+        input, textarea, select {
             max-width: unset;
         }
 
@@ -25,7 +25,132 @@
                 .panigtion ul li.active {
                     background-color: #00ffff
                 }
+        .modal-title{
+            font-size: 1.3rem;
+            font-weight: 600
+        }
+        .err-valid{
+            color: red;
+            display: none;
+            font-size: 0.9rem;
+        }
     </style>
+}
+
+@section scripts{
+    <script>
+        function changePageOrSearch() {
+            var url = '@Url.Action("Index","Achievement")' + '?PageNumber=' + $('.paged.active').data('page') + '&TakeCount=' + $('.takeCount').val();
+            url += '&LevelName=' + $('.level').val();
+            url += '&GameId=' + $('.game').val();
+
+            var filter = $('.filter').val();
+            if (filter.trim.length == 0) {
+                url += '&Filter=' + filter;
+            }
+            console.log(url);
+            window.location.href = url;
+        }
+
+        function getAchievement() {
+            var getdata = true;
+            if ($('.achievementName').val().trim() == "") {
+                $('.achievementName-err').css('display', 'inline');
+                getdata = false;
+            } else {
+                $('.achievementName-err').css('display', 'none');
+            }
+            if ($('.achievementNumber').val() == 0) {
+                getdata = false;
+                $('.achievementNumber-err').css('display', 'inline');
+            } else {
+                $('.achievementNumber-err').css('display', 'none');
+            }
+            if ($('.achievementTutorial').val().trim() == "") {
+                getdata = false;
+                $('.achievementTutorial-err').css('display', 'inline');
+            } else {
+                $('.achievementTutorial-err').css('display', 'none');
+            }
+            if (getdata) {
+                var data = {
+                    Id: $('.achievementId').val(),
+                    Name: $('.achievementName').val(),
+                    Tutorial: $('.achievementTutorial').val(),
+                    CheckScore: $('.achievementCheckScore').is('checked'),
+                    ScoreOrNumber: $('.achievementNumber').val(),
+                    GameId: $('.achievementGame').val(),
+                    LevelName: $('.achievementLevel').val()
+                };
+                return data;
+            }
+            return null;
+        }
+
+        function reForm() {
+            $('.achievementId').val('');
+            $('.achievementName').val('');
+            $('.achievementTutorial').val('');
+            $('.achievementNumber').val('');
+            $('.achievementGame').val('');
+            $('.achievementLevel').val('');
+            $('.achievementCheckScore').prop('checked', false);
+        }
+
+        $('.searchAchievement').on('click', function () {
+            changePageOrSearch();
+        });
+
+        $('.paged').on('click', function () {
+            $('.paged').removeClass('active');
+            $(this).addClass('active');
+            changePageOrSearch();
+        });
+
+        $('.takeCount').on('change', function () {
+            changePageOrSearch();
+        });
+
+        $('.createOrUpdate').on('click', function () {
+            var achievement = getAchievement();
+            if (achievement == null) {
+                return;
+            }
+            $.ajax({
+                url: '@Url.Action("AddOrUpdate", "Achievement")',
+                data: { achievement: achievement },
+                type: 'POST',
+                success: function (res) {
+                    if (res.success) {
+                        changePageOrSearch();
+                    } else {
+                        alert('Thêm thành tích không thành công');
+                    }
+                }
+            });
+        });
+        $(document).on('click', '.editAchievement', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '@Url.Action("Get", "Achievement")' + '?id=' + $(this).data('id'),
+                success: function (res) {
+                    if (res != null) {
+                        $('.achievementId').val(res.Id);
+                        $('.achievementName').val(res.Name);
+                        $('.achievementTutorial').val(res.Tutorial);
+                        $('.achievementNumber').val(res.ScoreOrNumber);
+                        $('.achievementGame').val(res.GameId);
+                        $('.achievementLevel').val(res.LevelName);
+                        $('.achievementCheckScore').prop('checked', res.CheckScore);
+                        $('#addModal').modal('show');
+                    }
+                }
+            });
+        });
+        $('.reForm').on('click', function () {
+            reForm();
+        });
+    </script>
 }
 
 <div class="row">
@@ -34,28 +159,40 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-12 col-md-3">
+    <div class="col-sm-12 col-md-2">
         <div class="form-group row">
             <label class="col-md-4">Độ khó</label>
-            <select class="col-md-8 form-control" style="max-width: 66.6666667%;">
-                <option>Tất cả</option>
-                <option value="easy">Dễ</option>
-                <option value="normal">Trung bình</option>
-                <option value="deff">Khó</option>
+            <select class="col-md-8 form-control level" style="max-width: 66.6666667%;">
+                <option value="">Tất cả</option>
+                <option value="easy" @(ViewBag.current.LevelName == "easy" ? "selected" : "")>Dễ</option>
+                <option value="normal" @(ViewBag.current.LevelName == "normal" ? "selected" : "")>Trung bình</option>
+                <option value="difficult" @(ViewBag.current.LevelName == "difficult" ? "selected" : "")>Khó</option>
             </select>
         </div>
     </div>
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 col-md-2">
         <div class="form-group row">
-            <label class="col-md-2">Tên thành tích:</label>
-            <div class="col-md-10 ">
-                <input type="text" class="form-control" />
+            <label class="col-md-4">Độ khó</label>
+            <select class="col-md-8 form-control game" style="max-width: 66.6666667%;">
+                <option value="">Tất cả</option>
+                @foreach (var item in ViewBag.games)
+                {
+                    <option value="@item.Id" @(ViewBag.current.GameId == item.Id ? "selected" : "")>@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-5">
+        <div class="form-group row">
+            <label class="col-md-4">Tên thành tích:</label>
+            <div class="col-md-8 ">
+                <input type="text" class="form-control filter" value="@ViewBag.current.Filter" />
             </div>
         </div>
     </div>
     <div class="col-sm-12 col-md-3">
         <div class="form-group">
-            <button class="btn btn-primary">Tìm kiếm</button>
+            <button class="btn btn-primary searchAchievement">Tìm kiếm</button>
             <button class="btn btn-success" data-toggle="modal" data-target="#addModal">Thêm mới</button>
         </div>
     </div>
@@ -67,6 +204,7 @@
                 <tr>
                     <th>STT</th>
                     <th>Tên thành tích</th>
+                    <th>Trò chơi</th>
                     <th>Độ khó</th>
                     <th></th>
                 </tr>
@@ -77,9 +215,10 @@
                     <tr>
                         <td>@(Model.IndexOf(item)+1)</td>
                         <td>@item.Name</td>
+                        <td>@(((System.Data.Entity.DbSet<GameOfflineApi.Models.EntityManagers.Entities.Game>)ViewBag.games).FirstOrDefault(x=> x.Id == item.GameId)?.Name)</td>
                         <td>@item.LevelName</td>
                         <td>
-                            <a href="@Url.Action("Edit","Achievement", new { Id = item.Id })" data-id="@item.Id">Chỉnh sửa</a>
+                            <a href="@Url.Action("Edit","Achievement", new { Id = item.Id })" data-id="@item.Id" class="editAchievement">Chỉnh sửa</a>
                         </td>
                     </tr>
                 }
@@ -90,17 +229,17 @@
         <div class="form-group row">
             <div class="col-sm-12 col-md-6">
                 <label>Số phần tử hiển thị</label>
-                <select class="custom-select">
-                    <option value="10" @(ViewBag.current == 10 ? "selected" : "")>10</option>
-                    <option value="20" @(ViewBag.current == 20 ? "selected" : "")>20</option>
-                    <option value="50" @(ViewBag.current == 50 ? "selected" : "")>50</option>
+                <select class="custom-select takeCount">
+                    <option value="10" @(ViewBag.current.TakeCount == 10 ? "selected" : "")>10</option>
+                    <option value="20" @(ViewBag.current.TakeCount == 20 ? "selected" : "")>20</option>
+                    <option value="50" @(ViewBag.current.TakeCount == 50 ? "selected" : "")>50</option>
                 </select>
             </div>
             <div class="col-sm-12 col-md-6 panigtion">
                 <ul>
                     @for (int i = 1; i <= ViewBag.pages; i++)
                     {
-                        <li data-page="@i" class="@(ViewBag.current == i ? "active" : "")">@i</li>
+                        <li data-page="@i" class="paged @(ViewBag.current.PageNumber == i ? "active" : "")">@i</li>
                     }
                 </ul>
             </div>
@@ -112,18 +251,20 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Thêm thành tích</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span class="modal-title">Thêm thành tích</span>
+                <button type="button" class="close reForm" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <input class="achievementId" type="hidden"/>
                     <div class="col-sm-12 col-md-12 form-group">
                         <div class="row">
                             <label class="col-sm-3 col-md-3">Tên:</label>
                             <div class="col-sm-9 col-md-9">
-                                <input class="form-control" placeholder="Tên thành tích" />
+                                <input class="form-control achievementName" placeholder="Tên thành tích" />
+                                <span class="achievementName-err err-valid">Tên không đc trống</span>
                             </div>
                         </div>
                     </div>
@@ -131,7 +272,7 @@
                         <div class="row">
                             <label class="col-sm-6 col-md-6">Trò chơi:</label>
                             <div class="col-sm-6 col-md-6">
-                                <select class="form-control">
+                                <select class="form-control achievementGame">
                                     @foreach (var item in ViewBag.games)
                                     {
                                         <option value="@item.Id">@item.Name</option>
@@ -144,10 +285,10 @@
                         <div class="row">
                             <label class="col-sm-6 col-md-6">Độ khó:</label>
                             <div class="col-sm-6 col-md-6">
-                                <select class="form-control">
+                                <select class="form-control achievementLevel">
                                     <option value="easy">Dễ</option>
                                     <option value="normal">Trung bình</option>
-                                    <option value="deff">Khó</option>
+                                    <option value="difficult">Khó</option>
                                 </select>
                             </div>
                         </div>
@@ -156,14 +297,15 @@
                         <div class="row">
                             <label class="col-sm-6 col-md-6">Điểm số/ ô số:</label>
                             <div class="col-sm-6 col-md-6">
-                                <input type="number" value="0" min="0" max="10000000" class="form-control" />
+                                <input type="number" value="0" min="0" max="10000000" class="form-control achievementNumber" />
+                                <span class="achievementNumber-err err-valid">Điểm số phải khác 0</span>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 form-group">
                         <div class="row">
                             <div class="col-sm-12 col-md-12">
-                                <input type="checkbox" value="" checked />
+                                <input type="checkbox" value="" checked class="achievementCheckScore"/>
                                 <label>Dùng điểm để đạt được thành tích</label>
                             </div>
                         </div>
@@ -172,15 +314,16 @@
                         <div class="row">
                             <label class="col-sm-12 col-md-12">Hướng dẫn đạt được:</label>
                             <div class="col-sm-12 col-md-12">
-                                <textarea class="form-group" style="max-width: 100%; min-width: 100%; min-height: 100px"></textarea>
+                                <textarea class="form-group achievementTutorial" style="max-width: 100%; min-width: 100%; min-height: 100px"></textarea>
+                                <span class="achievementTutorial-err err-valid">Hướng dẫn không đc trống</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                <button type="button" class="btn btn-primary">Thêm thành tích</button>
+                <button type="button" class="btn btn-secondary reForm" data-dismiss="modal">Hủy bỏ</button>
+                <button type="button" class="btn btn-primary createOrUpdate">Thêm thành tích</button>
             </div>
         </div>
     </div>

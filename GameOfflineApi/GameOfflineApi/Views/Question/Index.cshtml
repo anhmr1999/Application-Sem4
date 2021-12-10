@@ -6,20 +6,56 @@
 
 @section  styles{
     <style>
-        .panigtion{
+        .panigtion {
             text-align: right;
         }
-        .panigtion ul li{
-            display: inline-block;
-            padding: 3px 7px;
-            cursor: pointer;
-            border: 1px solid #808080;
-            border-radius: 3px;
-        }
-            .panigtion ul li.active{
-                background-color: #00ffff
+
+            .panigtion ul li {
+                display: inline-block;
+                padding: 3px 7px;
+                cursor: pointer;
+                border: 1px solid #808080;
+                border-radius: 3px;
             }
+
+                .panigtion ul li.active {
+                    background-color: #00ffff
+                }
     </style>
+}
+
+@section scripts{
+    <script>
+        function changePageOrSearch() {
+            var url = '@Url.Action("Index","Question")' + '?PageNumber=' + $('.paged.active').data('page') + '&TakeCount=' + $('.takeCount').val();
+            var status = $('.status').val();
+            if (status == 1) {
+                url += '&Active=true';
+            } else if (status == 0) {
+                url += '&Active=false';
+            }
+            var filter = $('.filter').val();
+            if (filter.trim.length == 0) {
+                url += '&Filter=' + filter;
+            }
+            console.log(url);
+            window.location.href = url;
+        }
+
+        $('.searchQuestion').on('click', function () {
+            changePageOrSearch();
+        });
+
+        $('.paged').on('click', function () {
+            $('.paged').removeClass('active');
+            $(this).addClass('active');
+            changePageOrSearch();
+        });
+
+        $('.takeCount').on('change', function () {
+            changePageOrSearch();
+        });
+    </script>
 }
 
 <div class="row">
@@ -31,22 +67,22 @@
     <div class="col-sm-12 col-md-4">
         <div class="form-group row">
             <label class="col-md-4">Trạng thái</label>
-            <select class="col-md-8 form-control" style="max-width: 66.6666667%;">
+            <select class="col-md-8 form-control status" style="max-width: 66.6666667%;">
                 <option>Tất cả</option>
-                <option value="0">Đã phê duyệt</option>
-                <option value="1">Đang chờ phê duyệt</option>
+                <option value="1" @(ViewBag.current.Active == true ? "selected" : "")>Đã phê duyệt</option>
+                <option value="0" @(ViewBag.current.Active == false ? "selected" : "")>Đang chờ phê duyệt</option>
             </select>
         </div>
     </div>
     <div class="col-sm-12 col-md-6">
         <div class="form-group row">
             <label class="col-md-4">Nội dung:</label>
-            <input type="text" class="col-md-8 form-control" />
+            <input type="text" class="col-md-8 form-control filter" value="@ViewBag.current.Filter"/>
         </div>
     </div>
     <div class="col-sm-12 col-md-2">
         <div class="form-group">
-            <button class="btn btn-primary">Tìm kiếm</button>
+            <button class="btn btn-primary searchQuestion">Tìm kiếm</button>
         </div>
     </div>
 </div>
@@ -83,17 +119,17 @@
         <div class="form-group row">
             <div class="col-sm-12 col-md-6">
                 <label>Số phần tử hiển thị</label>
-                <select class="custom-select">
-                    <option value="10" @(ViewBag.current == 10 ? "selected" : "")>10</option>
-                    <option value="20" @(ViewBag.current == 20 ? "selected" : "")>20</option>
-                    <option value="50" @(ViewBag.current == 50 ? "selected" : "")>50</option>
+                <select class="takeCount">
+                    <option value="10" @(ViewBag.current.TakeCount == 10 ? "selected" : "")>10</option>
+                    <option value="20" @(ViewBag.current.TakeCount == 20 ? "selected" : "")>20</option>
+                    <option value="50" @(ViewBag.current.TakeCount == 50 ? "selected" : "")>50</option>
                 </select>
             </div>
             <div class="col-sm-12 col-md-6 panigtion">
                 <ul>
                     @for (int i = 1; i <= ViewBag.pages; i++)
                     {
-                        <li data-page="@i" class="@(ViewBag.current == i ? "active" : "")">@i</li>
+                        <li data-page="@i" class="paged @(ViewBag.current.PageNumber == i ? "active" : "")">@i</li>
                     }
                 </ul>
             </div>

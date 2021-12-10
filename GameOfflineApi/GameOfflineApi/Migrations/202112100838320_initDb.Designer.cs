@@ -13,7 +13,7 @@ namespace GameOfflineApi.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202112091504287_initDb"; }
+            get { return "202112100838320_initDb"; }
         }
         
         string IMigrationMetadata.Source

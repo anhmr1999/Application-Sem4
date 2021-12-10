@@ -33,6 +33,37 @@
     </style>
 }
 
+@section scripts{
+    <script>
+        function changePageOrSearch() {
+            var url = '@Url.Action("Index","User")' + '?PageNumber=' + $('.paged.active').data('page') + '&TakeCount=' + $('.takeCount').val();
+            var filter = $('.filter').val();
+            if (filter.trim.length == 0) {
+                url += '&Filter=' + filter;
+            }
+            url += '&OrderBy=' + $('.orderby').val();
+            url += '&Desc=' + $('.orderdesc').is(':checked');
+
+            console.log(url);
+            window.location.href = url;
+        }
+
+        $('.searchUser').on('click', function () {
+            changePageOrSearch();
+        });
+
+        $('.paged').on('click', function () {
+            $('.paged').removeClass('active');
+            $(this).addClass('active');
+            changePageOrSearch();
+        });
+
+        $('.takeCount').on('change', function () {
+            changePageOrSearch();
+        });
+    </script>
+}
+
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <h2>Danh sách người dùng</h2>
@@ -42,27 +73,27 @@
     <div class="col-sm-12 col-md-5">
         <div class="form-group row">
             <label class="col-md-4">Tên người dùng:</label>
-            <input type="text" class="col-md-8 form-control" />
+            <input type="text" class="col-md-8 form-control filter" value="@ViewBag.current.Filter"/>
         </div>
     </div>
     <div class="col-sm-12 col-md-3">
         <div class="form-group row">
             <label class="col-md-4">Sắp xếp theo</label>
-            <select class="col-md-8 form-control" style="max-width: 66.6666667%;">
-                <option value="0">Không sắp xếp</option>
-                <option value="1">Tên</option>
-                <option value="2">Số lượng thành tích</option>
+            <select class="col-md-8 form-control orderby" style="max-width: 66.6666667%;">
+                <option value="0" @(ViewBag.current.OrderBy == 0 ? "selected" : "")>Không sắp xếp</option>
+                <option value="1" @(ViewBag.current.OrderBy == 1 ? "selected" : "")>Tên</option>
+                <option value="2" @(ViewBag.current.OrderBy == 2 ? "selected" : "")>Số lượng thành tích</option>
             </select>
         </div>
     </div>
     <div class="col-sm-12 col-md-2">
         <div class="form-group">
-            <input type="checkbox" value="" @(ViewBag.OrderDesc ? "checked" : "") /> Từ Z-A / 9-1
+            <input type="checkbox" class="orderdesc" @(ViewBag.current.Desc ? "checked" : "") /> Từ Z-A / 9-1
         </div>
     </div>
     <div class="col-sm-12 col-md-2">
         <div class="form-group">
-            <button class="btn btn-primary">Tìm kiếm</button>
+            <button class="btn btn-primary searchUser">Tìm kiếm</button>
         </div>
     </div>
 </div>
@@ -121,17 +152,17 @@
         <div class="form-group row">
             <div class="col-sm-12 col-md-6">
                 <label>Số phần tử hiển thị</label>
-                <select class="custom-select">
-                    <option value="10" @(ViewBag.current == 10 ? "selected" : "")>10</option>
-                    <option value="20" @(ViewBag.current == 20 ? "selected" : "")>20</option>
-                    <option value="50" @(ViewBag.current == 50 ? "selected" : "")>50</option>
+                <select class="custom-select takeCount">
+                    <option value="10" @(ViewBag.current.TakeCount == 10 ? "selected" : "")>10</option>
+                    <option value="20" @(ViewBag.current.TakeCount == 20 ? "selected" : "")>20</option>
+                    <option value="50" @(ViewBag.current.TakeCount == 50 ? "selected" : "")>50</option>
                 </select>
             </div>
             <div class="col-sm-12 col-md-6 panigtion">
                 <ul>
                     @for (int i = 1; i <= ViewBag.pages; i++)
                     {
-                        <li data-page="@i" class="@(ViewBag.current == i ? "active" : "")">@i</li>
+                        <li data-page="@i" class="paged @(ViewBag.current.PageNumber == i ? "active" : "")">@i</li>
                     }
                 </ul>
             </div>

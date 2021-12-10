@@ -9,5 +9,6 @@ namespace GameOfflineApi.Models.ViewModels
     {
         public string Filter { get; set; }
         public string LevelName { get; set; }
+        public int? GameId { get; set; }
     }
 }

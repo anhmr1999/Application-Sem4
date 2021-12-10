@@ -15,36 +15,109 @@
             padding: 5px;
             font-size: 1.8rem;
         }
+        .question-content-err, .answer-content-err, .answer-correct-err {
+            color: red;
+            display: none;
+        }
     </style>
+}
+
+@section scripts{
+    <script>
+        $('.save').on('click', function () {
+            var valid = true;
+            var hasCorrect = false;
+            if ($('.question-content').val().trim() == "") {
+                $('.question-content-err').css('display', 'inline');
+                valid = false;
+            } else {
+                $('.question-content-err').css('display', 'none');
+            }
+            $.each($(document).find('.answer'), function (index, item) {
+                if ($(this).find('.answer-content').val().trim() == "") {
+                    $(this).find('.answer-content-err').css('display', 'inline');
+                    valid = false;
+                } else {
+                    $(this).find('.answer-content-err').css('display', 'none');
+                }
+                if ($(this).find('.answer-correct').is(':checked')) {
+                    hasCorrect = true;
+                }
+            });
+            if (!hasCorrect) {
+                $('.answer-correct-err').css('display', 'inline');
+                return;
+            } else {
+                $('.answer-correct-err').css('display', 'none');
+            }
+            if (valid) {
+                var question = {
+                    Id: $('.question-id').val(),
+                    Active: $('.question-correct').is(':checked'),
+                    Content: $('.question-content').val(),
+                    Answers : []
+                };
+                $.each($(document).find('.answer'), function (index, item) {
+                    var answer = {
+                        Id: $(this).find('.answer-id').val(),
+                        Correct: $(this).find('.answer-correct').is(':checked'),
+                        Content: $(this).find('.answer-content').val(),
+                        QuestionId: $('.question-id').val()
+                    };
+                    question.Answers.push(answer);
+                });
+                $.ajax({
+                    url: '@Url.Action("Edit", "Question")',
+                    type: 'POST',
+                    data: { question: question },
+                    success: function (res) {
+                        if (res.success) {
+                            window.location.href = '@Url.Action("Index", "Question")';
+                        } else {
+                            alert('Vui lòng kiểm tra lại dữ liệu!');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 }
 
 <div class="row">
     <div class="col-lg-12 form-group">
         <h2>Chỉnh sửa câu hỏi</h2>
+        <input type="hidden" class="question-id" value="@Model.Id" />
     </div>
     <div class="col-lg-12 form-group">
         <label>Câu hỏi:</label>
-        <textarea>@Model.Content</textarea>
+        <textarea class="question-content">@Model.Content</textarea>
+        <span class="question-content-err">Nội dung câu hỏi không được trống</span>
     </div>
     <div class="col-lg-12">
         <div class="row">
-            @foreach (var item in Model.Answers)
+            @foreach (var item in Model.Answers.Select((item, index)=> new { index = index, item = item }))
             {
-                <div class="col-md-6 form-group">
-                    <label><input type="checkbox" @(item.Correct ? "checked" : "") /> Đáp án đúng</label>
-                    <textarea>@item.Content</textarea>
+                <div class="col-md-6 form-group answer">
+                    <input class="answer-id" type="hidden" value="@item.item.Id" />
+                    <label style="width: 100%">
+                        <span>Đáp án @(item.index + 1)</span>
+                        <span style="float: right;"><input type="checkbox" @(item.item.Correct ? "checked" : "") class="answer-correct" /> Đáp án đúng</span>
+                    </label>
+                    <textarea class="answer-content">@item.item.Content</textarea>
+                    <span class="answer-content-err">Đáp án không được để trống</span>
                 </div>
             }
         </div>
+        <span class="answer-correct-err">Vui lòng chọn đáp án đúng</span>
     </div>
     <div class="col-lg-12 form-group" style="margin-top: 20px">
         <div class="row">
             <div class="col-md-6">
-                <label><input type="checkbox" @(Model.Active ? "checked disabled" : "") /> Phê duyệt câu hỏi</label>
+                <label><input type="checkbox" @(Model.Active ? "checked disabled" : "") class="question-correct" /> Phê duyệt câu hỏi</label>
             </div>
             <div class="col-md-6 text-right">
-                <button class="btn btn-danger">Hủy bỏ</button>
-                <button class="btn btn-primary">Lưu</button>
+                <button class="btn btn-danger" onclick="window.location.href = '@Url.Action("Index","Question")'">Hủy bỏ</button>
+                <button class="btn btn-primary save">Lưu</button>
             </div>
         </div>
     </div>

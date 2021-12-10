@@ -23,10 +23,10 @@ namespace GameOfflineApi.Models.EntityManagers
         };
 
         public static IEnumerable<Achievement> Achievements = new List<Achievement>() { 
-            new Achievement(){Id = 1, Name = "new Player", Tutorial = ""},
-            new Achievement(){Id = 2, Name = "Obstacle specialist!", Tutorial = ""},
-            new Achievement(){Id = 3, Name = "Number matching expert!", Tutorial = ""},
-            new Achievement(){Id = 4, Name = "Smart player!", Tutorial = ""}
+            new Achievement(){Id = 1, Name = "Người chơi mới", Tutorial = "", LevelName=""},
+            new Achievement(){Id = 2, Name = "Kẻ vượt chướng ngại vật!", Tutorial = "", LevelName = "easy", CheckScore = true, ScoreOrNumber = 10, GameId = 1},
+            new Achievement(){Id = 3, Name = "Con số hoàn hảo!", Tutorial = "", LevelName = "easy", CheckScore = false, ScoreOrNumber = 2048, GameId = 2},
+            new Achievement(){Id = 4, Name = "Người chơi thông thái!", Tutorial = "", LevelName = "easy", CheckScore = true, ScoreOrNumber = 10, GameId = 3}
         };
 
         public static IEnumerable<User> Users = new List<User>() {
